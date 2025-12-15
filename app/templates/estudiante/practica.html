@@ -1,0 +1,118 @@
+{% extends "layout/layout.html" %}
+
+{% block title %}Práctica{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', path='css/estudiante/practica.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="practica-container fade-in">
+
+    <!-- =====================
+         HEADER GAMIFICADO
+    ====================== -->
+    <section class="gamification-bar">
+        <div class="g-item">
+            ⚡ <strong>1,240 XP</strong>
+        </div>
+        <div class="g-item">
+            🔥 <strong>Racha: 5 días</strong>
+        </div>
+        <div class="g-item">
+            🏅 <strong>3 Insignias</strong>
+        </div>
+    </section>
+
+    <!-- =====================
+         TITULO
+    ====================== -->
+    <header class="practica-header">
+        <h1>⚡ Práctica Inteligente</h1>
+        <p>Elige el área que deseas practicar y mejora con retroalimentación inmediata.</p>
+    </header>
+
+    <!-- =====================
+         AREAS
+    ====================== -->
+    <section class="areas-grid">
+
+        <!-- MATEMÁTICAS -->
+        <article class="area-card">
+            <div class="area-icon">📐</div>
+            <h3>Matemáticas</h3>
+            <p class="area-desc">Operaciones, problemas y lógica.</p>
+
+            <div class="area-info">
+                <span>🎯 Nivel: Intermedio</span>
+                <span>📈 Progreso: 45%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width:45%"></div>
+            </div>
+
+            <a href="#" class="btn-area">Practicar</a>
+        </article>
+
+        <!-- LECTURA -->
+        <article class="area-card">
+            <div class="area-icon">📖</div>
+            <h3>Lectura Crítica</h3>
+            <p class="area-desc">Comprensión e interpretación.</p>
+
+            <div class="area-info">
+                <span>🎯 Nivel: Básico</span>
+                <span>📈 Progreso: 30%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width:30%"></div>
+            </div>
+
+            <a href="#" class="btn-area">Practicar</a>
+        </article>
+
+        <!-- CIENCIAS -->
+        <article class="area-card">
+            <div class="area-icon">🧬</div>
+            <h3>Ciencias</h3>
+            <p class="area-desc">Física, química y biología.</p>
+
+            <div class="area-info">
+                <span>🎯 Nivel: Avanzado</span>
+                <span>📈 Progreso: 60%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width:60%"></div>
+            </div>
+
+            <a href="#" class="btn-area">Practicar</a>
+        </article>
+
+        <!-- INGLÉS -->
+        <article class="area-card">
+            <div class="area-icon">🌍</div>
+            <h3>Inglés</h3>
+            <p class="area-desc">Vocabulario y lectura.</p>
+
+            <div class="area-info">
+                <span>🎯 Nivel: Básico</span>
+                <span>📈 Progreso: 20%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width:20%"></div>
+            </div>
+
+            <a href="#" class="btn-area">Practicar</a>
+        </article>
+
+    </section>
+
+</div>
+
+{% endblock %}

@@ -7,7 +7,8 @@
     <title>ICFES Prep - {% block title %}{% endblock %}</title>
 
     <!-- CSS GLOBAL -->
-    <link rel="stylesheet" href="/static/css/layout/layout.css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='css/layout/layout.css') }}">
 
     {% block extra_styles %}{% endblock %}
 </head>
@@ -18,15 +19,33 @@
 
     <aside class="sidebar">
         <div class="sidebar-title">📘 ICFES Prep</div>
+
         <ul class="menu">
-                <li><a href="/estudiante">🏠 Inicio</a></li>
-                <li><a href="/dashboard">📊 Dashboard</a></li>
-                <li><a href="/test_diagnostico">🧠 Test Diagnóstico</a></li>
-                <li><a href="/practica_rapida">⚡ Práctica Rápida</a></li>
-                <li><a href="/lecciones">📚 Lecciones</a></li>
-                <li><a href="/foro_social">💬 Foro Social</a></li>
-                <li><a href="/perfil">👤 Perfil</a></li>
-            </ul>
+            <li>
+                <a href="{{ url_for('estudiante_home') }}">
+                    🏠 Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('estudiante_roadmap') }}">
+                    📊 Roadmap
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('estudiante_test_diagnostico') }}">
+                    🧠 Test Diagnóstico
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('estudiante_practica') }}">
+                    ⚡ Práctica
+                </a>
+            </li>
+            <li><a href="{{ url_for('estudiante_dashboard') }}">📊 Dashboard</a></li>
+         
     </aside>
 
     <main class="content">
@@ -35,10 +54,9 @@
 
 </div>
 
-<!-- 🔥 Cargar CHART.JS -->
+<!-- Librerías globales -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- 🔥 Scripts específicos de cada vista -->
 {% block extra_scripts %}{% endblock %}
 
 </body>

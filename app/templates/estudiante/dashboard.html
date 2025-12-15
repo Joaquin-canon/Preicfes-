@@ -1,0 +1,57 @@
+{% extends "layout/layout.html" %}
+
+{% block title %}Dashboard Estudiante{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', path='css/estudiante/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="title fade-in">Tu Progreso en la Preparación ICFES</h1>
+<p class="subtitle fade-in">
+    Visualiza tu rendimiento y evolución en cada una de las áreas del Saber 11.
+</p>
+
+<!-- RADAR CHART -->
+<div class="card chart-card fade-in">
+    <h3>Desempeño por Área</h3>
+    <canvas id="radarChart"></canvas>
+</div>
+
+<!-- MINI GAUGES -->
+<div class="gauges-section fade-in">
+    <div class="gauge-card">
+        <h4>RM</h4>
+        <canvas class="mini-gauge" id="gaugeRM"></canvas>
+    </div>
+    <div class="gauge-card">
+        <h4>LC</h4>
+        <canvas class="mini-gauge" id="gaugeLC"></canvas>
+    </div>
+    <div class="gauge-card">
+        <h4>CN</h4>
+        <canvas class="mini-gauge" id="gaugeCN"></canvas>
+    </div>
+    <div class="gauge-card">
+        <h4>EN</h4>
+        <canvas class="mini-gauge" id="gaugeEN"></canvas>
+    </div>
+    <div class="gauge-card">
+        <h4>CC</h4>
+        <canvas class="mini-gauge" id="gaugeCC"></canvas>
+    </div>
+</div>
+
+<!-- PROGRESO SEMANAL -->
+<div class="card chart-card fade-in">
+    <h3>Evolución Semanal</h3>
+    <canvas id="progressChart"></canvas>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', path='js/estudiante/dashboard.js') }}"></script>
+{% endblock %}
