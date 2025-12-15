@@ -1,0 +1,134 @@
+/* CONTENEDOR GENERAL */
+.test-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 30px;
+}
+
+/* TITULOS */
+.test-container h1 {
+    color: #0b3c5d;
+    margin-bottom: 10px;
+}
+
+.test-container h2 {
+    margin-top: 30px;
+    color: #1a1a1a;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.test-container h4 {
+    margin-top: 20px;
+    color: #0b3c5d;
+}
+
+/* BOTÓN */
+.btn-primary {
+    background-color: #1a9d8f;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-primary:hover {
+    background-color: #168b7f;
+}
+
+/* CHIPS DE ÁREAS */
+.chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.chip {
+    background-color: #e6f4f1;
+    color: #1a9d8f;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* PERFIL OCUPACIONAL */
+.perfil {
+    margin-top: 15px;
+}
+
+/* BARRAS DE PROGRESO */
+.progress {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 22px;
+    margin-top: 6px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #1a9d8f;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+.progress-bar.secondary {
+    background-color: #0b3c5d;
+}
+
+/* LISTA DE CARRERAS */
+ul.carreras {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+ul.carreras li {
+    margin-bottom: 6px;
+}
+
+/* PROGRESO GENERAL */
+/* PREGUNTA */
+.pregunta-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* OPCIONES */
+.opciones {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.opcion {
+    background-color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.opcion input {
+    margin-right: 10px;
+}
+
+/* BOTÓN SECUNDARIO */
+.btn-secondary {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: not-allowed;
+}

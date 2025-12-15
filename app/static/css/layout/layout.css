@@ -1,111 +1,98 @@
-/* ============================================================
-   VARIABLES GLOBALES
-============================================================ */
-
+/* =========================
+   VARIABLES
+========================= */
 :root {
     --azul-profundo: #0B3C5D;
     --verde-teal: #1A9D8F;
-    --amarillo-energia: #FFC145;
-    --coral: #FF6B6B;
-    --gris-oscuro: #2F2F2F;
     --gris-claro: #F5F7FA;
     --blanco: #FFFFFF;
-
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 18px;
-
-    --shadow-sm: 0 2px 6px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
-    --shadow-lg: 0 8px 25px rgba(0,0,0,0.18);
-
-    --font-title: 'Montserrat', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --gris-oscuro: #2F2F2F;
 }
 
-/* ============================================================
-   RESET + BASE
-============================================================ */
+/* =========================
+   RESET
+========================= */
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
-    padding: 0;
-    background-color: var(--gris-claro);
+    font-family: Inter, sans-serif;
+    background: var(--gris-claro);
     color: var(--gris-oscuro);
-    font-family: var(--font-body);
-    line-height: 1.6;
 }
 
-h1, h2, h3 {
-    font-family: var(--font-title);
-    color: var(--azul-profundo);
-    margin-bottom: 12px;
-    letter-spacing: -0.5px;
-}
-
-/* ============================================================
-   LAYOUT GENERAL
-============================================================ */
-
-.layout {
+/* =========================
+   LAYOUT
+========================= */
+.app-container {
     display: flex;
     min-height: 100vh;
-    background: var(--gris-claro);
 }
 
-/* Sidebar */
+/* =========================
+   SIDEBAR
+========================= */
 .sidebar {
-    width: 260px;
+    width: 240px;
+    min-width: 240px;
     background: var(--azul-profundo);
-    color: white;
-    padding: 20px 0;
-    flex-shrink: 0;
-    box-shadow: var(--shadow-md);
+    color: var(--blanco);
+    padding: 20px;
 }
 
-.sidebar-title {
-    font-size: 22px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.menu {
-    list-style: none;
-    padding: 0;
-}
-
-.menu li {
+/* MENÚ */
+.menu-title {
+    font-size: 18px;
     margin-bottom: 15px;
 }
 
-.menu a {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
+.menu-section {
+    margin-top: 20px;
+}
+
+.menu-section-title {
+    font-size: 12px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 6px;
     display: block;
-    border-radius: var(--radius-md);
-    transition: 0.25s ease;
 }
 
-.menu a:hover {
-    background: var(--verde-teal);
+.sidebar a {
+    display: block;
+    padding: 8px 10px;
+    color: var(--blanco);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
 }
 
-/* ============================================================
-   CONTENIDO PRINCIPAL
-============================================================ */
+.sidebar a:hover {
+    background: rgba(255,255,255,0.15);
+}
 
+/* =========================
+   CONTENIDO
+========================= */
 .content {
     flex: 1;
-    padding: 40px 60px;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 40px;
+    /* ❌ NADA de margin auto */
+    /* ❌ NADA de max-width aquí */
 }
 
-/* Contenedor de cada página */
-.page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 20px;
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 900px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+    }
 }

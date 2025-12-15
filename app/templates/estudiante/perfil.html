@@ -1,0 +1,68 @@
+{% extends "layout/layout.html" %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/estudiante/perfil.css">
+{% endblock %}
+
+{% block content %}
+<div class="perfil-container">
+
+    <h1>Perfil & Ajustes</h1>
+
+    <!-- PERFIL -->
+    <section>
+        <h2>Datos personales</h2>
+        <p><strong>Edad:</strong> 17</p>
+        <p><strong>Institución:</strong> Colegio San José</p>
+        <p><strong>Intereses:</strong> Ciencia, Tecnología</p>
+    </section>
+
+    <!-- PROGRESO -->
+    <section>
+        <h2>Progreso académico</h2>
+        <p>Resultado diagnóstico: <strong>62%</strong></p>
+        <p>Tiempo en plataforma: <strong>12h</strong></p>
+        <p>Insignias: 🏅 Constancia · 🎯 Enfoque</p>
+    </section>
+
+    <!-- KPIs -->
+    <section>
+        <h2>Indicadores (KPIs)</h2>
+        <ul>
+            <li>Score simulado global: <strong>280</strong></li>
+            <li>Finalización de módulos: <strong>75%</strong></li>
+            <li>Retención 7 días: <strong>Activo</strong></li>
+            <li>Mejora vs diagnóstico: <strong>+18%</strong></li>
+        </ul>
+    </section>
+
+    <!-- AJUSTES -->
+    <section>
+        <h2>Ajustes</h2>
+
+        <label>
+            <input type="checkbox"> Modo alto contraste
+        </label><br>
+
+        <label>
+            <input type="checkbox"> Fuente grande
+        </label><br>
+
+        <label>
+            Idioma:
+            <select>
+                <option>Español</option>
+                <option>English</option>
+            </select>
+        </label>
+    </section>
+
+    <!-- ACCIONES -->
+    <section>
+        <a href="{{ url_for('estudiante_exportar_progreso') }}" class="btn-primary">
+            Exportar progreso (PDF)
+        </a>
+    </section>
+
+</div>
+{% endblock %}

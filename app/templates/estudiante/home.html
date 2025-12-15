@@ -8,93 +8,83 @@
 
 {% block content %}
 
-<div class="page-container fade-in">
+<div class="page-container">
 
-    <!-- ======================================================
-         HERO / BIENVENIDA
-    ======================================================= -->
-    <div class="welcome-card">
+    <!-- HERO -->
+    <div class="fade-in">
         <h1>¡Bienvenido de nuevo! 👋</h1>
         <p>
-            Este es tu espacio de preparación inteligente para las Pruebas Saber 11.  
+            Este es tu espacio de preparación inteligente para las Pruebas Saber 11.
             Recuerda: cada práctica te acerca más al éxito 🚀
         </p>
 
-        <button class="btn btn-progress" onclick="window.location.href='/dashboard'">
+        <button class="btn-primary"
+                onclick="window.location.href='/estudiante/dashboard'">
             Ir al Dashboard 📊
         </button>
     </div>
 
-
-    <!-- ======================================================
-         ACCIONES RÁPIDAS
-    ======================================================= -->
+    <!-- ACCIONES RÁPIDAS -->
     <div class="quick-actions">
 
         <div class="action-card">
             <h3>🧠 Test Diagnóstico</h3>
             <p>Evalúa tu nivel inicial y construye una ruta personalizada.</p>
-            <<button class="btn" onclick="window.location.href='/test_diagnostico'">
-    Hacer Test
-</button>
+            <button class="btn-primary"
+                    onclick="window.location.href='/estudiante/test-diagnostico'">
+                Hacer Test
+            </button>
         </div>
 
         <div class="action-card">
             <h3>⚡ Práctica Rápida</h3>
             <p>Responde preguntas reales del ICFES en minutos.</p>
-            <button class="btn">Practicar Ahora</button>
+            <button class="btn-primary"
+                    onclick="window.location.href='/estudiante/practica'">
+                Practicar Ahora
+            </button>
         </div>
 
         <div class="action-card">
             <h3>📚 Lecciones</h3>
             <p>Aprende cada tema del Saber 11 paso a paso.</p>
-            <button class="btn">Ver Lecciones</button>
+            <button class="btn-primary"
+                    onclick="window.location.href='/estudiante/practica'">
+                Ver Lecciones
+            </button>
         </div>
 
     </div>
 
-
-    <!-- ======================================================
-         ÁREAS DEL SABER 11
-    ======================================================= -->
-    <h2 class="section-title">Áreas del Saber 11</h2>
-    <p class="section-subtitle">Explora cada una de las áreas evaluadas en las Pruebas Saber 11.</p>
+    <!-- ÁREAS -->
+    <h2>Áreas del Saber 11</h2>
+    <p>Explora cada una de las áreas evaluadas en las Pruebas Saber 11.</p>
 
     <div class="areas-grid">
 
-        <!-- RM -->
         <div class="area-card">
-            <div class="icon">📐</div>
-            <h3>Razonamiento Matemático</h3>
-            <p>Resolución de problemas, lógica, funciones y análisis numérico.</p>
+            <h3>📐 Razonamiento Matemático</h3>
+            <p>Resolución de problemas y lógica.</p>
         </div>
 
-        <!-- LC -->
         <div class="area-card">
-            <div class="icon">📘</div>
-            <h3>Lectura Crítica</h3>
-            <p>Análisis de textos, argumentos y comprensión profunda.</p>
+            <h3>📘 Lectura Crítica</h3>
+            <p>Análisis y comprensión de textos.</p>
         </div>
 
-        <!-- CN -->
         <div class="area-card">
-            <div class="icon">🧬</div>
-            <h3>Ciencias Naturales</h3>
-            <p>Fenómenos físicos, biológicos y químicos explicados con claridad.</p>
+            <h3>🧬 Ciencias Naturales</h3>
+            <p>Fenómenos físicos, químicos y biológicos.</p>
         </div>
 
-        <!-- EN -->
         <div class="area-card">
-            <div class="icon">🌎</div>
-            <h3>Inglés</h3>
-            <p>Comprensión lectora y vocabulario aplicado a situaciones reales.</p>
+            <h3>🌎 Inglés</h3>
+            <p>Comprensión lectora y vocabulario.</p>
         </div>
 
-        <!-- CC -->
         <div class="area-card">
-            <div class="icon">⚖️</div>
-            <h3>Competencias Ciudadanas</h3>
-            <p>Convivencia, manejo de conflictos y pensamiento ciudadano crítico.</p>
+            <h3>⚖️ Competencias Ciudadanas</h3>
+            <p>Pensamiento crítico y convivencia.</p>
         </div>
 
     </div>

@@ -1,0 +1,68 @@
+{% extends "layout/layout.html" %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/estudiante/test_socio_ocupacional.css">
+{% endblock %}
+
+{% block content %}
+<div class="test-container">
+
+    <!-- ENCABEZADO -->
+    <h1>Test Socio-Ocupacional</h1>
+    <p class="text-muted">
+        Responde con sinceridad. No hay respuestas buenas o malas.
+    </p>
+
+    <!-- PROGRESO DEL TEST -->
+    <div style="margin: 20px 0;">
+        <strong>Progreso del test</strong>
+        <div class="progress">
+            <div class="progress-bar progress-info" style="width: 20%;">20%</div>
+        </div>
+    </div>
+
+    <!-- PREGUNTA -->
+    <div class="pregunta-box">
+        <h4>Pregunta 1 de 10</h4>
+        <p>
+            Disfruto analizar problemas y buscar soluciones usando la lógica
+            y el razonamiento.
+        </p>
+
+        <!-- OPCIONES -->
+        <div class="opciones">
+            <label class="opcion">
+                <input type="radio" name="respuesta">
+                Totalmente en desacuerdo
+            </label>
+
+            <label class="opcion">
+                <input type="radio" name="respuesta">
+                En desacuerdo
+            </label>
+
+            <label class="opcion">
+                <input type="radio" name="respuesta">
+                Neutral
+            </label>
+
+            <label class="opcion">
+                <input type="radio" name="respuesta">
+                De acuerdo
+            </label>
+
+            <label class="opcion">
+                <input type="radio" name="respuesta">
+                Totalmente de acuerdo
+            </label>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+        <button class="btn-secondary" disabled>Anterior</button>
+        <button class="btn-primary">Siguiente</button>
+    </div>
+
+</div>
+{% endblock %}

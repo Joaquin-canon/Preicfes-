@@ -1,0 +1,76 @@
+{% extends "layout/layout.html" %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/estudiante/test_socio_ocupacional.css">
+{% endblock %}
+
+{% block content %}
+<div class="test-container">
+
+    <!-- TÍTULO -->
+    <h1>Test Socio-Ocupacional</h1>
+    <p class="text-muted">
+        Descubre tus áreas de interés, tu perfil vocacional y las carreras más afines a ti.
+    </p>
+
+    <!-- BOTÓN INICIAR (solo visual por ahora) -->
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('estudiante_test_socio_iniciar') }}">
+    <button class="btn-primary">Iniciar test</button>
+</a>
+
+    </div>
+
+    <!-- RESULTADOS -->
+    <h2>Resultados del test</h2>
+
+    <!-- ÁREAS DE INTERÉS -->
+    <h4>Áreas de interés</h4>
+    <div class="chips">
+        <span class="chip">Ciencia</span>
+        <span class="chip">Tecnología</span>
+        <span class="chip">Salud</span>
+    </div>
+
+    <!-- PERFIL DE INTERÉS -->
+    <h4>Tu perfil de interés</h4>
+    <p>
+        Presentas una fuerte inclinación hacia el análisis, la resolución de problemas
+        y el uso de herramientas tecnológicas para generar soluciones prácticas.
+        Te adaptas bien a entornos que requieren pensamiento lógico y toma de decisiones.
+    </p>
+
+    <!-- PERFILES OCUPACIONALES -->
+    <h4>Perfiles ocupacionales</h4>
+
+    <div class="perfil">
+        <strong>Perfil Analítico – Tecnológico</strong>
+        <div class="progress">
+            <div class="progress-bar" style="width: 78%;">78%</div>
+        </div>
+    </div>
+
+    <div class="perfil">
+        <strong>Perfil Investigativo – Científico</strong>
+        <div class="progress">
+            <div class="progress-bar secondary" style="width: 62%;">62%</div>
+        </div>
+    </div>
+
+    <!-- CARRERAS SUGERIDAS -->
+    <h4>Carreras sugeridas</h4>
+    <ul class="carreras">
+        <li>Ingeniería de Sistemas</li>
+        <li>Ingeniería de Software</li>
+        <li>Biología</li>
+        <li>Enfermería</li>
+    </ul>
+
+    <!-- PROGRESO -->
+    <h4>Tu progreso</h4>
+    <div class="progress">
+        <div class="progress-bar progress-info" style="width: 80%;">80%</div>
+    </div>
+
+</div>
+{% endblock %}

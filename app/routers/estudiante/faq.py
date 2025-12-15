@@ -6,12 +6,12 @@ router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get(
-    "/roadmap",
+    "/faq",
     response_class=HTMLResponse,
-    name="estudiante_roadmap"
+    name="estudiante_faq"
 )
-async def roadmap(request: Request):
+async def faq(request: Request):
     return templates.TemplateResponse(
-        "estudiante/roadmap.html",
+        "estudiante/faq.html",
         {"request": request}
     )

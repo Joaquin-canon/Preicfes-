@@ -2,62 +2,90 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pre ICFES{% endblock %}</title>
 
-    <title>ICFES Prep - {% block title %}{% endblock %}</title>
+    <!-- CSS GLOBAL DEL LAYOUT -->
+    <link rel="stylesheet" href="/static/css/Layout/layout.css">
 
-    <!-- CSS GLOBAL -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', path='css/layout/layout.css') }}">
-
+    <!-- CSS ESPECÍFICO POR VISTA -->
     {% block extra_styles %}{% endblock %}
 </head>
-
 <body>
 
-<div class="layout">
+<div class="app-container">
 
+    <!-- =========================
+         SIDEBAR / MENÚ
+    ========================== -->
     <aside class="sidebar">
-        <div class="sidebar-title">📘 ICFES Prep</div>
 
-        <ul class="menu">
-            <li>
-                <a href="{{ url_for('estudiante_home') }}">
-                    🏠 Inicio
-                </a>
-            </li>
+        <h3 class="menu-title">Menú</h3>
 
-            <li>
-                <a href="{{ url_for('estudiante_roadmap') }}">
-                    📊 Roadmap
-                </a>
-            </li>
+        <!-- INICIO -->
+        <a href="{{ url_for('estudiante_home') }}">
+            Inicio
+        </a>
 
-            <li>
-                <a href="{{ url_for('estudiante_test_diagnostico') }}">
-                    🧠 Test Diagnóstico
-                </a>
-            </li>
+        <!-- ROADMAP -->
+        <a href="{{ url_for('estudiante_roadmap') }}">
+            Roadmap
+        </a>
 
-            <li>
-                <a href="{{ url_for('estudiante_practica') }}">
-                    ⚡ Práctica
-                </a>
-            </li>
-            <li><a href="{{ url_for('estudiante_dashboard') }}">📊 Dashboard</a></li>
-         
+        <!-- MÓDULOS SABER 11 -->
+        <div class="menu-section">
+            <span class="menu-section-title">Módulos Saber 11</span>
+
+            <!-- PRACTICA (LECCIÓN) -->
+            <a href="{{ url_for('estudiante_practica') }}">
+                Lección
+            </a>
+
+            <!-- TEST SOCIO OCUPACIONAL -->
+            <a href="{{ url_for('estudiante_test_socio') }}">
+                Test socio-ocupacional
+            </a>
+        </div>
+
+        <!-- MI PROGRESO -->
+        <div class="menu-section">
+            <span class="menu-section-title">Mi progreso</span>
+
+            <a href="{{ url_for('estudiante_dashboard') }}">
+                Dashboard
+            </a>
+        </div>
+
+        <!-- COMUNIDAD & AYUDA -->
+        <div class="menu-section">
+            <span class="menu-section-title">Comunidad & ayuda</span>
+
+            <a href="{{ url_for('estudiante_comunidad') }}">
+                Foro
+            </a>
+
+            <a href="{{ url_for('estudiante_faq') }}">
+                Preguntas frecuentes
+            </a>
+        </div>
+
+        <!-- PERFIL -->
+        <div class="menu-section">
+            <a href="{{ url_for('estudiante_perfil') }}">
+                Perfil & ajustes
+            </a>
+        </div>
+
     </aside>
 
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================== -->
     <main class="content">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 
 </div>
-
-<!-- Librerías globales -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-{% block extra_scripts %}{% endblock %}
 
 </body>
 </html>

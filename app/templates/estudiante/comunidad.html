@@ -1,0 +1,75 @@
+{% extends "layout/layout.html" %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/estudiante/comunidad.css">
+{% endblock %}
+
+{% block content %}
+<div class="comunidad-container">
+
+    <!-- HEADER -->
+    <div class="comunidad-header">
+        <h1>Comunidad & Ayuda</h1>
+        <button class="btn-primary">Pedir ayuda</button>
+    </div>
+
+    <!-- FORO -->
+    <section>
+        <h2>Foro por área</h2>
+
+        <div class="foro-card">
+            <span class="area">Matemáticas</span>
+            <h4>¿Cómo resolver ejercicios de funciones?</h4>
+            <p class="meta">
+                por <strong>Juan</strong> · 3 respuestas ·
+                <span class="verificada">✔ Respuesta verificada</span>
+            </p>
+        </div>
+
+        <div class="foro-card">
+            <span class="area">Lectura Crítica</span>
+            <h4>No entiendo la intención del autor</h4>
+            <p class="meta">por <strong>Ana</strong> · 1 respuesta</p>
+        </div>
+    </section>
+
+    <!-- TUTORÍAS -->
+    <section>
+        <h2>Tutorías programadas</h2>
+
+        <div class="tutoria-card">
+            <div>
+                <strong>Matemáticas</strong>
+                <p>Funciones y gráficas</p>
+                <small>📅 18 Jun · ⏰ 4:00 PM</small>
+            </div>
+            <button class="btn-secondary">Reservar</button>
+        </div>
+
+        <div class="tutoria-card">
+            <div>
+                <strong>Orientación vocacional</strong>
+                <p>Elección de carrera</p>
+                <small>📅 20 Jun · ⏰ 6:00 PM</small>
+            </div>
+            <button class="btn-secondary">Reservar</button>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+        <h2>Preguntas frecuentes</h2>
+
+        <div class="faq">
+            <strong>¿Las tutorías tienen costo?</strong>
+            <p>No, están incluidas en tu plan.</p>
+        </div>
+
+        <div class="faq">
+            <strong>¿Quién responde en el foro?</strong>
+            <p>Tutores y otros estudiantes.</p>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
