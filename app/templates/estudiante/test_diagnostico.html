@@ -1,0 +1,109 @@
+{% extends "layout/layout.html" %}
+
+{% block title %}Test Diagnóstico{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', path='css/estudiante/test_diagnostico.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container fade-in">
+
+    <div class="diagnostico-header">
+        <h1>🧠 Resultados del Test Diagnóstico</h1>
+        <p>
+            Este resumen refleja tu nivel inicial en cada una de las áreas del Saber 11.
+            Con esta información podrás construir un plan de estudio personalizado.
+        </p>
+
+        <!-- Navegación correcta y semántica -->
+        <a class="btn btn-progress"
+           href="{{ url_for('estudiante_test_resolver') }}">
+            Realizar / Repetir Test
+        </a>
+    </div>
+
+    <!-- TARJETAS DE RESULTADOS POR ÁREA -->
+    <div class="diagnostico-grid">
+
+        <div class="area-result-card">
+            <div class="icon">📐</div>
+            <h3>Razonamiento Matemático</h3>
+            <p class="descripcion">
+                Resolución de problemas, lógica, funciones y análisis numérico.
+            </p>
+            <div class="resultado">
+                <span class="label">Resultado:</span>
+                <span class="value">75%</span>
+            </div>
+            <p class="comentario">
+                Buen desempeño, pero aún puedes mejorar en problemas con funciones y gráficos.
+            </p>
+        </div>
+
+        <div class="area-result-card">
+            <div class="icon">📖</div>
+            <h3>Lectura Crítica</h3>
+            <p class="descripcion">
+                Comprensión, análisis de argumentos y lectura profunda.
+            </p>
+            <div class="resultado">
+                <span class="label">Resultado:</span>
+                <span class="value">68%</span>
+            </div>
+            <p class="comentario">
+                Necesitas reforzar la interpretación de textos argumentativos.
+            </p>
+        </div>
+
+        <div class="area-result-card">
+            <div class="icon">🧬</div>
+            <h3>Ciencias Naturales</h3>
+            <p class="descripcion">
+                Física, Química y Biología enfocadas en fenómenos naturales.
+            </p>
+            <div class="resultado">
+                <span class="label">Resultado:</span>
+                <span class="value">82%</span>
+            </div>
+            <p class="comentario">
+                Excelente comprensión de fenómenos biológicos, revisar conceptos de física.
+            </p>
+        </div>
+
+        <div class="area-result-card">
+            <div class="icon">🌍</div>
+            <h3>Inglés</h3>
+            <p class="descripcion">
+                Lectura, vocabulario y comprensión de textos en inglés.
+            </p>
+            <div class="resultado">
+                <span class="label">Resultado:</span>
+                <span class="value">40%</span>
+            </div>
+            <p class="comentario">
+                Requiere mayor práctica en vocabulario y estructuras básicas.
+            </p>
+        </div>
+
+        <div class="area-result-card">
+            <div class="icon">⚖️</div>
+            <h3>Competencias Ciudadanas</h3>
+            <p class="descripcion">
+                Ética, convivencia, sociedad y resolución de conflictos.
+            </p>
+            <div class="resultado">
+                <span class="label">Resultado:</span>
+                <span class="value">55%</span>
+            </div>
+            <p class="comentario">
+                Aún puedes fortalecer el análisis de situaciones ciudadanas reales.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

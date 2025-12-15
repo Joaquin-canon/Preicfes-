@@ -1,0 +1,108 @@
+{% extends "layout/layout.html" %}
+
+{% block title %}Roadmap{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', path='css/estudiante/roadmap.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="roadmap-container fade-in">
+
+    <header class="roadmap-header">
+        <h1>📊 Tu Roadmap de Preparación ICFES</h1>
+        <p>
+            Avanza semana a semana con metas claras, micro-lecciones
+            y prácticas enfocadas en mejorar tu puntaje.
+        </p>
+    </header>
+
+    <section class="roadmap-grid">
+
+        <!-- SEMANA 1 -->
+        <article class="roadmap-card nivel-basico">
+            <div class="card-header">
+                <span class="badge">Semana 1</span>
+                <span class="nivel">Básico</span>
+            </div>
+
+            <h3>Fundamentos Matemáticos</h3>
+
+            <ul class="metas">
+                <li>✔️ Operaciones básicas</li>
+                <li>✔️ Divisibilidad</li>
+                <li>✔️ Problemas cotidianos</li>
+            </ul>
+
+            <div class="info">
+                <span>⏱️ 3h estimadas</span>
+                <span>📚 6 micro-lecciones</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width: 40%"></div>
+            </div>
+
+            <a href="#" class="btn-continue">Continuar</a>
+        </article>
+
+        <!-- SEMANA 2 -->
+        <article class="roadmap-card nivel-intermedio">
+            <div class="card-header">
+                <span class="badge">Semana 2</span>
+                <span class="nivel">Intermedio</span>
+            </div>
+
+            <h3>Lectura Crítica</h3>
+
+            <ul class="metas">
+                <li>🟡 Ideas principales</li>
+                <li>🟡 Intención del autor</li>
+                <li>🟡 Inferencias</li>
+            </ul>
+
+            <div class="info">
+                <span>⏱️ 4h estimadas</span>
+                <span>📚 8 micro-lecciones</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width: 0%"></div>
+            </div>
+
+            <a href="#" class="btn-continue disabled">Bloqueado</a>
+        </article>
+
+        <!-- SEMANA 3 -->
+        <article class="roadmap-card nivel-avanzado locked">
+            <div class="card-header">
+                <span class="badge">Semana 3</span>
+                <span class="nivel">Avanzado</span>
+            </div>
+
+            <h3>Simulacros ICFES</h3>
+
+            <ul class="metas">
+                <li>🔒 Simulacro completo</li>
+                <li>🔒 Análisis de resultados</li>
+            </ul>
+
+            <div class="info">
+                <span>⏱️ 6h estimadas</span>
+                <span>📚 2 simulacros</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" style="width: 0%"></div>
+            </div>
+
+            <span class="locked-text">Disponible más adelante</span>
+        </article>
+
+    </section>
+
+</div>
+
+{% endblock %}
