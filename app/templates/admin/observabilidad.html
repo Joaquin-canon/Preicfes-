@@ -1,0 +1,78 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}Observabilidad{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/observabilidad.css">
+{% endblock %}
+
+{% block content %}
+<div class="observabilidad-container">
+
+    <!-- HEADER -->
+    <div class="observabilidad-header">
+        <h1>Panel de Observabilidad</h1>
+        <span class="subtitle">
+            Estado general del sistema (simulado)
+        </span>
+    </div>
+
+    <!-- =====================
+         KPIs
+    ====================== -->
+    <section class="kpi-grid">
+
+        <div class="kpi-card success">
+            <span class="kpi-title">Uptime</span>
+            <span class="kpi-value">{{ data.uptime }}</span>
+            <span class="kpi-desc">Últimos 30 días</span>
+        </div>
+
+        <div class="kpi-card warning">
+            <span class="kpi-title">Errores</span>
+            <span class="kpi-value">{{ data.errores }}</span>
+            <span class="kpi-desc">Errores críticos detectados</span>
+        </div>
+
+        <div class="kpi-card info">
+            <span class="kpi-title">Latencia promedio</span>
+            <span class="kpi-value">{{ data.latencia }}</span>
+            <span class="kpi-desc">Tiempo de respuesta</span>
+        </div>
+
+        <div class="kpi-card neutral">
+            <span class="kpi-title">Estado</span>
+            <span class="kpi-value">{{ data.estado }}</span>
+            <span class="kpi-desc">Salud del sistema</span>
+        </div>
+
+    </section>
+
+    <!-- =====================
+         EVENTOS RECIENTES
+    ====================== -->
+    <section class="panel">
+        <h2>Eventos recientes</h2>
+
+        <ul class="event-list">
+            <li>
+                <span class="event-time">Hace 5 min</span>
+                <span class="event-ok">✔ Servicio API respondió correctamente</span>
+            </li>
+            <li>
+                <span class="event-time">Hace 32 min</span>
+                <span class="event-warn">⚠ Pico de latencia detectado</span>
+            </li>
+            <li>
+                <span class="event-time">Hace 2 h</span>
+                <span class="event-ok">✔ Conexión a base de datos estable</span>
+            </li>
+            <li>
+                <span class="event-time">Ayer</span>
+                <span class="event-ok">✔ Sistema reiniciado sin errores</span>
+            </li>
+        </ul>
+    </section>
+
+</div>
+{% endblock %}

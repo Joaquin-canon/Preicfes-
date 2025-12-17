@@ -1,0 +1,76 @@
+lay* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fa;
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* =====================
+   SIDEBAR
+===================== */
+.sidebar {
+    width: 260px;
+    background: #0b3c5d;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.logo {
+    margin-bottom: 20px;
+    font-size: 22px;
+    text-align: center;
+}
+
+/* LINKS */
+.sidebar a {
+    color: #e5e7eb;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    display: block;
+}
+
+.sidebar a:hover {
+    background: #1a9d8f;
+    color: white;
+}
+
+/* SECCIONES */
+.menu-section {
+    margin-top: 10px;
+}
+
+.menu-section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* LOGOUT */
+.logout {
+    margin-top: auto;
+    background: #ff6b6b;
+    color: white !important;
+}
+
+/* =====================
+   CONTENIDO
+===================== */
+.content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}

@@ -1,16 +1,11 @@
-# app/models/estudiante.py
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-
 from app.database import Base
 
-
 class Estudiante(Base):
-    __tablename__ = "estudiantes"
+    __tablename__ = "estudiante"
 
-    id = Column(Integer, primary_key=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), unique=True)
-
-    institucion = Column(String(150), nullable=True)
+    id_usuario = Column(Integer, ForeignKey("usuario.id_usuario"), primary_key=True)
+    institucion = Column(String(150), nullable=False)
 
     usuario = relationship("Usuario", back_populates="estudiante")

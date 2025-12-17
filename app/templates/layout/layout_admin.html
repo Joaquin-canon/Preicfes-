@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin | Pre ICFES{% endblock %}</title>
+
+    <!-- CSS GLOBAL -->
+    <link rel="stylesheet" href="/static/css/Layout/layout.css">
+
+    <!-- CSS ESPECÍFICO -->
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- =========================
+         SIDEBAR ADMIN
+    ========================== -->
+    <aside class="sidebar">
+
+        <h3 class="menu-title">Administrador</h3>
+
+        <!-- OBSERVABILIDAD -->
+        <a href="{{ url_for('admin_observabilidad') }}">
+            Observabilidad
+        </a>
+
+        <!-- FUTURO -->
+        <div class="menu-section">
+            <span class="menu-section-title">Sistema</span>
+
+            <a href="{{ url_for('admin_roles') }}">
+                Roles y permisos
+            </a>
+
+            <a href="{{ url_for('admin_soporte') }}">
+                Soporte & tickets
+            </a>
+        </div>
+
+        <div class="menu-section">
+            <a href="/logout">
+                Cerrar sesión
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+</div>
+
+</body>
+</html>

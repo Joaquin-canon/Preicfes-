@@ -1,0 +1,33 @@
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.rbac-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rbac-table th,
+.rbac-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.rbac-table th {
+    background: #f4f6f8;
+}
+
+.audit-log {
+    list-style: none;
+    padding-left: 0;
+}
+
+.audit-log li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}

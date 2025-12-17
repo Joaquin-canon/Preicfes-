@@ -1,0 +1,91 @@
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.kpi {
+    padding: 14px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+.kpi span { font-size: 12px; }
+
+.red { background: #e74c3c; }
+.orange { background: #f39c12; }
+.blue { background: #3498db; }
+.yellow { background: #f1c40f; color: #000; }
+.gray { background: #95a5a6; }
+
+.soporte-layout {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 20px;
+}
+
+.tickets {
+    display: grid;
+    gap: 14px;
+}
+
+.ticket {
+    background: #fff;
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.ticket header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.tag {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    color: white;
+}
+.tag.urgente { background: #e74c3c; }
+.tag.alta { background: #f39c12; }
+.tag.media { background: #3498db; }
+
+.meta {
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.acciones button {
+    margin-right: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.panel-lateral {
+    background: #f4f6f8;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+.panel-item {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.panel-actions button {
+    margin-right: 6px;
+}
+
+.ok { background: #2ecc71; color: white; }
+.cancel { background: #e74c3c; color: white; }

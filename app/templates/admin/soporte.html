@@ -1,0 +1,120 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}Soporte & Tickets{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/soporte.css">
+{% endblock %}
+
+{% block content %}
+
+<h1>Soporte & Tickets</h1>
+
+<!-- =====================
+     KPIs SUPERIORES
+===================== -->
+<div class="kpis">
+    <div class="kpi red">3<br><span>Pendientes</span></div>
+    <div class="kpi orange">6<br><span>Asignados</span></div>
+    <div class="kpi blue">2<br><span>Aprobaciones</span></div>
+    <div class="kpi yellow">2<br><span>Tareas</span></div>
+    <div class="kpi gray">1<br><span>Sin asignar</span></div>
+</div>
+
+<div class="soporte-layout">
+
+    <!-- =====================
+         BANDEJA DE TICKETS
+    ====================== -->
+    <section class="tickets">
+
+        <div class="ticket urgente">
+            <header>
+                <span class="tag urgente">Urgente</span>
+                <span class="categoria">General</span>
+            </header>
+
+            <h3>¿Cuántos días de vacaciones tengo?</h3>
+
+            <div class="meta">
+                <span>👤 Erica Johnson</span>
+                <span>⏱ SLA: 1h restante</span>
+            </div>
+
+            <div class="acciones">
+                <button>Responder</button>
+                <button>Aprobar</button>
+            </div>
+        </div>
+
+        <div class="ticket alta">
+            <header>
+                <span class="tag alta">Alta</span>
+                <span class="categoria">RRHH</span>
+            </header>
+
+            <h3>Reubicación de empleados</h3>
+
+            <div class="meta">
+                <span>👤 Mike Watson</span>
+                <span>⏱ SLA: OK</span>
+            </div>
+
+            <div class="acciones">
+                <button>Ver</button>
+                <button>Aprobar</button>
+            </div>
+        </div>
+
+        <div class="ticket media">
+            <header>
+                <span class="tag media">Media</span>
+                <span class="categoria">Capacitación</span>
+            </header>
+
+            <h3>Inscripción programa de capacitación</h3>
+
+            <div class="meta">
+                <span>👤 Neil Murray</span>
+                <span>📅 Hace 2h</span>
+            </div>
+
+            <div class="acciones">
+                <button>Responder</button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- =====================
+         PANEL LATERAL
+    ====================== -->
+    <aside class="panel-lateral">
+
+        <h3>Acciones pendientes</h3>
+
+        <div class="panel-item">
+            🔔 Autorizar reubicación
+            <div class="panel-actions">
+                <button class="ok">Aceptar</button>
+                <button class="cancel">Rechazar</button>
+            </div>
+        </div>
+
+        <div class="panel-item">
+            📌 Registrar nuevo miembro
+            <button class="ok">Completar</button>
+        </div>
+
+        <h3>Vencimientos</h3>
+
+        <ul class="vencimientos">
+            <li>⏰ Vacaciones — 10 min</li>
+            <li>⏰ Aprobación días libres — 20 min</li>
+        </ul>
+
+    </aside>
+
+</div>
+
+{% endblock %}

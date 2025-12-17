@@ -1,0 +1,117 @@
+/* CONTENEDOR GENERAL */
+.observabilidad-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* HEADER */
+.observabilidad-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.observabilidad-header .subtitle {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* =====================
+   KPI GRID
+===================== */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.kpi-title {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.kpi-value {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.kpi-desc {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* COLORES */
+.kpi-card.success {
+    border-left: 5px solid #16a34a;
+}
+
+.kpi-card.warning {
+    border-left: 5px solid #f59e0b;
+}
+
+.kpi-card.info {
+    border-left: 5px solid #2563eb;
+}
+
+.kpi-card.neutral {
+    border-left: 5px solid #6b7280;
+}
+
+/* =====================
+   PANEL
+===================== */
+.panel {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.panel h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+/* =====================
+   EVENTOS
+===================== */
+.event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.event-list li {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+.event-list li:last-child {
+    border-bottom: none;
+}
+
+.event-time {
+    color: #6b7280;
+    min-width: 90px;
+}
+
+.event-ok {
+    color: #16a34a;
+}
+
+.event-warn {
+    color: #f59e0b;
+}

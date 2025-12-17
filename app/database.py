@@ -1,22 +1,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# CONFIGURA TU CONEXIÓN
-USER = "root"
-PASSWORD = ""
-HOST = "localhost"
-PORT = "3306"
-DB_NAME = "proyecto_icfes"
+DATABASE_URL = "mysql+pymysql://root@localhost/pre_icfes"
+# o con password real:
+# DATABASE_URL = "mysql+pymysql://root:1234@localhost/pre_icfes"
 
-DATABASE_URL = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
+engine = create_engine(DATABASE_URL, echo=True)
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=True,  # opcional: muestra las consultas SQL
-    future=True
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
 )
-
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 Base = declarative_base()
 

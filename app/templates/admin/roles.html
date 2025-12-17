@@ -1,0 +1,58 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}Gestión de Roles y Permisos{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/roles.css">
+{% endblock %}
+
+{% block content %}
+
+<h1>Gestión de Roles y Permisos</h1>
+
+<section class="card">
+    <h2>Matriz RBAC</h2>
+
+    <table class="rbac-table">
+        <thead>
+            <tr>
+                <th>Rol</th>
+                <th>Observabilidad</th>
+                <th>Roles</th>
+                <th>Soporte</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Admin</td>
+                <td>✔</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>Docente</td>
+                <td>✖</td>
+                <td>✖</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>Estudiante</td>
+                <td>✖</td>
+                <td>✖</td>
+                <td>✖</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="card">
+    <h2>Auditoría de Cambios</h2>
+
+    <ul class="audit-log">
+        <li><strong>Admin</strong> asignó rol <em>Docente</em> a usuario Juan — 10:32</li>
+        <li><strong>Admin</strong> revocó acceso a Soporte — 09:15</li>
+        <li><strong>Admin</strong> creó rol Coordinador — 08:40</li>
+    </ul>
+</section>
+
+{% endblock %}

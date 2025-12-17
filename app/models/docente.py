@@ -1,16 +1,10 @@
-# app/models/docente.py
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-
 from app.database import Base
 
-
 class Docente(Base):
-    __tablename__ = "docentes"
+    __tablename__ = "docente"
 
-    id = Column(Integer, primary_key=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), unique=True)
-
-    especialidad = Column(String(150), nullable=True)
+    id_usuario = Column(Integer, ForeignKey("usuario.id_usuario"), primary_key=True)
 
     usuario = relationship("Usuario", back_populates="docente")

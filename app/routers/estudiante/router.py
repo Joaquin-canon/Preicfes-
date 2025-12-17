@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import RedirectResponse
+from app.core.auth.roles import require_role
+
 
 from .home import router as home_router
 from .dashboard import router as dashboard_router
@@ -16,10 +18,11 @@ from .faq import router as faq_router
 
 router = APIRouter(
     prefix="/estudiante",
-    tags=["Estudiante"]
+    tags=["Estudiante"],
+    dependencies=[Depends(require_role("estudiante"))]  # 🔐 PROTECCIÓN GLOBAL
 )
 
-# 🔥 ESTE ES EL REDIRECT QUE SOLUCIONA EL 404
+# 🔥 Redirect raíz
 @router.get("/", include_in_schema=False)
 async def estudiante_root():
     return RedirectResponse(url="/estudiante/home")
