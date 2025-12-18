@@ -1,0 +1,136 @@
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+.content {
+    background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
+    padding: 40px;
+}
+
+/* =========================
+   HEADER
+========================= */
+.catalogo-header {
+    margin-bottom: 48px;
+}
+
+.catalogo-header-content {
+    max-width: 900px;
+}
+
+.catalogo-header h1 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0B3C5D;
+    margin-bottom: 10px;
+}
+
+.catalogo-header p {
+    font-size: 15px;
+    color: #4A5A6A;
+    line-height: 1.6;
+}
+
+/* =========================
+   GRID DE ÁREAS
+========================= */
+.areas-section {
+    margin-top: 20px;
+}
+
+.areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+}
+
+/* =========================
+   CARD DE ÁREA
+========================= */
+.area-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 30px;
+    position: relative;
+    box-shadow:
+        0 10px 30px rgba(11, 60, 93, 0.08),
+        0 3px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+/* Línea superior institucional */
+.area-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 6px;
+    width: 100%;
+    background: linear-gradient(90deg, #1A9D8F, #0B3C5D);
+    border-radius: 18px 18px 0 0;
+}
+
+.area-card:hover {
+    transform: translateY(-10px);
+    box-shadow:
+        0 18px 45px rgba(11, 60, 93, 0.15),
+        0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   PARTE SUPERIOR CARD
+========================= */
+.area-card-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.area-icon {
+    font-size: 36px;
+    margin-right: 10px;
+}
+
+.area-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7A8A9A;
+    font-weight: 600;
+}
+
+/* =========================
+   TEXTO CARD
+========================= */
+.area-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0B3C5D;
+    margin-bottom: 10px;
+}
+
+.area-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 26px;
+}
+
+/* =========================
+   FOOTER CARD
+========================= */
+.area-card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.area-action {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1A9D8F;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.area-action:hover {
+    color: #0B3C5D;
+}

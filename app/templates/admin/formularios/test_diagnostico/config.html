@@ -1,0 +1,110 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+Configuración | Test Diagnóstico
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/test_diagnostico_config.css">
+{% endblock %}
+
+{% block content %}
+
+<section class="config-header">
+    <h1>Configuración del test diagnóstico</h1>
+    <p>
+        Define los parámetros generales que controlan el comportamiento
+        del test diagnóstico breve.
+    </p>
+</section>
+
+<section class="panel">
+
+    <form class="config-form">
+
+        <div class="form-grid">
+
+            <div class="form-item">
+                <label>Tipo de test</label>
+                <select disabled>
+                    <option selected>{{ config.tipo }}</option>
+                </select>
+                <small>El test diagnóstico es transversal a todas las áreas.</small>
+            </div>
+
+            <div class="form-item">
+                <label>Número total de preguntas</label>
+                <input type="number" value="{{ config.preguntas }}" />
+                <small>Recomendado: entre 15 y 20 preguntas.</small>
+            </div>
+
+            <div class="form-item">
+                <label>Tiempo máximo (minutos)</label>
+                <input type="number" value="{{ config.duracion }}" />
+                <small>Tiempo total para completar el test.</small>
+            </div>
+
+            <div class="form-item">
+                <label>Intentos permitidos</label>
+                <input type="number" value="{{ config.intentos }}" />
+                <small>Se recomienda un solo intento.</small>
+            </div>
+
+            <div class="form-item">
+                <label>Mostrar resultados al estudiante</label>
+                <select>
+                    <option value="1" {% if config.mostrar_resultados %}selected{% endif %}>
+                        Sí
+                    </option>
+                    <option value="0" {% if not config.mostrar_resultados %}selected{% endif %}>
+                        No
+                    </option>
+                </select>
+                <small>
+                    Determina si el estudiante ve su nivel al finalizar.
+                </small>
+            </div>
+
+            <div class="form-item">
+                <label>Uso del resultado</label>
+                <select>
+                    <option selected>{{ config.uso_resultado }}</option>
+                    <option>Ruta de estudio sugerida</option>
+                    <option>Solo referencia interna</option>
+                </select>
+                <small>
+                    Define cómo se utilizarán los resultados del test.
+                </small>
+            </div>
+
+            <div class="form-item">
+                <label>Estado del test</label>
+                <select>
+                    <option {% if config.estado == "Activo" %}selected{% endif %}>
+                        Activo
+                    </option>
+                    <option {% if config.estado == "Inactivo" %}selected{% endif %}>
+                        Inactivo
+                    </option>
+                </select>
+                <small>
+                    Desactivar el test impedirá que los estudiantes lo presenten.
+                </small>
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">
+                Guardar configuración
+            </button>
+            <a href="/admin/catalogo/test-diagnostico" class="btn-secondary">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+Test Diagnóstico Breve | Admin
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/test_diagnostico.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================
+     HEADER
+========================= -->
+<section class="test-header">
+    <div class="test-header-content">
+        <h1>Test diagnóstico breve</h1>
+        <p>
+            Evaluación inicial diseñada para identificar el nivel académico del estudiante
+            y orientar su proceso de preparación.
+        </p>
+    </div>
+</section>
+
+<!-- =========================
+     ESTADO GENERAL
+========================= -->
+<section class="test-status-grid">
+
+    <div class="status-card">
+        <span class="status-label">Estado</span>
+        <span class="status-value active">
+            {{ test.estado }}
+        </span>
+    </div>
+
+    <div class="status-card">
+        <span class="status-label">Duración</span>
+        <span class="status-value">
+            {{ test.duracion }}
+        </span>
+    </div>
+
+    <div class="status-card">
+        <span class="status-label">Preguntas</span>
+        <span class="status-value">
+            {{ test.preguntas }}
+        </span>
+    </div>
+
+    <div class="status-card">
+        <span class="status-label">Intentos</span>
+        <span class="status-value">
+            {{ test.intentos }}
+        </span>
+    </div>
+
+</section>
+
+<!-- =========================
+     ACCIONES PRINCIPALES
+========================= -->
+<section class="panel actions-panel">
+    <h2>Gestión del test diagnóstico</h2>
+
+    <div class="actions-grid">
+
+        <!-- GESTIONAR PREGUNTAS -->
+        <a href="/admin/catalogo/test-diagnostico/preguntas" class="action-card">
+            <span class="action-icon">📝</span>
+            <span class="action-title">Gestionar preguntas</span>
+            <span class="action-desc">
+                Crear, editar, activar o desactivar preguntas
+                que conforman el test diagnóstico.
+            </span>
+        </a>
+
+        <!-- CONFIGURACIÓN -->
+        <a href="/admin/catalogo/test-diagnostico/config" class="action-card">
+            <span class="action-icon">⚙️</span>
+            <span class="action-title">Editar configuración</span>
+            <span class="action-desc">
+                Ajustar duración, número de preguntas,
+                intentos y uso del resultado.
+            </span>
+        </a>
+
+        <!-- RESULTADOS -->
+        <a href="#" class="action-card">
+            <span class="action-icon">📊</span>
+            <span class="action-title">Ver resultados</span>
+            <span class="action-desc">
+                Analizar resultados históricos del test diagnóstico
+                por área y nivel.
+            </span>
+        </a>
+
+        <!-- ESTADO -->
+        <a href="#" class="action-card danger">
+            <span class="action-icon">⏸</span>
+            <span class="action-title">Desactivar test</span>
+            <span class="action-desc">
+                Pausar temporalmente la presentación del test
+                para los estudiantes.
+            </span>
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

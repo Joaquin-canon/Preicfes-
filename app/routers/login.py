@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database.database import get_db
 from app.models.usuario import Usuario
 from app.core.security import verify_password, create_access_token
 

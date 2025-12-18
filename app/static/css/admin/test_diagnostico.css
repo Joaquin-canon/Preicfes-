@@ -1,0 +1,151 @@
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+.content {
+    background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
+    padding: 40px;
+}
+
+/* =========================
+   HEADER
+========================= */
+.test-header {
+    margin-bottom: 40px;
+}
+
+.test-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0B3C5D;
+    margin-bottom: 8px;
+}
+
+.test-header p {
+    max-width: 700px;
+    color: #4A5A6A;
+    font-size: 15px;
+}
+
+/* =========================
+   STATUS
+========================= */
+.test-status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.status-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(11, 60, 93, 0.08);
+}
+
+.status-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7A8A9A;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.status-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0B3C5D;
+}
+
+.status-value.active {
+    color: #1A9D8F;
+}
+
+/* =========================
+   PANEL
+========================= */
+.panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow:
+        0 10px 30px rgba(11, 60, 93, 0.08);
+}
+
+.panel h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0B3C5D;
+    margin-bottom: 24px;
+}
+
+/* =========================
+   CONFIG
+========================= */
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.config-item label {
+    font-size: 13px;
+    color: #7A8A9A;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.config-item span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #2F2F2F;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.action-card {
+    background: #F5F7FA;
+    border-radius: 16px;
+    padding: 24px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border-left: 4px solid #1A9D8F;
+}
+
+.action-card:hover {
+    background: #ffffff;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(11, 60, 93, 0.12);
+}
+
+.action-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.action-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0B3C5D;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.action-desc {
+    font-size: 14px;
+    color: #555;
+}
+
+.action-card.danger {
+    border-left-color: #FF6B6B;
+}

@@ -1,0 +1,96 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}Crear pregunta diagnóstico{% endblock %}
+
+{% block content %}
+
+<h1>Crear pregunta diagnóstico</h1>
+
+<form id="preguntaForm">
+
+    <!-- Área -->
+    <label>Área</label>
+    <select id="id_area" required>
+        {% for area in areas %}
+            <option value="{{ area.id_area }}">
+                {{ area.nombre }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <!-- Dificultad -->
+    <label>Dificultad</label>
+    <select id="dificultad" required>
+        <option value="Baja">Baja</option>
+        <option value="Media">Media</option>
+        <option value="Alta">Alta</option>
+    </select>
+
+    <!-- Enunciado -->
+    <label>Enunciado</label>
+    <textarea id="enunciado" required></textarea>
+
+    <!-- Opciones -->
+    <h3>Opciones</h3>
+
+    <div class="opcion">
+        <input type="radio" name="respuesta" value="0" checked>
+        <input type="text" class="opcion-text" placeholder="Opción 1" required>
+    </div>
+
+    <div class="opcion">
+        <input type="radio" name="respuesta" value="1">
+        <input type="text" class="opcion-text" placeholder="Opción 2" required>
+    </div>
+
+    <div class="opcion">
+        <input type="radio" name="respuesta" value="2">
+        <input type="text" class="opcion-text" placeholder="Opción 3">
+    </div>
+
+    <button type="submit">Guardar pregunta</button>
+
+</form>
+
+<script>
+document.getElementById("preguntaForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const opciones = Array.from(document.querySelectorAll(".opcion-text"))
+        .map(input => input.value)
+        .filter(v => v.trim() !== "");
+
+    const respuestaCorrecta = document.querySelector("input[name='respuesta']:checked").value;
+
+    const data = {
+        id_area: parseInt(document.getElementById("id_area").value),
+        dificultad: document.getElementById("dificultad").value,
+        enunciado: document.getElementById("enunciado").value,
+        opciones: opciones,
+        respuesta_correcta: parseInt(respuestaCorrecta),
+        activa: true
+    };
+
+    const response = await fetch(
+        "/admin/catalogo/test-diagnostico/preguntas",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+        alert("Pregunta creada correctamente");
+        window.location.href = "/admin/catalogo/test-diagnostico/preguntas";
+    } else {
+        alert(result.detail || "Error al crear la pregunta");
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Enum, Date, Boolean, TIMESTAMP
 from sqlalchemy.orm import relationship
-from app.database import Base
+from app.database.database import Base
 
 class Usuario(Base):
     __tablename__ = "usuario"

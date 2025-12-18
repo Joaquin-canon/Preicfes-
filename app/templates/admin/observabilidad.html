@@ -9,11 +9,13 @@
 {% block content %}
 <div class="observabilidad-container">
 
-    <!-- HEADER -->
+    <!-- =====================
+         HEADER
+    ====================== -->
     <div class="observabilidad-header">
         <h1>Panel de Observabilidad</h1>
         <span class="subtitle">
-            Estado general del sistema (simulado)
+            Estado general del sistema y control de accesos (RBAC)
         </span>
     </div>
 
@@ -72,6 +74,73 @@
                 <span class="event-ok">✔ Sistema reiniciado sin errores</span>
             </li>
         </ul>
+    </section>
+
+    <!-- =====================
+         MATRIZ RBAC
+    ====================== -->
+    <section class="panel rbac-panel">
+        <h2>Matriz de Control de Accesos (RBAC)</h2>
+        <p class="panel-subtitle">
+            Definición de permisos por rol dentro de la plataforma Pre-ICFES
+        </p>
+
+        <div class="rbac-table-wrapper">
+            <table class="rbac-table">
+                <thead>
+                    <tr>
+                        <th>Módulo / Acción</th>
+                        <th>Administrador</th>
+                        <th>Coordinador</th>
+                        <th>Docente</th>
+                        <th>Estudiante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Catálogo de contenidos</td>
+                        <td class="allow">✔</td>
+                        <td class="allow">✔</td>
+                        <td class="read">👁</td>
+                        <td class="deny">✖</td>
+                    </tr>
+                    <tr>
+                        <td>Gestión de cuestionarios</td>
+                        <td class="allow">✔</td>
+                        <td class="allow">✔</td>
+                        <td class="allow">✔</td>
+                        <td class="deny">✖</td>
+                    </tr>
+                    <tr>
+                        <td>Versionado de formularios</td>
+                        <td class="allow">✔</td>
+                        <td class="allow">✔</td>
+                        <td class="deny">✖</td>
+                        <td class="deny">✖</td>
+                    </tr>
+                    <tr>
+                        <td>Resultados y reportes</td>
+                        <td class="allow">✔</td>
+                        <td class="allow">✔</td>
+                        <td class="read">👁</td>
+                        <td class="read">👁</td>
+                    </tr>
+                    <tr>
+                        <td>Configuración del sistema</td>
+                        <td class="allow">✔</td>
+                        <td class="deny">✖</td>
+                        <td class="deny">✖</td>
+                        <td class="deny">✖</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="rbac-legend">
+            <span><strong>✔</strong> Acceso completo</span>
+            <span><strong>👁</strong> Solo lectura</span>
+            <span><strong>✖</strong> Sin acceso</span>
+        </div>
     </section>
 
 </div>

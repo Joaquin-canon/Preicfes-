@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import date
 
-from app.database import get_db
+from app.database.database import get_db
 from app.models.usuario import Usuario
 from app.models.admin import Admin
 from app.models.docente import Docente

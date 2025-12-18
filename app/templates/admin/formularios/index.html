@@ -1,0 +1,75 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+Catálogo de contenidos | Admin
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/catalogo.css">
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================
+     HEADER INSTITUCIONAL
+========================= -->
+<section class="catalogo-header">
+    <div class="catalogo-header-content">
+        <h1>Catálogo de contenidos</h1>
+        <p>
+            Gestión académica de áreas, cuestionarios y versiones,
+            alineada a estándares nacionales e internacionales de evaluación.
+        </p>
+    </div>
+</section>
+
+<!-- =========================
+     GRID DE ÁREAS
+========================= -->
+<section class="areas-section">
+
+    <div class="areas-grid">
+
+        {% for area in areas %}
+<div class="area-card {% if area.destacado %}area-card-destacada{% endif %}">
+
+
+
+
+
+    
+            <div class="area-card-top">
+                <div class="area-icon">
+                    {{ area.icono }}
+                </div>
+                <span class="area-label">
+                    Área de evaluación
+                </span>
+            </div>
+
+            <h3 class="area-title">
+                {{ area.nombre }}
+            </h3>
+
+            <p class="area-description">
+                {{ area.descripcion }}
+            </p>
+
+            <div class="area-card-footer">
+                <a href="/admin/catalogo/{{ area.slug }}" class="area-action">
+    {% if area.destacado %}
+        Gestionar test diagnóstico →
+    {% else %}
+        Gestionar formularios →
+    {% endif %}
+</a>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

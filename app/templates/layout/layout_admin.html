@@ -19,33 +19,43 @@
     ========================== -->
     <aside class="sidebar">
 
-        <h3 class="menu-title">Administrador</h3>
+    <h3 class="menu-title">Administrador</h3>
 
-        <!-- OBSERVABILIDAD -->
-        <a href="{{ url_for('admin_observabilidad') }}">
-            Observabilidad
+    <!-- OBSERVABILIDAD -->
+    <a href="{{ url_for('admin_observabilidad') }}">
+        Observabilidad
+    </a>
+
+    <!-- CATÁLOGO DE CONTENIDOS -->
+    <div class="menu-section">
+        <span class="menu-section-title">Contenido académico</span>
+
+        <a href="/admin/catalogo-contenidos">
+            Catálogo de contenidos
+        </a>
+    </div>
+
+    <!-- SISTEMA -->
+    <div class="menu-section">
+        <span class="menu-section-title">Sistema</span>
+
+        <a href="{{ url_for('admin_roles') }}">
+            Roles y permisos
         </a>
 
-        <!-- FUTURO -->
-        <div class="menu-section">
-            <span class="menu-section-title">Sistema</span>
+        <a href="{{ url_for('admin_soporte') }}">
+            Soporte & tickets
+        </a>
+    </div>
 
-            <a href="{{ url_for('admin_roles') }}">
-                Roles y permisos
-            </a>
+    <div class="menu-section">
+        <a href="/logout">
+            Cerrar sesión
+        </a>
+    </div>
 
-            <a href="{{ url_for('admin_soporte') }}">
-                Soporte & tickets
-            </a>
-        </div>
+</aside>
 
-        <div class="menu-section">
-            <a href="/logout">
-                Cerrar sesión
-            </a>
-        </div>
-
-    </aside>
 
     <!-- =========================
          CONTENIDO

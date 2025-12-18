@@ -1,0 +1,102 @@
+.content {
+    background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
+    padding: 40px;
+}
+
+/* Header */
+.preguntas-header {
+    margin-bottom: 30px;
+}
+
+.preguntas-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #0B3C5D;
+}
+
+.preguntas-header p {
+    max-width: 720px;
+    color: #4A5A6A;
+}
+
+/* Panel */
+.panel {
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(11,60,93,0.08);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background: #1A9D8F;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Tabla */
+.preguntas-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.preguntas-table th,
+.preguntas-table td {
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.preguntas-table thead {
+    background: #0B3C5D;
+    color: #fff;
+}
+
+.preguntas-table tbody tr:nth-child(even) {
+    background: #F5F7FA;
+}
+
+.enunciado {
+    max-width: 420px;
+}
+
+/* Badges */
+.badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge.baja { background: #E6F7F3; color: #1A9D8F; }
+.badge.media { background: #FFF5E6; color: #C48A00; }
+.badge.alta { background: #FDECEA; color: #FF6B6B; }
+
+/* Estado */
+.status {
+    font-weight: 600;
+}
+
+.status.active { color: #1A9D8F; }
+.status.inactive { color: #FF6B6B; }
+
+/* Acciones */
+.acciones .action-link {
+    margin-right: 10px;
+    color: #0B3C5D;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.acciones .action-link.danger {
+    color: #FF6B6B;
+}

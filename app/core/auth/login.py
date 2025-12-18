@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
 from app.core.auth.jwt import create_access_token
-from app.database import get_db
+from app.database.database import get_db
 from app.models.usuario import Usuario
 
 # ===============================

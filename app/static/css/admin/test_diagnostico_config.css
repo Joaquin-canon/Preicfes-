@@ -1,0 +1,86 @@
+.content {
+    background: linear-gradient(180deg, #F5F7FA 0%, #FFFFFF 100%);
+    padding: 40px;
+}
+
+/* Header */
+.config-header {
+    margin-bottom: 30px;
+}
+
+.config-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #0B3C5D;
+}
+
+.config-header p {
+    max-width: 720px;
+    color: #4A5A6A;
+}
+
+/* Panel */
+.panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(11, 60, 93, 0.08);
+}
+
+/* Form */
+.config-form {
+    width: 100%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.form-item label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0B3C5D;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.form-item input,
+.form-item select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #DCE3EA;
+    font-size: 14px;
+}
+
+.form-item small {
+    font-size: 12px;
+    color: #6A7A8A;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.btn-primary {
+    background: #1A9D8F;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-secondary {
+    color: #0B3C5D;
+    text-decoration: none;
+    font-weight: 600;
+}
