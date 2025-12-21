@@ -4,7 +4,7 @@ from app.core.templates import templates
 
 router = APIRouter()
 
-@router.get("/", response_class=HTMLResponse, name="admin_observabilidad")
+@router.get("/observabilidad", response_class=HTMLResponse, name="admin_observabilidad")
 def panel_observabilidad(request: Request):
     data = {
         "uptime": "99.98%",

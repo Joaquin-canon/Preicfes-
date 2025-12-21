@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <!-- CSS GLOBAL DEL PROYECTO (VARIABLES + TIPOGRAFÍAS) -->
     <link rel="stylesheet" href="/static/css/layout/layout.css">
-
-    <!-- CSS DEL LOGIN -->
     <link rel="stylesheet" href="/static/css/login/login.css">
 </head>
 
@@ -19,6 +16,12 @@
         <div class="logo-area">📘 ICFES Prep</div>
 
         <h2>Iniciar Sesión</h2>
+
+        {% if error %}
+            <div class="login-error">
+                {{ error }}
+            </div>
+        {% endif %}
 
         <form action="/login" method="POST">
             <input type="email" name="correo" placeholder="Correo" required>

@@ -5,9 +5,6 @@ from datetime import date
 
 from app.database.database import get_db
 from app.models.usuario import Usuario
-from app.models.admin import Admin
-from app.models.docente import Docente
-from app.models.coordinador import Coordinador
 from app.models.estudiante import Estudiante
 
 

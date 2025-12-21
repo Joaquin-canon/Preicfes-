@@ -1,53 +1,20 @@
-from sqlalchemy import (
-    Column, Integer, Text, Boolean, Enum, ForeignKey, JSON, DateTime
-)
-from sqlalchemy.sql import func
-from app.database.base import Base
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum
+from sqlalchemy.types import JSON
+from app.database.database import Base
 
 class PreguntaDiagnostico(Base):
     __tablename__ = "pregunta_diagnostico"
 
-    id_pregunta_diagnostico = Column(
-        Integer, primary_key=True, index=True
-    )
+    id = Column(Integer, primary_key=True)
 
-    id_area = Column(
-        Integer,
-        ForeignKey("areas.id_area"),
-        nullable=False
-    )
+    area_id = Column(Integer, ForeignKey("areas.id_area"), nullable=False)
+    tipo_pregunta_codigo = Column(String(20), nullable=False)
 
-    dificultad = Column(
-        Enum("Baja", "Media", "Alta", name="dificultad_enum"),
-        nullable=False
-    )
-
-    enunciado = Column(Text, nullable=False)
+    dificultad = Column(Enum("Baja", "Media", "Alta"), nullable=False)
+    enunciado = Column(String(500), nullable=False)
 
     opciones = Column(JSON, nullable=False)
-
     respuesta_correcta = Column(Integer, nullable=False)
 
     activa = Column(Boolean, default=True)
-
-    creado_por = Column(
-        Integer,
-        ForeignKey("usuario.id_usuario"),
-        nullable=False
-    )
-
-    actualizado_por = Column(
-        Integer,
-        ForeignKey("usuario.id_usuario"),
-        nullable=True
-    )
-
-    created_at = Column(
-        DateTime(timezone=True),
-        server_default=func.now()
-    )
-
-    updated_at = Column(
-        DateTime(timezone=True),
-        onupdate=func.now()
-    )
+    creado_por = Column(Integer, ForeignKey("usuario.id_usuario"))

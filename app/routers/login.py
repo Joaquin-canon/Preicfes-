@@ -60,11 +60,11 @@ def login_post(
 
     # ✅ Redirección por rol
     destino = {
-        "admin": "/admin",
-        "docente": "/docente",
-        "coordinador": "/coordinador",
-        "estudiante": "/estudiante"
-    }.get(usuario.rol, "/login")
+    "admin": "/admin/observabilidad",
+    "docente": "/docente",
+    "coordinador": "/coordinador",
+    "estudiante": "/estudiante"
+}.get(usuario.rol, "/login")
 
     # ✅ AQUÍ se crea la respuesta
     response = RedirectResponse(url=destino, status_code=302)

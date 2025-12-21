@@ -1,13 +1,20 @@
-from fastapi import Depends, HTTPException, status
-from app.core.auth.jwt import get_current_user
+from fastapi import Depends
+from fastapi.responses import RedirectResponse
+from app.core.auth.dependencies import get_current_user
 from app.models.usuario import Usuario
 
-def require_role(*roles_permitidos: str):
-    def role_checker(usuario: Usuario = Depends(get_current_user)):
-        if usuario.rol not in roles_permitidos:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="No tienes permisos para acceder a este recurso"
-            )
-        return usuario
-    return role_checker
+
+def require_role(*roles: str):
+    def checker(user=Depends(get_current_user)):
+        # Si get_current_user devolvió RedirectResponse (no autenticado)
+        if not isinstance(user, Usuario):
+            return user  # redirección a /login
+
+        # Si el usuario no tiene el rol requerido
+        if user.rol not in roles:
+            # puedes cambiar esta ruta por una página 403 propia
+            return RedirectResponse("/login", status_code=302)
+
+        return user
+
+    return checker

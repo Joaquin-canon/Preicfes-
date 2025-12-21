@@ -1,0 +1,76 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+Banco de preguntas | Test Diagnóstico
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="/static/css/admin/test_diagnostico_preguntas.css">
+<link rel="stylesheet" href="/static/css/admin/test_diagnostico_modal.css">
+{% endblock %}
+
+{% block content %}
+
+<section class="preguntas-header">
+    <h1>Banco de preguntas</h1>
+    <p>Gestión de preguntas del test diagnóstico breve.</p>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <h2>Listado de preguntas</h2>
+           <button type="button" class="btn-primary" id="btn-nueva-pregunta">
+                + Nueva pregunta
+            </button>
+    </div>
+
+  <table class="preguntas-table">
+    <thead>
+        <tr>
+            <th>Área</th>
+            <th>Dificultad</th>
+            <th>Enunciado</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in preguntas %}
+        <tr>
+            <td>{{ p.area }}</td>
+            <td>
+                <span class="badge {{ p.dificultad|lower }}">
+                    {{ p.dificultad }}
+                </span>
+            </td>
+            <td class="enunciado">
+                {{ p.enunciado }}
+            </td>
+            <td>
+                {% if p.activa %}
+                    <span class="status active">Activa</span>
+                {% else %}
+                    <span class="status inactive">Inactiva</span>
+                {% endif %}
+            </td>
+            <td class="acciones">
+                <a href="#" class="action-link">Editar</a>
+                <a href="#" class="action-link danger">
+                    {% if p.activa %}Desactivar{% else %}Activar{% endif %}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</section>
+
+<!-- MODAL (SEPARADO) -->
+{% include "admin/formularios/test_diagnostico/banco_preguntas/modal_crear_pregunta.html" %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/admin/test_diagnostico_modal.js?v=4"></script>
+{% endblock %}

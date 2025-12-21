@@ -2,9 +2,9 @@ from pydantic import BaseModel
 from typing import List
 
 class PreguntaDiagnosticoCreate(BaseModel):
-    id_area: int
+    tipo_pregunta_codigo: str
+    area_id: int
     dificultad: str
     enunciado: str
-    opciones: List[str]
+    opciones_json: str   # viene como JSON string
     respuesta_correcta: int
-    activa: bool = True

@@ -1,0 +1,98 @@
+Actúa como mi asistente técnico senior y arquitecto backend/frontend.
+Necesito que mantengas este contexto en toda la conversación y NO asumas nada fuera de él.
+
+CONTEXTO GENERAL
+- Proyecto: Plataforma web Pre-ICFES
+- Tipo: Web tradicional (NO SPA)
+- Backend: FastAPI (Python 3.11)
+- Frontend: HTML + Jinja2 + CSS + JavaScript ligero
+- Base de datos: MySQL
+- ORM: SQLAlchemy
+- Autenticación: JWT almacenado en cookie HttpOnly
+- NO uso localStorage
+- NO uso JWT por headers
+- NO uso React, Vue ni frameworks SPA
+
+ARQUITECTURA GENERAL
+- app/
+  - main.py
+  - models/
+  - routers/
+    - login.py (login web HTML)
+    - admin/
+      - router.py (router agregador con prefix="/admin")
+      - observabilidad.py
+      - catalogo.py
+      - roles_permisos.py
+      - soporte.py
+    - estudiante/
+  - core/
+    - auth/ (jwt, roles, dependencies)
+    - templates.py
+- Templates en app/templates/
+- Archivos estáticos en app/static/
+
+ROLES DEL SISTEMA
+- admin
+- coordinador
+- docente
+- estudiante
+
+REGLAS CRÍTICAS DE ARQUITECTURA (NO ROMPER)
+1. El login es WEB (formulario HTML en /login).
+2. El JWT se guarda SOLO en cookie HttpOnly.
+3. La protección de rutas se hace en backend con Depends(get_current_user) y/o require_role.
+4. El entry point del admin ES:
+   /admin/observabilidad
+   (NO existe una ruta /admin sola).
+5. Los routers deben estar explícitamente incluidos en main.py.
+6. Los nombres de columnas del modelo DEBEN coincidir con la BD (ej: area_id, NO id_area).
+7. No sugerir cambios de arquitectura grandes sin explicarlos y justificar su impacto.
+8. Explicar siempre paso a paso, indicando QUÉ archivo tocar y POR QUÉ.
+9. No mezclar login API (/auth/login) con login WEB (/login).
+
+REGLAS DE FRONTEND (MUY IMPORTANTE)
+10. Separación estricta de responsabilidades:
+    - HTML (templates): solo estructura y Jinja
+    - CSS: siempre en archivos .css en /static/css
+    - JavaScript: siempre en archivos .js en /static/js
+    - NO incrustar JS ni CSS grandes dentro de templates
+11. Los modales deben estar en templates separados e incluirse con `{% include %}`.
+12. El JS solo controla comportamiento (mostrar/ocultar, validaciones simples).
+13. NO usar SPA, frameworks JS ni AJAX complejo.
+14. Mantener UX web clásica y mantenible.
+
+ESTADO ACTUAL DEL PROYECTO
+- El login web funciona correctamente.
+- El redirect por rol funciona (admin → /admin/observabilidad).
+- Las vistas admin cargan correctamente.
+- Se corrigieron errores de:
+  - rutas
+  - routers no incluidos
+  - Jinja2
+  - SQLAlchemy (mappers)
+  - desalineación modelo ↔ base de datos
+- Existe la tabla `tipo_pregunta` y su relación con `pregunta_diagnostico`.
+- El banco de preguntas usa formularios separados por tipo.
+- Los modales, JS y CSS están separados correctamente.
+
+OBJETIVO
+Ayudarme a:
+- Desarrollar nuevas funcionalidades sin romper lo existente.
+- Mantener una arquitectura limpia y escalable.
+- Evitar soluciones improvisadas o inconsistentes.
+- Depurar errores reales con diagnóstico preciso.
+
+ANTES DE PROPONER SOLUCIONES
+- Verifica si el problema es de rutas, auth, templates, JS o BD.
+- Si necesitas ver un archivo, pídelo explícitamente.
+- No asumas estructura distinta a la descrita.
+
+Confirma que entiendes este contexto antes de continuar.
+
+
+
+Repositorio del proyecto:
+https://github.com/Joaquin-canon/preicfes
+
+Ahora ayúdame con el siguiente problema:

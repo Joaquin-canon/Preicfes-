@@ -1,16 +1,19 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
-from app.models.area import Area
+import json
+
 from app.core.templates import templates
 from app.database.database import get_db
 from app.core.auth.dependencies import get_current_user
-
-from app.schemas.pregunta_diagnostico import PreguntaDiagnosticoCreate
+from fastapi.responses import HTMLResponse, RedirectResponse
+from app.models.area import Area
+from app.models.tipo_pregunta import TipoPregunta
 from app.models.pregunta_diagnostico import PreguntaDiagnostico
+from app.schemas.pregunta_diagnostico import PreguntaDiagnosticoCreate
+
 
 router = APIRouter(tags=["Admin"])
-
 
 # =========================================================
 # CATÁLOGO PRINCIPAL
@@ -75,95 +78,100 @@ def test_diagnostico_config(request: Request):
 
     return templates.TemplateResponse(
         "admin/formularios/test_diagnostico/config.html",
-        {
-            "request": request,
-            "config": config
-        }
+        {"request": request, "config": config}
     )
 
 
 # =========================================================
 # TEST DIAGNÓSTICO - LISTAR PREGUNTAS (DESDE BD)
 # =========================================================
-@router.get(
-    "/catalogo/test-diagnostico/preguntas",
-    response_class=HTMLResponse
-)
+@router.get("/catalogo/test-diagnostico/preguntas", response_class=HTMLResponse)
 def listar_preguntas_diagnostico(
     request: Request,
     db: Session = Depends(get_db)
 ):
     preguntas = db.query(PreguntaDiagnostico).all()
 
+    # ✅ áreas activas para el modal
+    areas = (
+        db.query(Area)
+        .filter(Area.activa == True)
+        .order_by(Area.nombre.asc())
+        .all()
+    )
+
+    # ✅ tipos de pregunta activos para el modal
+    tipos_pregunta = (
+        db.query(TipoPregunta)
+        .filter(TipoPregunta.activa == True)
+        .order_by(TipoPregunta.nombre.asc())
+        .all()
+    )
+
     return templates.TemplateResponse(
-        "admin/formularios/test_diagnostico/preguntas.html",
+        "admin/formularios/test_diagnostico/banco_preguntas/preguntas.html",
         {
             "request": request,
-            "preguntas": preguntas
+            "preguntas": preguntas,
+            "areas": areas,
+            "tipos_pregunta": tipos_pregunta
         }
     )
 
 
 # =========================================================
-# API - CREAR PREGUNTA DIAGNÓSTICO
+# API - CREAR PREGUNTA DIAGNÓSTICO (JSON)
+# OJO: si tu modal usa <form> clásico, esto debe pasar a Form(...)
 # =========================================================
 @router.post("/catalogo/test-diagnostico/preguntas")
-def crear_pregunta_diagnostico(
-    data: PreguntaDiagnosticoCreate,
+async def crear_pregunta_diagnostico(
+    request: Request,
     db: Session = Depends(get_db),
-    usuario=Depends(get_current_user)
+    usuario = Depends(get_current_user)
 ):
-    # Seguridad extra
+    # 🔐 Seguridad
     if usuario.rol != "admin":
         raise HTTPException(status_code=403, detail="No autorizado")
 
-    # Validaciones básicas
-    if len(data.opciones) < 2:
-        raise HTTPException(
-            status_code=400,
-            detail="La pregunta debe tener al menos 2 opciones"
-        )
+    form = await request.form()
 
-    if data.respuesta_correcta >= len(data.opciones):
-        raise HTTPException(
-            status_code=400,
-            detail="La respuesta correcta no es válida"
-        )
+    tipo = form.get("tipo_pregunta_codigo")
+    area_id = form.get("area_id")
+    dificultad = form.get("dificultad")
+    enunciado = form.get("enunciado")
+    opciones_json = form.get("opciones_json")
+    respuesta_correcta = form.get("respuesta_correcta")
+
+    # 🔎 Validaciones
+    if not all([tipo, area_id, dificultad, enunciado, opciones_json, respuesta_correcta]):
+        raise HTTPException(status_code=400, detail="Datos incompletos")
+
+    if tipo != "SMUR":
+        raise HTTPException(status_code=400, detail="Tipo de pregunta no soportado aún")
+
+    try:
+        opciones = json.loads(opciones_json)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Opciones inválidas")
+
+    if len(opciones) < 2:
+        raise HTTPException(status_code=400, detail="Debe haber al menos 2 opciones")
 
     pregunta = PreguntaDiagnostico(
-        id_area=data.id_area,
-        dificultad=data.dificultad,
-        enunciado=data.enunciado,
-        opciones=data.opciones,
-        respuesta_correcta=data.respuesta_correcta,
-        activa=data.activa,
+        area_id=int(area_id),              # 👈 coincide con tu modelo
+        dificultad=dificultad,
+        enunciado=enunciado,
+        opciones=json.dumps(opciones),     # se guarda como TEXT
+        respuesta_correcta=int(respuesta_correcta),
+        activa=True,
         creado_por=usuario.id_usuario
     )
 
     db.add(pregunta)
     db.commit()
-    db.refresh(pregunta)
 
-    return {
-        "message": "Pregunta creada correctamente",
-        "id_pregunta_diagnostico": pregunta.id_pregunta_diagnostico
-    }
-
-
-@router.get(
-    "/catalogo/test-diagnostico/preguntas/nueva",
-    response_class=HTMLResponse
-)
-def formulario_crear_pregunta(
-    request: Request,
-    db: Session = Depends(get_db)
-):
-    areas = db.query(Area).filter(Area.activa == True).all()
-
-    return templates.TemplateResponse(
-        "admin/formularios/test_diagnostico/editor.html",
-        {
-            "request": request,
-            "areas": areas
-        }
+    # ✅ REDIRECCIÓN POST/REDIRECT/GET (correcto)
+    return RedirectResponse(
+        url="/admin/catalogo/test-diagnostico/preguntas",
+        status_code=303
     )
