@@ -1,48 +1,74 @@
 <div id="modal-nueva-pregunta" class="modal hidden" aria-hidden="true">
 
-  <!-- Backdrop clickeable -->
+  <!-- Backdrop -->
   <div class="modal-backdrop" id="modal-backdrop"></div>
 
-  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Nueva pregunta">
+  <div class="modal-card" role="dialog" aria-modal="true">
 
     <!-- HEADER -->
-    <div class="modal-header" style="display:flex; align-items:center; justify-content:space-between;">
-      <h3 style="margin:0;">Nueva pregunta – Test</h3>
-      <button type="button" class="modal-close" id="btn-cerrar-modal" aria-label="Cerrar">×</button>
+    <div class="modal-header">
+      <h3>Nueva pregunta – Test diagnóstico</h3>
+      <button type="button" class="modal-close" id="btn-cerrar-modal">×</button>
     </div>
 
-    <!-- FORM (web clásica) -->
-    <form id="form-nueva-pregunta" method="post" action="/admin/catalogo/test-diagnostico/preguntas">
+    <!-- FORM -->
+    <form
+      id="form-nueva-pregunta"
+      method="post"
+      action="/admin/catalogo/test-diagnostico/preguntas"
+    >
 
       <div class="modal-body">
 
-        <!-- ✅ 1) SOLO visible al inicio -->
+        <!-- TIPO -->
         <div class="form-group">
           <label for="tipo_pregunta">Tipo de pregunta</label>
-          <select id="tipo_pregunta" name="tipo_pregunta_codigo" class="input-select" required>
+          <select
+            id="tipo_pregunta"
+            name="tipo_pregunta_codigo"
+            class="input-select"
+            required
+          >
             <option value="">Seleccione un tipo</option>
             {% for tipo in tipos_pregunta %}
               <option value="{{ tipo.codigo }}">{{ tipo.nombre }}</option>
             {% endfor %}
           </select>
-          <small class="help-text">Primero selecciona el tipo de pregunta para continuar.</small>
+          <small class="help-text">
+            Selecciona el tipo para habilitar el formulario.
+          </small>
         </div>
 
-        <!-- ✅ 2) TODO lo demás oculto hasta elegir tipo -->
+        <!-- BLOQUE OCULTO -->
         <div id="bloque-detalles" style="display:none;">
-           
+
           <!-- ÁREA -->
-        <select id="area_id" name="area_id" class="input-select" required>
-                <option value="" disabled selected>Seleccione un área</option>
-                {% for area in areas %}
-                    <option value="{{ area.id_area }}">{{ area.nombre }}</option>
-                {% endfor %}
-                </select>
+          <div class="form-group">
+            <label for="area_id">Área</label>
+            <select
+              id="area_id"
+              name="area_id"
+              class="input-select"
+              required
+            >
+              <option value="">Seleccione un área</option>
+              {% for area in areas %}
+                <option value="{{ area.id_area }}">
+                  {{ area.nombre }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
 
           <!-- DIFICULTAD -->
           <div class="form-group">
             <label for="dificultad">Dificultad</label>
-            <select id="dificultad" name="dificultad" class="input-select" required>
+            <select
+              id="dificultad"
+              name="dificultad"
+              class="input-select"
+              required
+            >
               <option value="Baja">Baja</option>
               <option value="Media">Media</option>
               <option value="Alta">Alta</option>
@@ -52,23 +78,32 @@
           <!-- ENUNCIADO -->
           <div class="form-group">
             <label for="enunciado">Enunciado</label>
-            <textarea id="enunciado" name="enunciado" class="input-textarea" required></textarea>
+            <textarea
+              id="enunciado"
+              name="enunciado"
+              class="input-textarea"
+              required
+            ></textarea>
           </div>
 
-          <!-- CONTENEDOR DINÁMICO (JS inyecta aquí) -->
+          <!-- FORMULARIO DINÁMICO -->
           <div id="contenedor-formulario-dinamico"></div>
 
-          <!-- Hidden fields que llena el JS antes de enviar -->
-          <input type="hidden" id="opciones_json" name="opciones_json" value="">
-          <input type="hidden" id="respuesta_correcta" name="respuesta_correcta" value="">
-        </div>
+          <!-- HIDDEN -->
+          <input type="hidden" id="opciones_json" name="opciones_json">
+          <input type="hidden" id="respuesta_correcta" name="respuesta_correcta">
 
+        </div>
       </div>
 
       <!-- FOOTER -->
       <div class="modal-footer">
-        <button type="button" class="btn-secondary" id="btn-cancelar">Cancelar</button>
-        <button type="submit" class="btn-primary" id="btn-guardar">Guardar</button>
+        <button type="button" class="btn-secondary" id="btn-cancelar">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-primary">
+          Guardar
+        </button>
       </div>
 
     </form>

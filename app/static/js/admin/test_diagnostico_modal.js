@@ -1,7 +1,10 @@
-console.log("✅ JS NUEVO CARGADO - v5");
+console.log("✅ JS Test Diagnóstico cargado (UNIFICADO Y COMPLETO)");
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  // =====================================================
+  // ELEMENTOS PRINCIPALES
+  // =====================================================
   const btnNueva = document.getElementById("btn-nueva-pregunta");
   const modal = document.getElementById("modal-nueva-pregunta");
   const btnCerrar = document.getElementById("btn-cerrar-modal");
@@ -13,85 +16,61 @@ document.addEventListener("DOMContentLoaded", function () {
   const contenedor = document.getElementById("contenedor-formulario-dinamico");
   const bloqueDetalles = document.getElementById("bloque-detalles");
 
-  // Validación de existencia
-  const faltantes = [];
-  if (!btnNueva) faltantes.push("btn-nueva-pregunta");
-  if (!modal) faltantes.push("modal-nueva-pregunta");
-  if (!btnCerrar) faltantes.push("btn-cerrar-modal");
-  if (!btnCancelar) faltantes.push("btn-cancelar");
-  if (!form) faltantes.push("form-nueva-pregunta");
-  if (!tipoSelect) faltantes.push("tipo_pregunta");
-  if (!contenedor) faltantes.push("contenedor-formulario-dinamico");
-  if (!bloqueDetalles) faltantes.push("bloque-detalles");
-
-  if (faltantes.length) {
-    console.error("❌ Faltan elementos del modal:", faltantes);
+  if (!btnNueva || !modal || !form || !tipoSelect || !contenedor || !bloqueDetalles) {
+    console.error("❌ Elementos del modal incompletos");
     return;
   }
 
-  // --------------------
-  // Helpers
-  // --------------------
+  // =====================================================
+  // HELPERS
+  // =====================================================
   function resetModal() {
-    // ✅ oculta todo lo demás (clave para tu requerimiento)
     bloqueDetalles.style.display = "none";
     contenedor.innerHTML = "";
-
-    // limpia hidden fields
-    const hOpc = document.getElementById("opciones_json");
-    const hResp = document.getElementById("respuesta_correcta");
-    if (hOpc) hOpc.value = "";
-    if (hResp) hResp.value = "";
+    document.getElementById("opciones_json").value = "";
+    document.getElementById("respuesta_correcta").value = "";
   }
 
-  // --------------------
-  // Abrir / cerrar modal
-  // --------------------
-  function abrir(e) {
-    if (e) e.preventDefault();
-
+  function abrirModal() {
     form.reset();
     tipoSelect.value = "";
-    resetModal(); // ✅ deja solo tipo visible
-
+    resetModal();
     modal.classList.remove("hidden");
     modal.setAttribute("aria-hidden", "false");
   }
 
-  function cerrar() {
+  function cerrarModal() {
     modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
-
-    form.reset();
-    tipoSelect.value = "";
     resetModal();
   }
 
-  btnNueva.addEventListener("click", abrir);
-  btnCerrar.addEventListener("click", cerrar);
-  btnCancelar.addEventListener("click", cerrar);
-  backdrop.addEventListener("click", cerrar);
+  btnNueva.addEventListener("click", abrirModal);
+  btnCerrar.addEventListener("click", cerrarModal);
+  btnCancelar.addEventListener("click", cerrarModal);
+  backdrop.addEventListener("click", cerrarModal);
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) cerrar();
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+      cerrarModal();
+    }
   });
 
-  // --------------------
-  // Formulario dinámico
-  // --------------------
+  // =====================================================
+  // FORMULARIOS POR TIPO
+  // =====================================================
   function renderSMUR() {
     return `
       <div class="form-group">
-        <label>Opciones (SMUR)</label>
-        <input class="input-text" id="opA" placeholder="Opción A" required>
-        <input class="input-text" id="opB" placeholder="Opción B" required>
-        <input class="input-text" id="opC" placeholder="Opción C" required>
-        <input class="input-text" id="opD" placeholder="Opción D" required>
+        <label>Opciones</label>
+        <input class="input-text opcion" placeholder="Opción A">
+        <input class="input-text opcion" placeholder="Opción B">
+        <input class="input-text opcion" placeholder="Opción C">
+        <input class="input-text opcion" placeholder="Opción D">
       </div>
-
       <div class="form-group">
         <label>Respuesta correcta</label>
-        <select class="input-select" id="respuesta_correcta_select" required>
+        <select id="respuesta_correcta_select" class="input-select">
           <option value="0">A</option>
           <option value="1">B</option>
           <option value="2">C</option>
@@ -101,72 +80,123 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
-  // ✅ Mostrar el resto SOLO cuando se seleccione tipo
-  tipoSelect.addEventListener("change", () => {
-    contenedor.innerHTML = "";
-    const codigo = (tipoSelect.value || "").trim();
+  function renderAfirmaciones() {
+    return `
+      <div class="form-group">
+        <label>Afirmación I</label>
+        <textarea class="input-textarea afirmacion"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Afirmación II</label>
+        <textarea class="input-textarea afirmacion"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Respuesta correcta</label>
+        <select id="respuesta_correcta_select" class="input-select">
+          <option value="0">Solo I es correcta</option>
+          <option value="1">Solo II es correcta</option>
+          <option value="2">Ambas son correctas</option>
+          <option value="3">Ninguna es correcta</option>
+        </select>
+      </div>
+    `;
+  }
 
-    if (!codigo) {
+  function renderContexto() {
+    return `
+      <div class="form-group">
+        <label>Texto / Contexto</label>
+        <textarea id="texto_contexto" class="input-textarea"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Pregunta</label>
+        <textarea id="pregunta_contexto" class="input-textarea"></textarea>
+      </div>
+      ${renderSMUR()}
+    `;
+  }
+
+  function renderImagen() {
+    return `
+      <div class="form-group">
+        <label>Descripción de la imagen</label>
+        <textarea id="descripcion_imagen" class="input-textarea"></textarea>
+      </div>
+      <div class="form-group">
+        <label>URL de la imagen</label>
+        <input id="url_imagen" class="input-text" placeholder="https://...">
+      </div>
+      ${renderSMUR()}
+    `;
+  }
+
+  function renderTabla() {
+    return `
+      <div class="form-group">
+        <label>Datos de la tabla</label>
+        <textarea id="datos_tabla" class="input-textarea"
+          placeholder="Ej: filas y columnas en texto"></textarea>
+      </div>
+      ${renderSMUR()}
+    `;
+  }
+
+  // =====================================================
+  // CAMBIO DE TIPO
+  // =====================================================
+  tipoSelect.addEventListener("change", () => {
+    const tipo = (tipoSelect.value || "").trim();
+    contenedor.innerHTML = "";
+
+    if (!tipo) {
       resetModal();
       return;
     }
 
-    // ✅ ahora sí mostramos área/dificultad/enunciado
     bloqueDetalles.style.display = "block";
 
-    if (codigo === "SMUR") {
-      contenedor.innerHTML = renderSMUR();
-      return;
-    }
-
-    contenedor.innerHTML = `
-      <div class="form-group">
-        <p style="margin:0;">Formulario para <b>${codigo}</b> aún no implementado.</p>
-      </div>
-    `;
+    if (tipo === "SMUR") contenedor.innerHTML = renderSMUR();
+    else if (tipo === "AFIRMACIONES") contenedor.innerHTML = renderAfirmaciones();
+    else if (tipo === "SMUR_CONTEXTO") contenedor.innerHTML = renderContexto();
+    else if (tipo === "IMAGEN") contenedor.innerHTML = renderImagen();
+    else if (tipo === "TABLA") contenedor.innerHTML = renderTabla();
+    else contenedor.innerHTML = `<p>Tipo no soportado.</p>`;
   });
 
-  // --------------------
-  // Submit: llenar hidden
-  // --------------------
+  // =====================================================
+  // SUBMIT
+  // =====================================================
   form.addEventListener("submit", (e) => {
     const tipo = (tipoSelect.value || "").trim();
 
-    if (tipo !== "SMUR") {
-      e.preventDefault();
-      alert("Ese tipo de pregunta aún no está implementado.");
+    const opciones = [...contenedor.querySelectorAll(".opcion")].map(o => o.value.trim());
+    const resp = document.getElementById("respuesta_correcta_select");
+
+    if (["SMUR","SMUR_CONTEXTO","IMAGEN","TABLA"].includes(tipo)) {
+      if (opciones.length !== 4 || opciones.some(o => !o)) {
+        e.preventDefault();
+        alert("Completa las 4 opciones.");
+        return;
+      }
+      document.getElementById("opciones_json").value = JSON.stringify(opciones);
+      document.getElementById("respuesta_correcta").value = resp.value;
       return;
     }
 
-    const opA = document.getElementById("opA");
-    const opB = document.getElementById("opB");
-    const opC = document.getElementById("opC");
-    const opD = document.getElementById("opD");
-    const sel = document.getElementById("respuesta_correcta_select");
-
-    if (!opA || !opB || !opC || !opD || !sel) {
-      e.preventDefault();
-      alert("Primero selecciona el tipo SMUR y completa las opciones.");
+    if (tipo === "AFIRMACIONES") {
+      const afirmaciones = [...contenedor.querySelectorAll(".afirmacion")].map(a => a.value.trim());
+      if (afirmaciones.length !== 2 || afirmaciones.some(a => !a)) {
+        e.preventDefault();
+        alert("Completa ambas afirmaciones.");
+        return;
+      }
+      document.getElementById("opciones_json").value = JSON.stringify(afirmaciones);
+      document.getElementById("respuesta_correcta").value = resp.value;
       return;
     }
 
-    const opciones = [
-      opA.value.trim(),
-      opB.value.trim(),
-      opC.value.trim(),
-      opD.value.trim(),
-    ];
-
-    if (opciones.some(o => !o)) {
-      e.preventDefault();
-      alert("Completa todas las opciones A, B, C y D.");
-      return;
-    }
-
-    const correcta = parseInt(sel.value, 10);
-
-    document.getElementById("opciones_json").value = JSON.stringify(opciones);
-    document.getElementById("respuesta_correcta").value = String(correcta);
+    e.preventDefault();
+    alert("Tipo de pregunta no válido.");
   });
 
 });

@@ -1,0 +1,23 @@
+<!-- IMAGEN -->
+<div class="form-group">
+    <label>Imagen (referencia)</label>
+    <input type="file" accept="image/*">
+    <small>Por ahora solo referencia visual</small>
+</div>
+
+<div class="form-group">
+    <label>Pregunta</label>
+    <textarea class="input-textarea" required></textarea>
+</div>
+
+<div class="form-group">
+    <label>Opciones</label>
+
+    {% for letra in ['A','B','C','D'] %}
+    <div class="opcion-item">
+        <input type="radio" name="correcta" value="{{ loop.index0 }}" required>
+        <span>{{ letra }}</span>
+        <input type="text" class="input-text opcion-text" required>
+    </div>
+    {% endfor %}
+</div>

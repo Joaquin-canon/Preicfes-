@@ -1,0 +1,28 @@
+<!-- TABLA -->
+<div class="form-group">
+    <label>Tabla (HTML)</label>
+    <textarea id="tabla_html"
+              class="input-textarea"
+              placeholder="<table>...</table>"
+              required></textarea>
+    <small>Pegar tabla en HTML</small>
+</div>
+
+<div class="form-group">
+    <label>Pregunta</label>
+    <textarea id="pregunta"
+              class="input-textarea"
+              required></textarea>
+</div>
+
+<div class="form-group">
+    <label>Opciones</label>
+
+    {% for letra in ['A','B','C','D'] %}
+    <div class="opcion-item">
+        <input type="radio" name="correcta" value="{{ loop.index0 }}" required>
+        <span>{{ letra }}</span>
+        <input type="text" class="input-text opcion-text" required>
+    </div>
+    {% endfor %}
+</div>

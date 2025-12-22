@@ -47,7 +47,7 @@ Banco de preguntas | Test Diagnóstico
                     {{ p.area.nombre if p.area else "—" }}
                 </td>
 
-                <!-- TIPO DE PREGUNTA -->
+                <!-- TIPO -->
                 <td>
                     {{ p.tipo_pregunta.nombre if p.tipo_pregunta else "—" }}
                 </td>
@@ -79,11 +79,11 @@ Banco de preguntas | Test Diagnóstico
                     {% endif %}
                 </td>
 
-                <!-- RESPUESTA CORRECTA -->
+                <!-- RESPUESTA -->
                 <td class="respuesta-correcta">
                     {% if p.opciones and p.respuesta_correcta is not none %}
                         <strong>
-                            {{ p.opciones[p.respuesta_correcta] }}
+                            {{ ['A','B','C','D','E','F'][p.respuesta_correcta] }}
                         </strong>
                     {% else %}
                         —
@@ -113,11 +113,12 @@ Banco de preguntas | Test Diagnóstico
     </table>
 </section>
 
-<!-- MODAL NUEVA PREGUNTA -->
+<!-- MODAL -->
 {% include "admin/formularios/test_diagnostico/banco_preguntas/modal_crear_pregunta.html" %}
 
 {% endblock %}
 
 {% block extra_scripts %}
-<script src="/static/js/admin/test_diagnostico_modal.js?v=4"></script>
+{{ super() }}
+<script src="/static/js/admin/test_diagnostico_modal.js?v=6"></script>
 {% endblock %}
