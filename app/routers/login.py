@@ -80,3 +80,17 @@ def login_post(
 
     # ✅ AQUÍ se retorna
     return response
+# ===============================
+# LOGOUT
+# ===============================
+@router.get("/logout")
+def logout():
+    response = RedirectResponse(url="/login", status_code=302)
+
+    # 🔥 Borra la cookie del token
+    response.delete_cookie(
+        key="access_token",
+        path="/"
+    )
+
+    return response

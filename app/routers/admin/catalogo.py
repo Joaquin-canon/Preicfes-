@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
-
+import json
 
 from app.core.templates import templates
 from app.database.database import get_db
@@ -88,25 +88,68 @@ def test_diagnostico_config(request: Request):
 @router.get("/catalogo/test-diagnostico/preguntas", response_class=HTMLResponse)
 def listar_preguntas_diagnostico(
     request: Request,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    page: int = 1,
+    area_id: int | None = None,
+    tipo_id: int | None = None,
+    dificultad: str | None = None,
+    estado: str | None = None,
+    q: str | None = None,
 ):
-    preguntas = db.query(PreguntaDiagnostico).all()
+    # 🔐 Seguridad MANUAL (HTML-friendly)
+    try:
+        usuario = get_current_user(request, db)
+    except Exception:
+        return RedirectResponse("/login", status_code=302)
 
-    # ✅ áreas activas para el modal
-    areas = (
-        db.query(Area)
-        .filter(Area.activa == True)
-        .order_by(Area.nombre.asc())
+    if usuario.rol != "admin":
+        return RedirectResponse("/login", status_code=302)
+
+    # -----------------------------
+    # QUERY BASE
+    # -----------------------------
+    query = db.query(PreguntaDiagnostico)
+
+    # -----------------------------
+    # FILTROS
+    # -----------------------------
+    if area_id:
+        query = query.filter(PreguntaDiagnostico.area_id == area_id)
+
+    if tipo_id:
+        query = query.filter(PreguntaDiagnostico.tipo_pregunta_id == tipo_id)
+
+    if dificultad:
+        query = query.filter(PreguntaDiagnostico.dificultad == dificultad)
+
+    if estado == "activa":
+        query = query.filter(PreguntaDiagnostico.activa == True)
+    elif estado == "inactiva":
+        query = query.filter(PreguntaDiagnostico.activa == False)
+
+    if q:
+        query = query.filter(PreguntaDiagnostico.enunciado.ilike(f"%{q}%"))
+
+    # -----------------------------
+    # PAGINACIÓN
+    # -----------------------------
+    page_size = 10
+    total = query.count()
+    total_pages = max((total + page_size - 1) // page_size, 1)
+
+    preguntas = (
+        query
+        .order_by(PreguntaDiagnostico.id_pregunta_diagnostico.desc())
+        .offset((page - 1) * page_size)
+        .limit(page_size)
         .all()
     )
 
-    # ✅ tipos de pregunta activos para el modal
-    tipos_pregunta = (
-        db.query(TipoPregunta)
-        .filter(TipoPregunta.activa == True)
-        .order_by(TipoPregunta.nombre.asc())
-        .all()
-    )
+    # -----------------------------
+    # DATA AUXILIAR
+    # -----------------------------
+    areas = db.query(Area).filter(Area.activa == True).all()
+    tipos_pregunta = db.query(TipoPregunta).filter(TipoPregunta.activa == True).all()
 
     return templates.TemplateResponse(
         "admin/formularios/test_diagnostico/banco_preguntas/preguntas.html",
@@ -114,7 +157,16 @@ def listar_preguntas_diagnostico(
             "request": request,
             "preguntas": preguntas,
             "areas": areas,
-            "tipos_pregunta": tipos_pregunta
+            "tipos_pregunta": tipos_pregunta,
+            "page": page,
+            "total_pages": total_pages,
+            "filters": {
+                "area_id": area_id,
+                "tipo_id": tipo_id,
+                "dificultad": dificultad,
+                "estado": estado,
+                "q": q
+            }
         }
     )
 

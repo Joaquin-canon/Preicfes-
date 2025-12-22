@@ -16,6 +16,43 @@ Banco de preguntas | Test Diagnóstico
     <p>Gestión de preguntas del test diagnóstico breve.</p>
 </section>
 
+<form method="get" class="filtros-bar">
+    <select name="area_id">
+        <option value="">Área</option>
+        {% for a in areas %}
+        <option value="{{ a.id_area }}" {% if filters.area_id == a.id_area %}selected{% endif %}>
+            {{ a.nombre }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select name="tipo_id">
+        <option value="">Tipo</option>
+        {% for t in tipos_pregunta %}
+        <option value="{{ t.id_tipo_pregunta }}" {% if filters.tipo_id == t.id_tipo_pregunta %}selected{% endif %}>
+            {{ t.nombre }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select name="dificultad">
+        <option value="">Dificultad</option>
+        {% for d in ["Baja","Media","Alta"] %}
+        <option value="{{ d }}" {% if filters.dificultad == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="estado">
+        <option value="">Estado</option>
+        <option value="activa" {% if filters.estado == "activa" %}selected{% endif %}>Activa</option>
+        <option value="inactiva" {% if filters.estado == "inactiva" %}selected{% endif %}>Inactiva</option>
+    </select>
+
+    <input type="text" name="q" placeholder="Buscar enunciado"
+           value="{{ filters.q or '' }}">
+
+    <button type="submit" class="btn-primary">Filtrar</button>
+</form>
 
 
 
@@ -115,6 +152,17 @@ Banco de preguntas | Test Diagnóstico
             {% endfor %}
         </tbody>
     </table>
+    <div class="paginacion">
+    {% if page > 1 %}
+        <a href="?page={{ page - 1 }}">← Anterior</a>
+    {% endif %}
+
+    <span>Página {{ page }} de {{ total_pages }}</span>
+
+    {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}">Siguiente →</a>
+    {% endif %}
+</div>
 </section>
 
 <!-- MODAL -->
