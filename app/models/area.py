@@ -1,10 +1,12 @@
+# app/models/area.py
+
 from sqlalchemy import Column, Integer, String, Boolean
 from app.database.database import Base
 
 class Area(Base):
     __tablename__ = "areas"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    codigo = Column(String(30), unique=True, nullable=False)
+    id_area = Column(Integer, primary_key=True)
+    codigo = Column(String(20), nullable=False)
     nombre = Column(String(100), nullable=False)
     activa = Column(Boolean, default=True)

@@ -19,54 +19,101 @@ Banco de preguntas | Test Diagnóstico
 <section class="panel">
     <div class="panel-header">
         <h2>Listado de preguntas</h2>
-           <button type="button" class="btn-primary" id="btn-nueva-pregunta">
-                + Nueva pregunta
-            </button>
+        <button type="button" class="btn-primary" id="btn-nueva-pregunta">
+            + Nueva pregunta
+        </button>
     </div>
 
-  <table class="preguntas-table">
-    <thead>
-        <tr>
-            <th>Área</th>
-            <th>Dificultad</th>
-            <th>Enunciado</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for p in preguntas %}
-        <tr>
-            <td>{{ p.area }}</td>
-            <td>
-                <span class="badge {{ p.dificultad|lower }}">
-                    {{ p.dificultad }}
-                </span>
-            </td>
-            <td class="enunciado">
-                {{ p.enunciado }}
-            </td>
-            <td>
-                {% if p.activa %}
-                    <span class="status active">Activa</span>
-                {% else %}
-                    <span class="status inactive">Inactiva</span>
-                {% endif %}
-            </td>
-            <td class="acciones">
-                <a href="#" class="action-link">Editar</a>
-                <a href="#" class="action-link danger">
-                    {% if p.activa %}Desactivar{% else %}Activar{% endif %}
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <table class="preguntas-table">
+        <thead>
+            <tr>
+                <th>Área</th>
+                <th>Tipo</th>
+                <th>Dificultad</th>
+                <th>Enunciado</th>
+                <th>Opciones</th>
+                <th>Respuesta correcta</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
 
+        <tbody>
+            {% for p in preguntas %}
+            <tr>
+
+                <!-- ÁREA -->
+                <td>
+                    {{ p.area.nombre if p.area else "—" }}
+                </td>
+
+                <!-- TIPO DE PREGUNTA -->
+                <td>
+                    {{ p.tipo_pregunta.nombre if p.tipo_pregunta else "—" }}
+                </td>
+
+                <!-- DIFICULTAD -->
+                <td>
+                    <span class="badge {{ p.dificultad|lower }}">
+                        {{ p.dificultad }}
+                    </span>
+                </td>
+
+                <!-- ENUNCIADO -->
+                <td class="enunciado">
+                    {{ p.enunciado }}
+                </td>
+
+                <!-- OPCIONES -->
+                <td class="opciones">
+                    {% if p.opciones %}
+                        <ul class="opciones-lista">
+                            {% for opcion in p.opciones %}
+                                <li class="{% if loop.index0 == p.respuesta_correcta %}correcta{% endif %}">
+                                    {{ ['A','B','C','D','E','F'][loop.index0] }}. {{ opcion }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+
+                <!-- RESPUESTA CORRECTA -->
+                <td class="respuesta-correcta">
+                    {% if p.opciones and p.respuesta_correcta is not none %}
+                        <strong>
+                            {{ p.opciones[p.respuesta_correcta] }}
+                        </strong>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+
+                <!-- ESTADO -->
+                <td>
+                    {% if p.activa %}
+                        <span class="status active">Activa</span>
+                    {% else %}
+                        <span class="status inactive">Inactiva</span>
+                    {% endif %}
+                </td>
+
+                <!-- ACCIONES -->
+                <td class="acciones">
+                    <a href="#" class="action-link">Editar</a>
+                    <a href="#" class="action-link danger">
+                        {% if p.activa %}Desactivar{% else %}Activar{% endif %}
+                    </a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </section>
 
-<!-- MODAL (SEPARADO) -->
+<!-- MODAL NUEVA PREGUNTA -->
 {% include "admin/formularios/test_diagnostico/banco_preguntas/modal_crear_pregunta.html" %}
 
 {% endblock %}

@@ -71,12 +71,12 @@ def login_post(
 
     # ✅ AQUÍ se guarda la cookie
     response.set_cookie(
-        key="access_token",
-        value=f"Bearer {access_token}",
-        httponly=True,
-        samesite="lax",
-        path="/"
-    )
+    key="access_token",
+    value=access_token,   # ✅ SIN "Bearer"
+    httponly=True,
+    samesite="lax",
+    path="/"
+)
 
     # ✅ AQUÍ se retorna
     return response

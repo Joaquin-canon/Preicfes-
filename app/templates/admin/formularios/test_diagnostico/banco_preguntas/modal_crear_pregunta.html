@@ -32,15 +32,12 @@
         <div id="bloque-detalles" style="display:none;">
            
           <!-- ÁREA -->
-          <div class="form-group">
-            <label for="area_id">Área</label>
-            <select id="area_id" name="area_id" class="input-select" required>
-              <option value="">Seleccione un área</option>
-              {% for area in areas %}
-                <option value="{{ area.id }}">{{ area.nombre }}</option>
-              {% endfor %}
-            </select>
-          </div>
+        <select id="area_id" name="area_id" class="input-select" required>
+                <option value="" disabled selected>Seleccione un área</option>
+                {% for area in areas %}
+                    <option value="{{ area.id_area }}">{{ area.nombre }}</option>
+                {% endfor %}
+                </select>
 
           <!-- DIFICULTAD -->
           <div class="form-group">

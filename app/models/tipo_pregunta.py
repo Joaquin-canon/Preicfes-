@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, TIMESTAMP
-from sqlalchemy.orm import relationship
 from app.database.database import Base
-
+from sqlalchemy.orm import relationship
 class TipoPregunta(Base):
     __tablename__ = "tipo_pregunta"
 
@@ -10,6 +9,8 @@ class TipoPregunta(Base):
     nombre = Column(String(100), nullable=False)
     descripcion = Column(String)
     activa = Column(Boolean, default=True)
-    created_at = Column(TIMESTAMP)
 
-    preguntas = relationship("PreguntaDiagnostico", back_populates="tipo_pregunta")
+    preguntas = relationship(
+        "PreguntaDiagnostico",
+        back_populates="tipo_pregunta"
+    )
