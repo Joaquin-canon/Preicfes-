@@ -39,8 +39,9 @@ class PreguntaDiagnostico(Base):
     creado_por = Column(
         Integer,
         ForeignKey("usuario.id_usuario")
+    
     )
-
+    imagen_url = Column(String(255), nullable=True)
     # =========================
     # RELACIONES
     # =========================

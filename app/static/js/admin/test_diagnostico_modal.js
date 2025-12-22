@@ -1,9 +1,9 @@
-console.log("✅ JS Test Diagnóstico cargado (UNIFICADO Y COMPLETO)");
+console.log("✅ JS Test Diagnóstico cargado (FINAL ESTABLE)");
 
 document.addEventListener("DOMContentLoaded", function () {
 
   // =====================================================
-  // ELEMENTOS PRINCIPALES
+  // ELEMENTOS
   // =====================================================
   const btnNueva = document.getElementById("btn-nueva-pregunta");
   const modal = document.getElementById("modal-nueva-pregunta");
@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const contenedor = document.getElementById("contenedor-formulario-dinamico");
   const bloqueDetalles = document.getElementById("bloque-detalles");
 
-  if (!btnNueva || !modal || !form || !tipoSelect || !contenedor || !bloqueDetalles) {
-    console.error("❌ Elementos del modal incompletos");
+  if (!form || !tipoSelect || !contenedor || !bloqueDetalles) {
+    console.error("❌ Elementos del modal faltantes");
     return;
   }
 
@@ -31,35 +31,27 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("respuesta_correcta").value = "";
   }
 
-  function abrirModal() {
+  function abrir() {
     form.reset();
     tipoSelect.value = "";
     resetModal();
     modal.classList.remove("hidden");
-    modal.setAttribute("aria-hidden", "false");
   }
 
-  function cerrarModal() {
+  function cerrar() {
     modal.classList.add("hidden");
-    modal.setAttribute("aria-hidden", "true");
     resetModal();
   }
 
-  btnNueva.addEventListener("click", abrirModal);
-  btnCerrar.addEventListener("click", cerrarModal);
-  btnCancelar.addEventListener("click", cerrarModal);
-  backdrop.addEventListener("click", cerrarModal);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-      cerrarModal();
-    }
-  });
+  btnNueva?.addEventListener("click", abrir);
+  btnCerrar?.addEventListener("click", cerrar);
+  btnCancelar?.addEventListener("click", cerrar);
+  backdrop?.addEventListener("click", cerrar);
 
   // =====================================================
-  // FORMULARIOS POR TIPO
+  // RENDERS
   // =====================================================
-  function renderSMUR() {
+  function renderOpciones() {
     return `
       <div class="form-group">
         <label>Opciones</label>
@@ -80,6 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
+  function renderSMUR() {
+    return renderOpciones();
+  }
+
   function renderAfirmaciones() {
     return `
       <div class="form-group">
@@ -93,10 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="form-group">
         <label>Respuesta correcta</label>
         <select id="respuesta_correcta_select" class="input-select">
-          <option value="0">Solo I es correcta</option>
-          <option value="1">Solo II es correcta</option>
-          <option value="2">Ambas son correctas</option>
-          <option value="3">Ninguna es correcta</option>
+          <option value="0">Solo I</option>
+          <option value="1">Solo II</option>
+          <option value="2">Ambas</option>
+          <option value="3">Ninguna</option>
         </select>
       </div>
     `;
@@ -112,32 +108,22 @@ document.addEventListener("DOMContentLoaded", function () {
         <label>Pregunta</label>
         <textarea id="pregunta_contexto" class="input-textarea"></textarea>
       </div>
-      ${renderSMUR()}
+      ${renderOpciones()}
     `;
   }
 
   function renderImagen() {
     return `
       <div class="form-group">
-        <label>Descripción de la imagen</label>
-        <textarea id="descripcion_imagen" class="input-textarea"></textarea>
+        <label>Imagen</label>
+        <input type="file" accept="image/*">
+        <small>Por ahora solo referencia visual</small>
       </div>
       <div class="form-group">
-        <label>URL de la imagen</label>
-        <input id="url_imagen" class="input-text" placeholder="https://...">
+        <label>Pregunta</label>
+        <textarea id="pregunta_imagen" class="input-textarea"></textarea>
       </div>
-      ${renderSMUR()}
-    `;
-  }
-
-  function renderTabla() {
-    return `
-      <div class="form-group">
-        <label>Datos de la tabla</label>
-        <textarea id="datos_tabla" class="input-textarea"
-          placeholder="Ej: filas y columnas en texto"></textarea>
-      </div>
-      ${renderSMUR()}
+      ${renderOpciones()}
     `;
   }
 
@@ -145,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // CAMBIO DE TIPO
   // =====================================================
   tipoSelect.addEventListener("change", () => {
-    const tipo = (tipoSelect.value || "").trim();
+    const tipo = tipoSelect.value;
     contenedor.innerHTML = "";
 
     if (!tipo) {
@@ -158,26 +144,27 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tipo === "SMUR") contenedor.innerHTML = renderSMUR();
     else if (tipo === "AFIRMACIONES") contenedor.innerHTML = renderAfirmaciones();
     else if (tipo === "SMUR_CONTEXTO") contenedor.innerHTML = renderContexto();
-    else if (tipo === "IMAGEN") contenedor.innerHTML = renderImagen();
-    else if (tipo === "TABLA") contenedor.innerHTML = renderTabla();
-    else contenedor.innerHTML = `<p>Tipo no soportado.</p>`;
+    else if (tipo === "IMAGEN" || tipo === "TABLA") contenedor.innerHTML = renderImagen();
+    else contenedor.innerHTML = "<p>Tipo no soportado</p>";
   });
 
   // =====================================================
   // SUBMIT
   // =====================================================
   form.addEventListener("submit", (e) => {
-    const tipo = (tipoSelect.value || "").trim();
+    const tipo = tipoSelect.value;
 
-    const opciones = [...contenedor.querySelectorAll(".opcion")].map(o => o.value.trim());
-    const resp = document.getElementById("respuesta_correcta_select");
-
+    // IMAGEN y TABLA = mismo flujo
     if (["SMUR","SMUR_CONTEXTO","IMAGEN","TABLA"].includes(tipo)) {
+      const opciones = [...contenedor.querySelectorAll(".opcion")].map(o => o.value.trim());
+      const resp = document.getElementById("respuesta_correcta_select");
+
       if (opciones.length !== 4 || opciones.some(o => !o)) {
         e.preventDefault();
-        alert("Completa las 4 opciones.");
+        alert("Completa las 4 opciones");
         return;
       }
+
       document.getElementById("opciones_json").value = JSON.stringify(opciones);
       document.getElementById("respuesta_correcta").value = resp.value;
       return;
@@ -185,18 +172,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (tipo === "AFIRMACIONES") {
       const afirmaciones = [...contenedor.querySelectorAll(".afirmacion")].map(a => a.value.trim());
+      const resp = document.getElementById("respuesta_correcta_select");
+
       if (afirmaciones.length !== 2 || afirmaciones.some(a => !a)) {
         e.preventDefault();
-        alert("Completa ambas afirmaciones.");
+        alert("Completa ambas afirmaciones");
         return;
       }
+
       document.getElementById("opciones_json").value = JSON.stringify(afirmaciones);
       document.getElementById("respuesta_correcta").value = resp.value;
       return;
     }
 
     e.preventDefault();
-    alert("Tipo de pregunta no válido.");
+    alert("Tipo no implementado");
   });
 
 });

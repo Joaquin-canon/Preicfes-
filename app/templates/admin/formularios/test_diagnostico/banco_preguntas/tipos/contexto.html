@@ -1,28 +1,44 @@
 <!-- CONTEXTO -->
 <div class="form-group">
-    <label>Texto / Contexto</label>
-    <textarea id="contexto"
-              class="input-textarea"
-              placeholder="Texto base del problema"
-              required></textarea>
+  <label>Texto / Contexto</label>
+  <textarea id="contexto"
+            class="input-textarea"
+            placeholder="Texto base del problema"
+            required></textarea>
 </div>
 
 <div class="form-group">
-    <label>Pregunta</label>
-    <textarea id="pregunta"
-              class="input-textarea"
-              placeholder="Pregunta relacionada con el texto"
-              required></textarea>
+  <label>Pregunta</label>
+  <textarea id="pregunta"
+            class="input-textarea"
+            placeholder="Pregunta relacionada con el texto"
+            required></textarea>
 </div>
 
 <div class="form-group">
-    <label>Opciones</label>
+  <label>Opciones</label>
 
-    {% for letra in ['A','B','C','D'] %}
-    <div class="opcion-item">
-        <input type="radio" name="correcta" value="{{ loop.index0 }}" required>
-        <span>{{ letra }}</span>
-        <input type="text" class="input-text opcion-text" required>
-    </div>
-    {% endfor %}
+  <div class="opcion-item">
+    <input type="radio" name="respuesta_ctx" value="0" required>
+    <span>A</span>
+    <input type="text" class="input-text opcion" required>
+  </div>
+
+  <div class="opcion-item">
+    <input type="radio" name="respuesta_ctx" value="1">
+    <span>B</span>
+    <input type="text" class="input-text opcion" required>
+  </div>
+
+  <div class="opcion-item">
+    <input type="radio" name="respuesta_ctx" value="2">
+    <span>C</span>
+    <input type="text" class="input-text opcion" required>
+  </div>
+
+  <div class="opcion-item">
+    <input type="radio" name="respuesta_ctx" value="3">
+    <span>D</span>
+    <input type="text" class="input-text opcion" required>
+  </div>
 </div>
