@@ -1,51 +1,177 @@
-/* ============================================================
-   LOGIN PROFESIONAL – EDTECH MODERNO
-   ============================================================ */
+/* =========================
+   RESET GLOBAL
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-.login-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+body {
     height: 100vh;
-    background: linear-gradient(
-        135deg,
-        var(--azul-profundo),
-        var(--verde-teal)
-    );
-    padding: 20px;
+    background: #f5f7fa;
 }
 
-.login-card {
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+.login-wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* =========================
+   PANEL IZQUIERDO
+========================= */
+.login-info {
+    width: 50%;
+    padding: 60px;
+    color: white;
+    background: linear-gradient(180deg, #0B3C5D, #1A9D8F);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand {
+    margin-bottom: 50px;
+}
+
+.logo {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.brand h1 {
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.features {
+    list-style: none;
+}
+
+.features li {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.icon {
+    font-size: 22px;
+}
+
+.features p {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+/* =========================
+   PANEL DERECHO
+========================= */
+.login-form {
+    width: 50%;
+    padding: 80px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form h2 {
+    color: #1A9D8F;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* =========================
+   CAMPOS DEL FORMULARIO
+========================= */
+.login-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"],
+.login-form input[type="text"] {
     width: 100%;
-    max-width: 420px;
-    background: var(--blanco);
-    padding: 35px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    animation: fadeIn .7s ease-out;
-}
-
-.logo-area {
-    text-align: center;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     margin-bottom: 20px;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--azul-profundo);
-}
-
-.login-card h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: var(--azul-profundo);
-}
-
-.signup-text {
-    margin-top: 15px;
-    text-align: center;
     font-size: 14px;
 }
-.signup-text a {
-    color: var(--verde-teal);
-    font-weight: 600;
+
+/* =========================
+   RECORDARME (FIX DEFINITIVO)
+========================= */
+.remember {
+    margin-bottom: 20px;
+}
+
+.login-form .remember-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+}
+
+.login-form .remember-check input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    accent-color: #1A9D8F;
+}
+
+/* =========================
+   BOTÓN
+========================= */
+.login-form button {
+    padding: 14px;
+    background: #1A9D8F;
+    border: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background: #14897c;
+}
+
+/* =========================
+   REGISTRO
+========================= */
+.signup {
+    margin-top: 25px;
+    font-size: 14px;
+}
+
+.signup a {
+    color: #1A9D8F;
+    text-decoration: none;
+}
+
+.signup a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   ERROR
+========================= */
+.login-error {
+    background: #ffebeb;
+    color: #c0392b;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
 }

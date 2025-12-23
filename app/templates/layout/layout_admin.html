@@ -4,65 +4,153 @@
     <meta charset="UTF-8">
     <title>{% block title %}Admin | Pre ICFES{% endblock %}</title>
 
-    <!-- CSS GLOBAL -->
-    <link rel="stylesheet" href="/static/css/Layout/layout.css">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        icfesOrange: "#FFA726",
+                        icfesOrangeSoft: "#FFB74D",
+                        icfesGreen: "#66CDAA",
+                        icfesGreenDark: "#4DB6AC",
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- CSS ESPECÍFICO -->
     {% block extra_styles %}{% endblock %}
 </head>
-<body>
+<body class="bg-gray-100">
 
-<div class="app-container">
+<div class="flex h-screen">
 
-    <!-- =========================
-         SIDEBAR ADMIN
-    ========================== -->
-    <aside class="sidebar">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="w-64 flex flex-col text-white
+                 bg-gradient-to-b
+                 from-icfesOrange
+                 via-icfesOrangeSoft
+                 to-icfesGreenDark">
 
-    <h3 class="menu-title">Administrador</h3>
+        <!-- HEADER -->
+        <div class="p-6">
+            <h2 class="text-lg font-bold">Administrador</h2>
+            <p class="text-sm opacity-90">Panel de control</p>
+        </div>
 
-    <!-- OBSERVABILIDAD -->
-    <a href="{{ url_for('admin_observabilidad') }}">
-        Observabilidad
-    </a>
+        <!-- MENU -->
+        <nav class="flex-1 px-4">
 
-    <!-- CATÁLOGO DE CONTENIDOS -->
-    <div class="menu-section">
-        <span class="menu-section-title">Contenido académico</span>
+            <!-- ===== OBSERVABILIDAD ===== -->
+            <p class="mt-4 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Observabilidad
+            </p>
 
-        <a href="/admin/catalogo-contenidos">
-            Catálogo de contenidos
-        </a>
+            <a href="{{ url_for('admin_observabilidad') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('admin_observabilidad') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    text-white hover:bg-white/20
+               {% endif %}">
+                Observabilidad
+            </a>
+
+            <!-- ===== CONTENIDO ACADÉMICO ===== -->
+            <p class="mt-6 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Contenido académico
+            </p>
+
+            <a href="/admin/catalogo-contenidos"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == '/admin/catalogo-contenidos' %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    text-white hover:bg-white/20
+               {% endif %}">
+                Catálogo de contenidos
+            </a>
+
+            <!-- ===== SISTEMA ===== -->
+            <p class="mt-6 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Sistema
+            </p>
+
+            <a href="{{ url_for('admin_roles') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('admin_roles') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    text-white hover:bg-white/20
+               {% endif %}">
+                Roles y permisos
+            </a>
+
+            <a href="{{ url_for('admin_soporte') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('admin_soporte') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    text-white hover:bg-white/20
+               {% endif %}">
+                Soporte & tickets
+            </a>
+
+        </nav>
+
+        <!-- FOOTER -->
+        <div class="p-4">
+            <a href="/logout"
+               class="block w-full text-center py-2 rounded-lg
+                      bg-icfesGreen text-white font-semibold
+                      hover:bg-icfesGreenDark transition">
+                Cerrar sesión
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <div class="flex-1 flex flex-col">
+
+        <!-- TOPBAR -->
+        <header class="h-16 bg-white flex items-center justify-between px-6 border-b">
+
+            <input
+                type="text"
+                placeholder="Buscar..."
+                class="w-64 px-4 py-2 rounded-full bg-gray-100
+                       text-sm outline-none focus:bg-white
+                       focus:ring-2 focus:ring-icfesGreen"
+            >
+
+            <div class="flex items-center gap-4">
+
+                <div class="relative">
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span class="text-xl cursor-pointer">🔔</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-full
+                                bg-gradient-to-br from-icfesGreen to-icfesGreenDark"></div>
+                    <div class="text-sm leading-tight">
+                        <p class="font-semibold">Admin</p>
+                        <p class="text-gray-500 text-xs">Administrador</p>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            {% block content %}{% endblock %}
+        </main>
+
     </div>
-
-    <!-- SISTEMA -->
-    <div class="menu-section">
-        <span class="menu-section-title">Sistema</span>
-
-        <a href="{{ url_for('admin_roles') }}">
-            Roles y permisos
-        </a>
-
-        <a href="{{ url_for('admin_soporte') }}">
-            Soporte & tickets
-        </a>
-    </div>
-
-    <div class="menu-section">
-        <a href="/logout">
-            Cerrar sesión
-        </a>
-    </div>
-
-</aside>
-
-
-    <!-- =========================
-         CONTENIDO
-    ========================== -->
-    <main class="content">
-        {% block content %}{% endblock %}
-    </main>
 
 </div>
 

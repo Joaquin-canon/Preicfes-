@@ -4,89 +4,170 @@
     <meta charset="UTF-8">
     <title>{% block title %}Pre ICFES{% endblock %}</title>
 
-    <!-- CSS GLOBAL DEL LAYOUT -->
-    <link rel="stylesheet" href="/static/css/Layout/layout.css">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        icfesOrange: "#FFA726",
+                        icfesOrangeSoft: "#FFB74D",
+                        icfesGreen: "#66CDAA",
+                        icfesGreenDark: "#4DB6AC",
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- CSS ESPECÍFICO POR VISTA -->
     {% block extra_styles %}{% endblock %}
 </head>
-<body>
+<body class="bg-gray-100">
 
-<div class="app-container">
+<div class="flex min-h-screen">
 
     <!-- =========================
          SIDEBAR / MENÚ
     ========================== -->
-    <aside class="sidebar">
+    <aside class="w-64 flex flex-col text-white
+                 bg-gradient-to-b
+                 from-icfesOrange
+                 via-icfesOrangeSoft
+                 to-icfesGreenDark">
 
-        <h3 class="menu-title">Menú</h3>
+        <!-- HEADER -->
+        <div class="p-6">
+            <h2 class="text-lg font-bold">Pre ICFES</h2>
+            <p class="text-sm opacity-90">Panel del estudiante</p>
+        </div>
 
-        <!-- INICIO -->
-        <a href="{{ url_for('estudiante_home') }}">
-            Inicio
-        </a>
+        <!-- MENU -->
+        <nav class="flex-1 px-4">
 
-        <!-- ROADMAP -->
-        <a href="{{ url_for('estudiante_roadmap') }}">
-            Roadmap
-        </a>
+            <!-- ===== INICIO ===== -->
+            <p class="mt-4 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Inicio
+            </p>
 
-        <!-- MÓDULOS SABER 11 -->
-        <div class="menu-section">
-            <span class="menu-section-title">Módulos Saber 11</span>
+            <a href="{{ url_for('estudiante_home') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_home') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
+                Inicio
+            </a>
 
-            <!-- PRACTICA (LECCIÓN) -->
-            <a href="{{ url_for('estudiante_practica') }}">
+            <a href="{{ url_for('estudiante_roadmap') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_roadmap') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
+                Roadmap
+            </a>
+
+            <!-- ===== MÓDULOS SABER 11 ===== -->
+            <p class="mt-6 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Módulos Saber 11
+            </p>
+
+            <a href="{{ url_for('estudiante_practica') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_practica') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
                 Lección
             </a>
 
-            <!-- TEST SOCIO OCUPACIONAL -->
-            <a href="{{ url_for('estudiante_test_socio') }}">
+            <a href="{{ url_for('estudiante_test_socio') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_test_socio') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
                 Test socio-ocupacional
             </a>
-        </div>
 
-        <!-- MI PROGRESO -->
-        <div class="menu-section">
-            <span class="menu-section-title">Mi progreso</span>
+            <!-- ===== MI PROGRESO ===== -->
+            <p class="mt-6 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Mi progreso
+            </p>
 
-            <a href="{{ url_for('estudiante_dashboard') }}">
+            <a href="{{ url_for('estudiante_dashboard') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_dashboard') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
                 Dashboard
             </a>
-        </div>
 
-        <!-- COMUNIDAD & AYUDA -->
-        <div class="menu-section">
-            <span class="menu-section-title">Comunidad & ayuda</span>
+            <!-- ===== COMUNIDAD ===== -->
+            <p class="mt-6 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Comunidad & ayuda
+            </p>
 
-            <a href="{{ url_for('estudiante_comunidad') }}">
+            <a href="{{ url_for('estudiante_comunidad') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_comunidad') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
                 Foro
             </a>
 
-            <a href="{{ url_for('estudiante_faq') }}">
+            <a href="{{ url_for('estudiante_faq') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_faq') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
                 Preguntas frecuentes
             </a>
-        </div>
 
-        <!-- PERFIL -->
-        <div class="menu-section">
-            <a href="{{ url_for('estudiante_perfil') }}">
+            <!-- ===== PERFIL ===== -->
+            <p class="mt-6 mb-2 text-xs font-semibold tracking-widest text-white/80 uppercase">
+                Cuenta
+            </p>
+
+            <a href="{{ url_for('estudiante_perfil') }}"
+               class="block px-4 py-2 rounded-lg text-sm transition
+               {% if request.url.path == url_for('estudiante_perfil') %}
+                    bg-white/30 font-semibold
+               {% else %}
+                    hover:bg-white/20
+               {% endif %}">
                 Perfil & ajustes
             </a>
-        </div>
 
-            <div class="menu-section">
-        <a href="/logout">
-            Cerrar sesión
-        </a>
-    </div>
+        </nav>
+
+        <!-- FOOTER -->
+        <div class="p-4">
+            <a href="/logout"
+               class="block w-full text-center py-2 rounded-lg
+                      bg-icfesGreen text-white font-semibold
+                      hover:bg-icfesGreenDark transition">
+                Cerrar sesión
+            </a>
+        </div>
 
     </aside>
 
     <!-- =========================
          CONTENIDO PRINCIPAL
     ========================== -->
-    <main class="content">
+    <main class="flex-1 p-6 overflow-y-auto">
         {% block content %}
         {% endblock %}
     </main>

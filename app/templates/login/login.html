@@ -2,20 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Login | Pre-ICFES</title>
 
-    <link rel="stylesheet" href="/static/css/layout/layout.css">
     <link rel="stylesheet" href="/static/css/login/login.css">
 </head>
-
 <body>
+    
 
-<div class="login-container">
-    <div class="login-card">
+<div class="login-wrapper">
 
-        <div class="logo-area">📘 ICFES Prep</div>
+    <!-- PANEL IZQUIERDO -->
+    <div class="login-info">
+        <div class="brand">
+            <div class="logo">✳</div>
+            <h1><br>Pre-ICFES</h1>
+        </div>
 
-        <h2>Iniciar Sesión</h2>
+        <ul class="features">
+            <li>
+                <span class="icon">👥</span>
+                <div>
+                    <strong> text</strong>
+                    <p>Administra usuarios de forma eficiente</p>
+                </div>
+            </li>
+
+            <li>
+                <span class="icon">📚</span>
+                <div>
+                    <strong>Diversidad de cursos</strong>
+                    <p>Variedad de contenido educativo</p>
+                </div>
+            </li>
+
+            <li>
+                <span class="icon">📊</span>
+                <div>
+                    <strong>Reportes avanzados</strong>
+                    <p>Análisis detallado de datos</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- PANEL DERECHO -->
+    <div class="login-form">
+
+        <h2>¡Bienvenido de nuevo!</h2>
+        <p class="subtitle">Ingresa tus credenciales para continuar</p>
 
         {% if error %}
             <div class="login-error">
@@ -24,16 +58,36 @@
         {% endif %}
 
         <form action="/login" method="POST">
-            <input type="email" name="correo" placeholder="Correo" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <label>Correo electrónico</label>
+            <input type="email" name="correo" required>
 
-            <button type="submit" class="btn btn-progress">Ingresar</button>
+            <label>Contraseña</label>
+            <input type="password" name="password" required>
+
+            <div class="remember">
+                <label class="remember-check">
+                    <input type="checkbox" name="remember">
+                    <span>Recordarme</span>
+                </label>
+            </div>
+
+
+            <button type="submit">Iniciar sesión →</button>
         </form>
+             
 
-        <p class="signup-text">
-            ¿No tienes cuenta? <a href="#">Crear una</a>
+        <p class="signup">
+            ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
         </p>
+        <div class="mt-6 text-center">
+        <a href="/"
+        class="text-sm font-medium text-gray-600 hover:text-primary">
+            Volver al inicio
+        </a>
+</div>
+
     </div>
+
 </div>
 
 </body>

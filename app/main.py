@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 # Routers
 from app.routers.login import router as login_router
@@ -12,6 +13,9 @@ from app.routers.admin.router import router as admin_router
 def create_app() -> FastAPI:
     app = FastAPI()
 
+    # Templates
+    templates = Jinja2Templates(directory="app/templates")
+
     # Static files
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
@@ -21,9 +25,13 @@ def create_app() -> FastAPI:
     app.include_router(estudiante_router)
     app.include_router(admin_router)
 
-    @app.get("/")
-    def root():
-        return RedirectResponse(url="/login")
+    # HOME PÚBLICO (LANDING)
+    @app.get("/", response_class=HTMLResponse)
+    async def root(request: Request):
+        return templates.TemplateResponse(
+            "home/home.html",
+            {"request": request}
+        )
 
     return app
 

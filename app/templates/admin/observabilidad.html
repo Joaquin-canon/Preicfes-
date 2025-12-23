@@ -2,50 +2,68 @@
 
 {% block title %}Observabilidad{% endblock %}
 
-{% block extra_styles %}
-<link rel="stylesheet" href="/static/css/admin/observabilidad.css">
-{% endblock %}
-
 {% block content %}
-<div class="observabilidad-container">
+<div class="space-y-8">
 
     <!-- =====================
          HEADER
     ====================== -->
-    <div class="observabilidad-header">
-        <h1>Panel de Observabilidad</h1>
-        <span class="subtitle">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">
+            Panel de Observabilidad
+        </h1>
+        <p class="text-sm text-gray-500">
             Estado general del sistema y control de accesos (RBAC)
-        </span>
+        </p>
     </div>
 
     <!-- =====================
          KPIs
     ====================== -->
-    <section class="kpi-grid">
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        <div class="kpi-card success">
-            <span class="kpi-title">Uptime</span>
-            <span class="kpi-value">{{ data.uptime }}</span>
-            <span class="kpi-desc">Últimos 30 días</span>
+        <!-- UPTIME -->
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-green-500">
+            <p class="text-sm text-gray-500">Uptime</p>
+            <p class="text-2xl font-bold text-green-600">
+                {{ data.uptime }}
+            </p>
+            <p class="text-xs text-gray-400">
+                Últimos 30 días
+            </p>
         </div>
 
-        <div class="kpi-card warning">
-            <span class="kpi-title">Errores</span>
-            <span class="kpi-value">{{ data.errores }}</span>
-            <span class="kpi-desc">Errores críticos detectados</span>
+        <!-- ERRORES -->
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-yellow-500">
+            <p class="text-sm text-gray-500">Errores</p>
+            <p class="text-2xl font-bold text-yellow-600">
+                {{ data.errores }}
+            </p>
+            <p class="text-xs text-gray-400">
+                Errores críticos detectados
+            </p>
         </div>
 
-        <div class="kpi-card info">
-            <span class="kpi-title">Latencia promedio</span>
-            <span class="kpi-value">{{ data.latencia }}</span>
-            <span class="kpi-desc">Tiempo de respuesta</span>
+        <!-- LATENCIA -->
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-blue-500">
+            <p class="text-sm text-gray-500">Latencia promedio</p>
+            <p class="text-2xl font-bold text-blue-600">
+                {{ data.latencia }}
+            </p>
+            <p class="text-xs text-gray-400">
+                Tiempo de respuesta
+            </p>
         </div>
 
-        <div class="kpi-card neutral">
-            <span class="kpi-title">Estado</span>
-            <span class="kpi-value">{{ data.estado }}</span>
-            <span class="kpi-desc">Salud del sistema</span>
+        <!-- ESTADO -->
+        <div class="bg-white rounded-xl shadow p-5 border-l-4 border-gray-500">
+            <p class="text-sm text-gray-500">Estado</p>
+            <p class="text-2xl font-bold text-gray-700">
+                {{ data.estado }}
+            </p>
+            <p class="text-xs text-gray-400">
+                Salud del sistema
+            </p>
         </div>
 
     </section>
@@ -53,94 +71,125 @@
     <!-- =====================
          EVENTOS RECIENTES
     ====================== -->
-    <section class="panel">
-        <h2>Eventos recientes</h2>
+    <section class="bg-white rounded-xl shadow p-6">
 
-        <ul class="event-list">
-            <li>
-                <span class="event-time">Hace 5 min</span>
-                <span class="event-ok">✔ Servicio API respondió correctamente</span>
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Eventos recientes
+        </h2>
+
+        <ul class="space-y-3 text-sm">
+
+            <li class="flex justify-between">
+                <span class="text-gray-400">Hace 5 min</span>
+                <span class="text-green-600 font-medium">
+                    ✔ Servicio API respondió correctamente
+                </span>
             </li>
-            <li>
-                <span class="event-time">Hace 32 min</span>
-                <span class="event-warn">⚠ Pico de latencia detectado</span>
+
+            <li class="flex justify-between">
+                <span class="text-gray-400">Hace 32 min</span>
+                <span class="text-yellow-600 font-medium">
+                    ⚠ Pico de latencia detectado
+                </span>
             </li>
-            <li>
-                <span class="event-time">Hace 2 h</span>
-                <span class="event-ok">✔ Conexión a base de datos estable</span>
+
+            <li class="flex justify-between">
+                <span class="text-gray-400">Hace 2 h</span>
+                <span class="text-green-600 font-medium">
+                    ✔ Conexión a base de datos estable
+                </span>
             </li>
-            <li>
-                <span class="event-time">Ayer</span>
-                <span class="event-ok">✔ Sistema reiniciado sin errores</span>
+
+            <li class="flex justify-between">
+                <span class="text-gray-400">Ayer</span>
+                <span class="text-green-600 font-medium">
+                    ✔ Sistema reiniciado sin errores
+                </span>
             </li>
+
         </ul>
     </section>
 
     <!-- =====================
          MATRIZ RBAC
     ====================== -->
-    <section class="panel rbac-panel">
-        <h2>Matriz de Control de Accesos (RBAC)</h2>
-        <p class="panel-subtitle">
+    <section class="bg-white rounded-xl shadow p-6">
+
+        <h2 class="text-lg font-semibold text-gray-800">
+            Matriz de Control de Accesos (RBAC)
+        </h2>
+
+        <p class="text-sm text-gray-500 mb-4">
             Definición de permisos por rol dentro de la plataforma Pre-ICFES
         </p>
 
-        <div class="rbac-table-wrapper">
-            <table class="rbac-table">
-                <thead>
+        <!-- TABLE -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full border text-sm">
+
+                <thead class="bg-gray-100">
                     <tr>
-                        <th>Módulo / Acción</th>
-                        <th>Administrador</th>
-                        <th>Coordinador</th>
-                        <th>Docente</th>
-                        <th>Estudiante</th>
+                        <th class="text-left px-4 py-2 border">Módulo / Acción</th>
+                        <th class="px-4 py-2 border">Administrador</th>
+                        <th class="px-4 py-2 border">Coordinador</th>
+                        <th class="px-4 py-2 border">Docente</th>
+                        <th class="px-4 py-2 border">Estudiante</th>
                     </tr>
                 </thead>
-                <tbody>
+
+                <tbody class="text-center">
+
                     <tr>
-                        <td>Catálogo de contenidos</td>
-                        <td class="allow">✔</td>
-                        <td class="allow">✔</td>
-                        <td class="read">👁</td>
-                        <td class="deny">✖</td>
+                        <td class="text-left px-4 py-2 border">Catálogo de contenidos</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-blue-500 font-bold">👁</td>
+                        <td class="border text-red-500 font-bold">✖</td>
                     </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="text-left px-4 py-2 border">Gestión de cuestionarios</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-red-500 font-bold">✖</td>
+                    </tr>
+
                     <tr>
-                        <td>Gestión de cuestionarios</td>
-                        <td class="allow">✔</td>
-                        <td class="allow">✔</td>
-                        <td class="allow">✔</td>
-                        <td class="deny">✖</td>
+                        <td class="text-left px-4 py-2 border">Versionado de formularios</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-red-500 font-bold">✖</td>
+                        <td class="border text-red-500 font-bold">✖</td>
                     </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="text-left px-4 py-2 border">Resultados y reportes</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-blue-500 font-bold">👁</td>
+                        <td class="border text-blue-500 font-bold">👁</td>
+                    </tr>
+
                     <tr>
-                        <td>Versionado de formularios</td>
-                        <td class="allow">✔</td>
-                        <td class="allow">✔</td>
-                        <td class="deny">✖</td>
-                        <td class="deny">✖</td>
+                        <td class="text-left px-4 py-2 border">Configuración del sistema</td>
+                        <td class="border text-green-600 font-bold">✔</td>
+                        <td class="border text-red-500 font-bold">✖</td>
+                        <td class="border text-red-500 font-bold">✖</td>
+                        <td class="border text-red-500 font-bold">✖</td>
                     </tr>
-                    <tr>
-                        <td>Resultados y reportes</td>
-                        <td class="allow">✔</td>
-                        <td class="allow">✔</td>
-                        <td class="read">👁</td>
-                        <td class="read">👁</td>
-                    </tr>
-                    <tr>
-                        <td>Configuración del sistema</td>
-                        <td class="allow">✔</td>
-                        <td class="deny">✖</td>
-                        <td class="deny">✖</td>
-                        <td class="deny">✖</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
 
-        <div class="rbac-legend">
+        <!-- LEGEND -->
+        <div class="flex flex-wrap gap-4 mt-4 text-sm">
             <span><strong>✔</strong> Acceso completo</span>
             <span><strong>👁</strong> Solo lectura</span>
             <span><strong>✖</strong> Sin acceso</span>
         </div>
+
     </section>
 
 </div>
