@@ -15,8 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const tipoSelect = document.getElementById("tipo_pregunta");
   const contenedor = document.getElementById("contenedor-formulario-dinamico");
   const bloqueDetalles = document.getElementById("bloque-detalles");
+  const bloqueImagen = document.getElementById("bloque-imagen");
 
-  if (!form || !tipoSelect || !contenedor || !bloqueDetalles) {
+  if (!form || !tipoSelect || !contenedor || !bloqueDetalles || !bloqueImagen) {
     console.error("❌ Elementos del modal faltantes");
     return;
   }
@@ -26,15 +27,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // =====================================================
   function resetModal() {
     bloqueDetalles.style.display = "none";
+    bloqueImagen.style.display = "none";
     contenedor.innerHTML = "";
     document.getElementById("opciones_json").value = "";
     document.getElementById("respuesta_correcta").value = "";
+    form.reset(); // limpia también el input file
   }
 
   function abrir() {
-    form.reset();
-    tipoSelect.value = "";
     resetModal();
+    tipoSelect.value = "";
     modal.classList.remove("hidden");
   }
 
@@ -70,10 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
         </select>
       </div>
     `;
-  }
-
-  function renderSMUR() {
-    return renderOpciones();
   }
 
   function renderAfirmaciones() {
@@ -112,27 +110,14 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   }
 
-  function renderImagen() {
-    return `
-      <div class="form-group">
-        <label>Imagen</label>
-        <input type="file" accept="image/*">
-        <small>Por ahora solo referencia visual</small>
-      </div>
-      <div class="form-group">
-        <label>Pregunta</label>
-        <textarea id="pregunta_imagen" class="input-textarea"></textarea>
-      </div>
-      ${renderOpciones()}
-    `;
-  }
-
   // =====================================================
   // CAMBIO DE TIPO
   // =====================================================
   tipoSelect.addEventListener("change", () => {
     const tipo = tipoSelect.value;
+
     contenedor.innerHTML = "";
+    bloqueImagen.style.display = "none";
 
     if (!tipo) {
       resetModal();
@@ -141,11 +126,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     bloqueDetalles.style.display = "block";
 
-    if (tipo === "SMUR") contenedor.innerHTML = renderSMUR();
-    else if (tipo === "AFIRMACIONES") contenedor.innerHTML = renderAfirmaciones();
-    else if (tipo === "SMUR_CONTEXTO") contenedor.innerHTML = renderContexto();
-    else if (tipo === "IMAGEN" || tipo === "TABLA") contenedor.innerHTML = renderImagen();
-    else contenedor.innerHTML = "<p>Tipo no soportado</p>";
+    if (tipo === "SMUR") {
+      contenedor.innerHTML = renderOpciones();
+    }
+    else if (tipo === "AFIRMACIONES") {
+      contenedor.innerHTML = renderAfirmaciones();
+    }
+    else if (tipo === "SMUR_CONTEXTO") {
+      contenedor.innerHTML = renderContexto();
+    }
+    else if (tipo === "IMAGEN" || tipo === "TABLA") {
+      bloqueImagen.style.display = "block";
+      contenedor.innerHTML = renderOpciones();
+    }
+    else {
+      contenedor.innerHTML = "<p>Tipo no soportado</p>";
+    }
   });
 
   // =====================================================
@@ -154,9 +150,12 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", (e) => {
     const tipo = tipoSelect.value;
 
-    // IMAGEN y TABLA = mismo flujo
-    if (["SMUR","SMUR_CONTEXTO","IMAGEN","TABLA"].includes(tipo)) {
-      const opciones = [...contenedor.querySelectorAll(".opcion")].map(o => o.value.trim());
+    // Tipos con opciones
+    if (["SMUR", "SMUR_CONTEXTO", "IMAGEN", "TABLA"].includes(tipo)) {
+
+      const opciones = [...contenedor.querySelectorAll(".opcion")]
+        .map(o => o.value.trim());
+
       const resp = document.getElementById("respuesta_correcta_select");
 
       if (opciones.length !== 4 || opciones.some(o => !o)) {
@@ -165,13 +164,25 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
+      // Validación EXTRA para imagen
+      if ((tipo === "IMAGEN" || tipo === "TABLA")) {
+        const inputImagen = document.querySelector('input[name="imagen"]');
+        if (!inputImagen || !inputImagen.files || inputImagen.files.length === 0) {
+          e.preventDefault();
+          alert("Debes seleccionar una imagen");
+          return;
+        }
+      }
+
       document.getElementById("opciones_json").value = JSON.stringify(opciones);
       document.getElementById("respuesta_correcta").value = resp.value;
       return;
     }
 
     if (tipo === "AFIRMACIONES") {
-      const afirmaciones = [...contenedor.querySelectorAll(".afirmacion")].map(a => a.value.trim());
+      const afirmaciones = [...contenedor.querySelectorAll(".afirmacion")]
+        .map(a => a.value.trim());
+
       const resp = document.getElementById("respuesta_correcta_select");
 
       if (afirmaciones.length !== 2 || afirmaciones.some(a => !a)) {

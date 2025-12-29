@@ -1,0 +1,95 @@
+<div id="modal-nueva-pregunta"
+     class="fixed inset-0 z-50 hidden flex items-center justify-center">
+
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/50" id="modal-backdrop"></div>
+
+  <!-- Modal -->
+  <div class="relative w-full max-w-3xl mx-4 bg-white rounded-xl shadow-lg
+              max-h-[90vh] flex flex-col">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h3 class="text-lg font-semibold truncate">
+        Nueva pregunta – {{ test.nombre }}
+      </h3>
+      <button type="button" id="btn-cerrar-modal" class="text-xl">×</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="overflow-y-auto px-6 py-4 flex-1">
+
+      <form id="form-nueva-pregunta"
+            method="post"
+            action="/admin/catalogo/tests/{{ test.slug }}/preguntas"
+            class="space-y-5">
+
+        <!-- ÁREA (OBLIGATORIA) -->
+        <div>
+          <label class="block text-sm mb-1">Área</label>
+          <select name="area_id" required
+                  class="w-full border rounded px-3 py-2">
+            <option value="">Seleccione un área</option>
+            {% for a in areas %}
+              <option value="{{ a.id_area }}">{{ a.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- TIPO -->
+        <div>
+          <label class="block text-sm mb-1">Tipo de pregunta</label>
+          <select id="tipo_pregunta"
+                  name="tipo_pregunta_codigo"
+                  required
+                  class="w-full border rounded px-3 py-2">
+            <option value="">Seleccione un tipo</option>
+            {% for tipo in tipos_pregunta %}
+              <option value="{{ tipo.codigo }}">{{ tipo.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- BLOQUE DINÁMICO -->
+        <div id="bloque-detalles" class="hidden space-y-4">
+
+          <div>
+            <label>Dificultad</label>
+            <select name="dificultad" class="w-full border p-2">
+              <option>Baja</option>
+              <option>Media</option>
+              <option>Alta</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Enunciado</label>
+            <textarea name="enunciado"
+                      class="w-full border p-2"
+                      required></textarea>
+          </div>
+
+          <div id="contenedor-formulario-dinamico"></div>
+
+          <input type="hidden" name="opciones_json" id="opciones_json">
+          <input type="hidden" name="respuesta_correcta" id="respuesta_correcta">
+
+        </div>
+
+      </form>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="flex justify-end gap-3 px-6 py-4 border-t">
+      <button type="button" id="btn-cancelar" class="border px-4 py-2">
+        Cancelar
+      </button>
+      <button type="submit"
+              form="form-nueva-pregunta"
+              class="bg-blue-600 text-white px-4 py-2 rounded">
+        Guardar
+      </button>
+    </div>
+
+  </div>
+</div>

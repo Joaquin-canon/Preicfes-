@@ -214,3 +214,28 @@ document.querySelectorAll('.btn-editar').forEach(btn => {
             `/admin/catalogo/preguntas/${btn.dataset.id}/editar`;
     });
 });
+
+const tipoSelect = document.getElementById("tipo_pregunta");
+  const campoContexto = document.getElementById("campo-contexto");
+  const campoImagen = document.getElementById("campo-imagen");
+  const bloqueDetalles = document.getElementById("bloque-detalles");
+
+  tipoSelect.addEventListener("change", () => {
+    const tipo = tipoSelect.value;
+
+    // Mostrar bloque general
+    bloqueDetalles.classList.remove("hidden");
+
+    // Reset
+    campoContexto.classList.add("hidden");
+    campoImagen.classList.add("hidden");
+
+    // AJUSTA estos códigos a los tuyos reales
+    if (tipo === "CONTEXTO") {
+      campoContexto.classList.remove("hidden");
+    }
+
+    if (tipo === "IMAGEN" || tipo === "CONTEXTO_IMAGEN") {
+      campoImagen.classList.remove("hidden");
+    }
+  });

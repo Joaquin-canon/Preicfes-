@@ -4,10 +4,11 @@ from fastapi.responses import HTMLResponse
 from app.core.auth.roles import require_role
 
 router = APIRouter(
-    prefix="/admin",
-    tags=["Admin"],
+    prefix="/admin/catalogo",
+    tags=["Admin - Catálogo"],
     dependencies=[Depends(require_role("admin"))]
 )
+
 
 templates = Jinja2Templates(directory="app/templates")
 

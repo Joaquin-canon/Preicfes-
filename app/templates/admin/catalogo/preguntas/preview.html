@@ -7,19 +7,27 @@ Previsualización de pregunta
 {% block content %}
 <div class="max-w-3xl mx-auto space-y-6">
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+    ========================== -->
     <section class="bg-white rounded-xl shadow p-6">
         <h1 class="text-2xl font-bold text-gray-800">
             Previsualización de pregunta
         </h1>
+
         <p class="mt-1 text-sm text-gray-500">
-            Área: <strong>{{ pregunta.area.nombre }}</strong> ·
-            Tipo: <strong>{{ pregunta.tipo_pregunta.nombre }}</strong> ·
-            Dificultad: <strong>{{ pregunta.dificultad }}</strong>
+            Área:
+            <strong>{{ pregunta.area.nombre }}</strong>
+            · Tipo:
+            <strong>{{ pregunta.tipo_pregunta.nombre }}</strong>
+            · Dificultad:
+            <strong>{{ pregunta.dificultad }}</strong>
         </p>
     </section>
 
-    <!-- CONTEXTO (solo si existe) -->
+    <!-- =========================
+         CONTEXTO (solo si existe)
+    ========================== -->
     {% if pregunta.contexto %}
     <section class="bg-white rounded-xl shadow p-6">
         <div class="prose max-w-none">
@@ -28,26 +36,31 @@ Previsualización de pregunta
     </section>
     {% endif %}
 
-    <!-- IMAGEN (solo si existe) -->
-    {% if pregunta.imagen %}
-    <section class="bg-white rounded-xl shadow p-6">
+    <!-- =========================
+         IMAGEN (solo si existe)
+    ========================== -->
+    {% if pregunta.imagen_url %}
+    <section class="bg-white rounded-xl shadow p-6 flex justify-center">
         <img
-            src="{{ url_for('static', path='uploads/preguntas/' ~ pregunta.imagen) }}"
+            src="{{ pregunta.imagen_url }}"
             alt="Imagen de la pregunta"
-            class="max-w-full rounded border mx-auto"
+            class="max-w-full max-h-[400px] rounded border"
         >
     </section>
     {% endif %}
 
-    <!-- ENUNCIADO -->
+    <!-- =========================
+         ENUNCIADO + OPCIONES
+    ========================== -->
     <section class="bg-white rounded-xl shadow p-6">
+
         <p class="text-lg font-medium text-gray-800 mb-4">
             {{ pregunta.enunciado }}
         </p>
 
-        <!-- OPCIONES -->
         <ul class="space-y-3">
             {% set letras = ['A','B','C','D','E','F'] %}
+
             {% for opcion in pregunta.opciones %}
                 {% set idx = loop.index0 %}
                 <li class="flex items-start gap-3 p-3 rounded border
@@ -57,8 +70,13 @@ Previsualización de pregunta
                         border-gray-200
                     {% endif %}
                 ">
-                    <span class="font-bold">{{ letras[idx] }}.</span>
-                    <span>{{ opcion }}</span>
+                    <span class="font-bold text-gray-700">
+                        {{ letras[idx] }}.
+                    </span>
+
+                    <span class="text-gray-800">
+                        {{ opcion }}
+                    </span>
 
                     {% if pregunta.respuesta_correcta == idx %}
                         <span class="ml-auto text-green-600 font-semibold">
@@ -70,7 +88,9 @@ Previsualización de pregunta
         </ul>
     </section>
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
     <div class="flex justify-end">
         <a href="javascript:history.back()"
            class="px-4 py-2 border rounded hover:bg-gray-100">

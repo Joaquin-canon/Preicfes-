@@ -22,9 +22,10 @@
       <form id="form-nueva-pregunta"
             method="post"
             action="/admin/catalogo/tests/{{ test.slug }}/preguntas"
+            enctype="multipart/form-data"
             class="space-y-5">
 
-        <!-- ÁREA (OBLIGATORIA) -->
+        <!-- ÁREA -->
         <div>
           <label class="block text-sm mb-1">Área</label>
           <select name="area_id" required
@@ -45,14 +46,19 @@
                   class="w-full border rounded px-3 py-2">
             <option value="">Seleccione un tipo</option>
             {% for tipo in tipos_pregunta %}
-              <option value="{{ tipo.codigo }}">{{ tipo.nombre }}</option>
+              <option value="{{ tipo.codigo }}"
+                      data-usa-contexto="{{ tipo.usa_contexto }}"
+                      data-usa-imagen="{{ tipo.usa_imagen }}">
+                {{ tipo.nombre }}
+              </option>
             {% endfor %}
           </select>
         </div>
 
-        <!-- BLOQUE DINÁMICO -->
+        <!-- BLOQUE DINÁMICO (NO SE TOCA EL ID) -->
         <div id="bloque-detalles" class="hidden space-y-4">
 
+          <!-- DIFICULTAD -->
           <div>
             <label>Dificultad</label>
             <select name="dificultad" class="w-full border p-2">
@@ -62,6 +68,24 @@
             </select>
           </div>
 
+          <!-- CONTEXTO -->
+          <div id="bloque-contexto" class="hidden">
+            <label>Contexto</label>
+            <textarea name="contexto"
+                      class="w-full border p-2"
+                      rows="4"></textarea>
+          </div>
+
+          <!-- IMAGEN -->
+          <div id="bloque-imagen" class="hidden">
+            <label>Imagen</label>
+            <input type="file"
+                   name="imagen"
+                   accept="image/*"
+                   class="w-full border p-2">
+          </div>
+
+          <!-- ENUNCIADO -->
           <div>
             <label>Enunciado</label>
             <textarea name="enunciado"
@@ -69,11 +93,11 @@
                       required></textarea>
           </div>
 
+          <!-- AQUÍ SIGUE TU FORMULARIO DINÁMICO -->
           <div id="contenedor-formulario-dinamico"></div>
 
           <input type="hidden" name="opciones_json" id="opciones_json">
           <input type="hidden" name="respuesta_correcta" id="respuesta_correcta">
-
         </div>
 
       </form>

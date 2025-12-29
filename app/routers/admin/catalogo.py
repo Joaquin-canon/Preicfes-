@@ -1,26 +1,32 @@
-from fastapi import APIRouter, Request, HTTPException, Depends
-from fastapi.responses import HTMLResponse
+from fastapi import (
+    APIRouter,
+    Request,
+    Depends,
+    Form,
+    HTTPException,
+    UploadFile,
+    File,
+    Query,
+)
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
-from app.models.usuario import Usuario
+
+import json
+import os
+import uuid
+
 from app.core.templates import templates
 from app.database.database import get_db
-from fastapi import Query
+
 from app.models.area import Area
 from app.models.tipo_pregunta import TipoPregunta
+
 from app.models.pregunta_diagnostico import PreguntaDiagnostico
-from fastapi import Form
-import json
-from fastapi import APIRouter, Request, Depends, Form, HTTPException
-from fastapi.responses import RedirectResponse
-from sqlalchemy.orm import Session
-import json
+from fastapi import UploadFile, File, Form
 
-from app.database.database import get_db
-from app.models.pregunta_diagnostico import PreguntaDiagnostico
-from app.models.tipo_pregunta import TipoPregunta
-
-
-
+# =========================================================
+# ROUTER
+# =========================================================
 router = APIRouter(
     prefix="/catalogo",
     tags=["Admin - Catálogo"]
@@ -32,17 +38,6 @@ router = APIRouter(
 @router.get("", response_class=HTMLResponse)
 def catalogo(request: Request):
 
-    """
-    Vista principal del catálogo de áreas y tests especiales para el administrador.
-
-    Se devuelve una respuesta HTML con una plantilla que contiene las áreas y tests especiales.
-
-    Parameters:
-    request (Request): solicitud HTTP.
-
-    Returns:
-    TemplateResponse: respuesta HTML con la plantilla renderizada.
-    """
     areas = [
         {
             "codigo": "RM",
@@ -86,13 +81,13 @@ def catalogo(request: Request):
             "nombre": "Test diagnóstico breve",
             "slug": "test-diagnostico",
             "icono": "🧠",
-            "descripcion": "Evaluación inicial para determinar el nivel académico"
+            "descripcion": "Evaluación inicial"
         },
         {
             "nombre": "Test socio-ocupacional",
             "slug": "socio-ocupacional",
             "icono": "🧑‍💼",
-            "descripcion": "Orientación vocacional y ocupacional"
+            "descripcion": "Orientación vocacional"
         }
     ]
 
@@ -106,97 +101,19 @@ def catalogo(request: Request):
     )
 
 # =========================================================
-# ÁREAS → MÓDULOS DE ESTUDIO
-# =========================================================
-@router.get("/areas/{slug}", response_class=HTMLResponse)
-def gestionar_area(request: Request, slug: str):
-
-    areas = {
-        "razonamiento-matematico": {
-            "codigo": "RM",
-            "nombre": "Razonamiento matemático",
-            "descripcion": "Evaluación del pensamiento lógico y matemático.",
-            "estado": "Activo",
-            "modulos_creados": 3,
-            "modulos_activos": 3,
-            "tiempo_total": "2h 30min"
-        },
-        "lectura-critica": {
-            "codigo": "LC",
-            "nombre": "Lectura crítica",
-            "descripcion": "Comprensión, interpretación y análisis de textos.",
-            "estado": "Activo",
-            "modulos_creados": 2,
-            "modulos_activos": 2,
-            "tiempo_total": "1h 45min"
-        },
-        "ciencias-naturales": {
-            "codigo": "CN",
-            "nombre": "Ciencias naturales",
-            "descripcion": "Pensamiento científico y análisis de fenómenos.",
-            "estado": "Activo",
-            "modulos_creados": 4,
-            "modulos_activos": 3,
-            "tiempo_total": "3h 10min"
-        },
-        "ingles": {
-            "codigo": "EN",
-            "nombre": "Inglés",
-            "descripcion": "Comprensión lectora y uso del idioma inglés.",
-            "estado": "Activo",
-            "modulos_creados": 2,
-            "modulos_activos": 2,
-            "tiempo_total": "1h 20min"
-        },
-        "competencias-ciudadanas": {
-            "codigo": "CC",
-            "nombre": "Competencias ciudadanas",
-            "descripcion": "Convivencia, participación y ciudadanía.",
-            "estado": "Activo",
-            "modulos_creados": 3,
-            "modulos_activos": 3,
-            "tiempo_total": "2h 00min"
-        }
-    }
-
-    area = areas.get(slug)
-    if not area:
-        raise HTTPException(status_code=404, detail="Área no encontrada")
-
-    return templates.TemplateResponse(
-        "admin/catalogo/area_modulo.html",
-        {
-            "request": request,
-            "area": area
-        }
-    )
-
-# =========================================================
-# TESTS → FORMULARIO PRINCIPAL
+# TEST → FORMULARIO
 # =========================================================
 @router.get("/tests/{slug}", response_class=HTMLResponse)
 def gestionar_test(request: Request, slug: str):
 
     tests = {
         "test-diagnostico": {
-            "slug": "test-diagnostico",
-            "nombre": "Test diagnóstico breve",
-            "descripcion": "Evaluación inicial para identificar el nivel académico del estudiante.",
-            "estado": "Activo",
-            "duracion": 20,
-            "preguntas": 20,
-            "intentos": 1,
-            "uso": "Orientación académica"
+            "slug": slug,
+            "nombre": "Test diagnóstico breve"
         },
         "socio-ocupacional": {
-            "slug": "socio-ocupacional",
-            "nombre": "Test socio-ocupacional",
-            "descripcion": "Evaluación de intereses, habilidades y orientación vocacional.",
-            "estado": "Activo",
-            "duracion": 25,
-            "preguntas": 40,
-            "intentos": 1,
-            "uso": "Orientación vocacional"
+            "slug": slug,
+            "nombre": "Test socio-ocupacional"
         }
     }
 
@@ -214,10 +131,10 @@ def gestionar_test(request: Request, slug: str):
     )
 
 # =========================================================
-# TESTS → BANCO DE PREGUNTAS (DESDE BD)
+# BANCO DE PREGUNTAS
 # =========================================================
 @router.get("/tests/{slug}/banco", response_class=HTMLResponse)
-def banco_preguntas_test(
+def banco_preguntas(
     request: Request,
     slug: str,
     db: Session = Depends(get_db),
@@ -229,7 +146,9 @@ def banco_preguntas_test(
     estado: str | None = Query(None),
     q: str | None = Query(None),
 ):
-
+    # =========================
+    # TESTS DISPONIBLES
+    # =========================
     tests = {
         "test-diagnostico": {
             "slug": "test-diagnostico",
@@ -247,9 +166,11 @@ def banco_preguntas_test(
     if not test:
         raise HTTPException(status_code=404, detail="Test no encontrado")
 
+    # =========================
+    # QUERY BASE
+    # =========================
     query = db.query(PreguntaDiagnostico)
 
-    # ✅ CONVERSIÓN SEGURA
     if area_id:
         query = query.filter(PreguntaDiagnostico.area_id == int(area_id))
 
@@ -268,7 +189,9 @@ def banco_preguntas_test(
     if q:
         query = query.filter(PreguntaDiagnostico.enunciado.ilike(f"%{q}%"))
 
+    # =========================
     # PAGINACIÓN
+    # =========================
     page_size = 10
     total = query.count()
     total_pages = max((total + page_size - 1) // page_size, 1)
@@ -281,20 +204,26 @@ def banco_preguntas_test(
         .all()
     )
 
+    # =========================
+    # DATOS PARA FILTROS
+    # =========================
     areas = db.query(Area).filter(Area.activa == True).all()
     tipos_pregunta = db.query(TipoPregunta).filter(TipoPregunta.activa == True).all()
 
+    # =========================
+    # RENDER TEMPLATE (CLAVE)
+    # =========================
     return templates.TemplateResponse(
         "admin/catalogo/preguntas/banco.html",
         {
             "request": request,
-            "test": test,
+            "test": test,                     # 🔥 ESTO FALTABA
+            "preguntas": preguntas,
             "areas": areas,
             "tipos_pregunta": tipos_pregunta,
-            "preguntas": preguntas,
             "page": page,
             "total_pages": total_pages,
-            "filters": {
+            "filters": {                     # 🔥 ESTO FALTABA
                 "area_id": area_id,
                 "tipo_id": tipo_id,
                 "dificultad": dificultad,
@@ -303,113 +232,74 @@ def banco_preguntas_test(
             }
         }
     )
-from fastapi import Form
-import json
 
+
+
+# =========================================================
+# CREAR PREGUNTA
+# =========================================================
 
 @router.post("/tests/{slug}/preguntas")
-def crear_pregunta_test(
+async def crear_pregunta(
     slug: str,
-    db: Session = Depends(get_db),
-
+    request: Request,
     area_id: int = Form(...),
     tipo_pregunta_codigo: str = Form(...),
     dificultad: str = Form(...),
-
-    contexto: str | None = Form(None),  # ✅ NUEVO
     enunciado: str = Form(...),
-
-    opciones_json: str = Form(...),
-    respuesta_correcta: int | None = Form(None),
+    contexto: str = Form(None),
+    opciones_json: str = Form(None),
+    respuesta_correcta: str = Form(None),
+    imagen: UploadFile = File(None),  
+    db: Session = Depends(get_db)
 ):
+    print("IMAGEN RECIBIDA:", imagen)
 
-    # 🔹 Validar test
-    if slug not in ["test-diagnostico", "socio-ocupacional"]:
-        raise HTTPException(status_code=404, detail="Test no válido")
-
-    # 🔹 Buscar tipo de pregunta
     tipo = db.query(TipoPregunta).filter(
         TipoPregunta.codigo == tipo_pregunta_codigo
     ).first()
 
     if not tipo:
-        raise HTTPException(status_code=400, detail="Tipo de pregunta inválido")
+        raise HTTPException(status_code=400, detail="Tipo inválido")
 
-    # 🔹 Parsear opciones JSON
-    try:
-        opciones = json.loads(opciones_json)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Opciones inválidas")
+    opciones = json.loads(opciones_json)
 
-    # 🔹 Crear pregunta
     pregunta = PreguntaDiagnostico(
         area_id=area_id,
         tipo_pregunta_id=tipo.id_tipo_pregunta,
         dificultad=dificultad,
+        contexto=contexto,
         enunciado=enunciado,
         opciones=opciones,
         respuesta_correcta=respuesta_correcta,
         activa=True,
     )
 
+    # GUARDAR IMAGEN
+    if imagen and imagen.filename:
+        ext = imagen.filename.split(".")[-1]
+        nombre = f"{uuid.uuid4()}.{ext}"
+
+        carpeta = "app/static/uploads/preguntas"
+        os.makedirs(carpeta, exist_ok=True)
+
+        ruta = os.path.join(carpeta, nombre)
+        contenido = await imagen.read()
+        with open(ruta, "wb") as f:
+            f.write(contenido)
+
+        pregunta.imagen_url = f"/static/uploads/preguntas/{nombre}"
+
     db.add(pregunta)
     db.commit()
 
-    # ✅ REDIRECCIÓN CORRECTA
     return RedirectResponse(
         url=f"/admin/catalogo/tests/{slug}/banco",
         status_code=303
     )
 
-@router.post("/preguntas/{id}/toggle")
-def toggle_pregunta(id: int, db: Session = Depends(get_db)):
-    pregunta = db.query(PreguntaDiagnostico).get(id)
-
-    if not pregunta:
-        raise HTTPException(status_code=404)
-
-    pregunta.activa = not pregunta.activa
-    db.commit()
-
-    return RedirectResponse(
-        url="/admin/catalogo/tests/test-diagnostico/banco",
-        status_code=303
-    )
-@router.get("/preguntas/{id}/preview", response_class=HTMLResponse)
-def preview_pregunta(id: int, request: Request, db: Session = Depends(get_db)):
-    pregunta = db.query(PreguntaDiagnostico).get(id)
-
-    if not pregunta:
-        raise HTTPException(status_code=404)
-
-    return templates.TemplateResponse(
-        "admin/catalogo/preguntas/preview.html",
-        {
-            "request": request,
-            "pregunta": pregunta
-        }
-    )
-    
-    
-@router.get("/tests/{slug}/preview", response_class=HTMLResponse)
-def preview_test(request: Request, slug: str, db: Session = Depends(get_db)):
-    preguntas = (
-        db.query(PreguntaDiagnostico)
-        .filter(PreguntaDiagnostico.activa == True)
-        .limit(10)
-        .all()
-    )
-
-    return templates.TemplateResponse(
-        "admin/catalogo/tests/preview_test.html",
-        {
-            "request": request,
-            "preguntas": preguntas
-        }
-    )   
-    
 # =========================================================
-# EDITAR PREGUNTA (FORMULARIO)
+# EDITAR PREGUNTA (FORM)
 # =========================================================
 @router.get("/preguntas/{pregunta_id}/editar", response_class=HTMLResponse)
 def editar_pregunta_form(
@@ -417,14 +307,10 @@ def editar_pregunta_form(
     pregunta_id: int,
     db: Session = Depends(get_db),
 ):
-    pregunta = (
-        db.query(PreguntaDiagnostico)
-        .filter(PreguntaDiagnostico.id_pregunta_diagnostico == pregunta_id)
-        .first()
-    )
 
+    pregunta = db.query(PreguntaDiagnostico).get(pregunta_id)
     if not pregunta:
-        raise HTTPException(status_code=404, detail="Pregunta no encontrada")
+        raise HTTPException(status_code=404)
 
     areas = db.query(Area).filter(Area.activa == True).all()
     tipos_pregunta = db.query(TipoPregunta).filter(TipoPregunta.activa == True).all()
@@ -436,63 +322,76 @@ def editar_pregunta_form(
             "pregunta": pregunta,
             "areas": areas,
             "tipos_pregunta": tipos_pregunta,
-            "letras": ["A", "B", "C", "D", "E", "F"],  # ✔️
         }
     )
+
 # =========================================================
 # EDITAR PREGUNTA (GUARDAR)
 # =========================================================
 @router.post("/preguntas/{pregunta_id}/editar")
-def editar_pregunta_guardar(
+async def editar_pregunta_guardar(
     pregunta_id: int,
     db: Session = Depends(get_db),
 
     area_id: int = Form(...),
-    tipo_pregunta_codigo: str = Form(...),
     dificultad: str = Form(...),
-
-    contexto: str | None = Form(None),      # ✅ NUEVO
+    contexto: str | None = Form(None),
     enunciado: str = Form(...),
-
     opciones_json: str = Form(...),
     respuesta_correcta: int | None = Form(None),
-
-    imagen_url: str | None = Form(None),    # ✅ NUEVO
+    imagen: UploadFile | None = File(None),
 ):
-    pregunta = (
-        db.query(PreguntaDiagnostico)
-        .filter(PreguntaDiagnostico.id_pregunta_diagnostico == pregunta_id)
-        .first()
-    )
 
+    pregunta = db.query(PreguntaDiagnostico).get(pregunta_id)
     if not pregunta:
-        raise HTTPException(status_code=404, detail="Pregunta no encontrada")
+        raise HTTPException(status_code=404)
 
-    tipo = db.query(TipoPregunta).filter(
-        TipoPregunta.codigo == tipo_pregunta_codigo
-    ).first()
-
-    if not tipo:
-        raise HTTPException(status_code=400, detail="Tipo de pregunta inválido")
-
-    try:
-        opciones = json.loads(opciones_json)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Opciones inválidas")
-
-    # 🔹 ACTUALIZAR CAMPOS
     pregunta.area_id = area_id
-    pregunta.tipo_pregunta_id = tipo.id_tipo_pregunta
     pregunta.dificultad = dificultad
-    pregunta.contexto = contexto                # ✅
+    pregunta.contexto = contexto
     pregunta.enunciado = enunciado
-    pregunta.opciones = opciones
+    pregunta.opciones = json.loads(opciones_json)
     pregunta.respuesta_correcta = respuesta_correcta
-    pregunta.imagen_url = imagen_url             # ✅
+
+    if imagen and imagen.filename:
+        ext = imagen.filename.split(".")[-1]
+        nombre = f"{uuid.uuid4()}.{ext}"
+
+        carpeta = "app/static/uploads/preguntas"
+        os.makedirs(carpeta, exist_ok=True)
+
+        ruta = os.path.join(carpeta, nombre)
+        with open(ruta, "wb") as f:
+            f.write(imagen.file.read())
+
+        pregunta.imagen_url = f"/static/uploads/preguntas/{nombre}"
 
     db.commit()
 
     return RedirectResponse(
         url="/admin/catalogo/tests/test-diagnostico/banco",
         status_code=303
+    )
+
+# ======================
+# pre review 
+# ========================
+from app.models.pregunta_diagnostico import PreguntaDiagnostico
+
+@router.get("/preguntas/{pregunta_id}/preview", response_class=HTMLResponse)
+def preview_pregunta(
+    pregunta_id: int,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    pregunta = db.query(PreguntaDiagnostico).get(pregunta_id)
+    if not pregunta:
+        raise HTTPException(status_code=404, detail="Pregunta no encontrada")
+
+    return templates.TemplateResponse(
+        "admin/catalogo/preguntas/preview.html",
+        {
+            "request": request,
+            "pregunta": pregunta
+        }
     )

@@ -25,17 +25,14 @@
       </select>
     </div>
 
-    <!-- TIPO -->
+    <!-- TIPO (NO EDITABLE) -->
     <div>
       <label class="block text-sm font-semibold mb-1">Tipo de pregunta</label>
-      <select name="tipo_pregunta_codigo"
-              class="w-full border rounded px-3 py-2"
-              disabled>
+      <select class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
         {% for t in tipos_pregunta %}
-          <option value="{{ t.codigo }}"
-            {% if pregunta.tipo_pregunta_id == t.id_tipo_pregunta %}selected{% endif %}>
-            {{ t.nombre }}
-          </option>
+          {% if pregunta.tipo_pregunta_id == t.id_tipo_pregunta %}
+            <option selected>{{ t.nombre }}</option>
+          {% endif %}
         {% endfor %}
       </select>
       <p class="text-xs text-gray-500 mt-1">
@@ -61,26 +58,23 @@
     <div>
       <label class="block text-sm font-semibold mb-1">Contexto</label>
       <textarea name="contexto"
-                rows="6"
-                class="w-full border rounded px-3 py-2">
-{{ pregunta.contexto }}</textarea>
-      <p class="text-xs text-gray-500 mt-1">
-        Texto explicativo que acompaña la pregunta (puede incluir tablas).
-      </p>
+                rows="5"
+                class="w-full border rounded px-3 py-2">{{ pregunta.contexto }}</textarea>
     </div>
     {% endif %}
 
-    <!-- IMAGEN (SOLO SI EXISTE O ES DE TIPO IMAGEN) -->
-    {% if pregunta.imagen %}
+    <!-- IMAGEN -->
+    {% if pregunta.imagen_url %}
     <div>
       <label class="block text-sm font-semibold mb-2">Imagen actual</label>
-      <img src="/uploads/{{ pregunta.imagen }}"
-           class="max-w-md rounded border mb-2">
+      <img src="{{ pregunta.imagen_url }}"
+           class="max-w-md rounded border mb-3">
 
       <label class="block text-sm font-semibold mb-1">
         Reemplazar imagen
       </label>
-      <input type="file" name="imagen"
+      <input type="file"
+             name="imagen"
              accept="image/*"
              class="block w-full text-sm">
     </div>
