@@ -19,6 +19,26 @@ Previsualización de pregunta
         </p>
     </section>
 
+    <!-- CONTEXTO (solo si existe) -->
+    {% if pregunta.contexto %}
+    <section class="bg-white rounded-xl shadow p-6">
+        <div class="prose max-w-none">
+            {{ pregunta.contexto | safe }}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- IMAGEN (solo si existe) -->
+    {% if pregunta.imagen %}
+    <section class="bg-white rounded-xl shadow p-6">
+        <img
+            src="{{ url_for('static', path='uploads/preguntas/' ~ pregunta.imagen) }}"
+            alt="Imagen de la pregunta"
+            class="max-w-full rounded border mx-auto"
+        >
+    </section>
+    {% endif %}
+
     <!-- ENUNCIADO -->
     <section class="bg-white rounded-xl shadow p-6">
         <p class="text-lg font-medium text-gray-800 mb-4">
@@ -27,8 +47,7 @@ Previsualización de pregunta
 
         <!-- OPCIONES -->
         <ul class="space-y-3">
-            {% set letras = ['A', 'B', 'C', 'D', 'E', 'F'] %}
-
+            {% set letras = ['A','B','C','D','E','F'] %}
             {% for opcion in pregunta.opciones %}
                 {% set idx = loop.index0 %}
                 <li class="flex items-start gap-3 p-3 rounded border
@@ -38,13 +57,8 @@ Previsualización de pregunta
                         border-gray-200
                     {% endif %}
                 ">
-                    <div class="font-bold text-gray-700">
-                        {{ letras[idx] }}.
-                    </div>
-
-                    <div class="text-gray-800">
-                        {{ opcion }}
-                    </div>
+                    <span class="font-bold">{{ letras[idx] }}.</span>
+                    <span>{{ opcion }}</span>
 
                     {% if pregunta.respuesta_correcta == idx %}
                         <span class="ml-auto text-green-600 font-semibold">
