@@ -1,0 +1,157 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}Editar pregunta{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow">
+
+  <h1 class="text-xl font-bold mb-6">Editar pregunta</h1>
+
+  <form method="post"
+        action="/admin/catalogo/preguntas/{{ pregunta.id_pregunta_diagnostico }}/editar"
+        enctype="multipart/form-data"
+        class="space-y-6">
+
+    <!-- ÁREA -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Área</label>
+      <select name="area_id" class="w-full border rounded px-3 py-2">
+        {% for a in areas %}
+          <option value="{{ a.id_area }}"
+            {% if pregunta.area_id == a.id_area %}selected{% endif %}>
+            {{ a.nombre }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- TIPO -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Tipo de pregunta</label>
+      <select name="tipo_pregunta_codigo"
+              class="w-full border rounded px-3 py-2"
+              disabled>
+        {% for t in tipos_pregunta %}
+          <option value="{{ t.codigo }}"
+            {% if pregunta.tipo_pregunta_id == t.id_tipo_pregunta %}selected{% endif %}>
+            {{ t.nombre }}
+          </option>
+        {% endfor %}
+      </select>
+      <p class="text-xs text-gray-500 mt-1">
+        El tipo de pregunta no se puede cambiar.
+      </p>
+    </div>
+
+    <!-- DIFICULTAD -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Dificultad</label>
+      <select name="dificultad" class="w-full border rounded px-3 py-2">
+        {% for d in ["Baja", "Media", "Alta"] %}
+          <option value="{{ d }}"
+            {% if pregunta.dificultad == d %}selected{% endif %}>
+            {{ d }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- CONTEXTO (SOLO SI EXISTE) -->
+    {% if pregunta.contexto %}
+    <div>
+      <label class="block text-sm font-semibold mb-1">Contexto</label>
+      <textarea name="contexto"
+                rows="6"
+                class="w-full border rounded px-3 py-2">
+{{ pregunta.contexto }}</textarea>
+      <p class="text-xs text-gray-500 mt-1">
+        Texto explicativo que acompaña la pregunta (puede incluir tablas).
+      </p>
+    </div>
+    {% endif %}
+
+    <!-- IMAGEN (SOLO SI EXISTE O ES DE TIPO IMAGEN) -->
+    {% if pregunta.imagen %}
+    <div>
+      <label class="block text-sm font-semibold mb-2">Imagen actual</label>
+      <img src="/uploads/{{ pregunta.imagen }}"
+           class="max-w-md rounded border mb-2">
+
+      <label class="block text-sm font-semibold mb-1">
+        Reemplazar imagen
+      </label>
+      <input type="file" name="imagen"
+             accept="image/*"
+             class="block w-full text-sm">
+    </div>
+    {% endif %}
+
+    <!-- ENUNCIADO -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Enunciado</label>
+      <textarea name="enunciado"
+                rows="4"
+                class="w-full border rounded px-3 py-2"
+                required>{{ pregunta.enunciado }}</textarea>
+    </div>
+
+    <!-- OPCIONES -->
+    <div>
+      <label class="block text-sm font-semibold mb-2">Opciones</label>
+
+      {% set letras = ["A","B","C","D","E","F"] %}
+      <div class="space-y-3">
+        {% for i in range(pregunta.opciones|length) %}
+          <div class="flex items-center gap-3">
+            <span class="font-bold w-6">{{ letras[i] }}</span>
+            <input type="text"
+                   name="opcion_{{ i }}"
+                   value="{{ pregunta.opciones[i] }}"
+                   class="flex-1 border rounded px-3 py-2">
+          </div>
+        {% endfor %}
+      </div>
+
+      <input type="hidden" name="opciones_json" id="opciones_json">
+    </div>
+
+    <!-- RESPUESTA -->
+    <div>
+      <label class="block text-sm font-semibold mb-1">Respuesta correcta</label>
+      <select name="respuesta_correcta"
+              class="border rounded px-3 py-2">
+        {% for i in range(pregunta.opciones|length) %}
+          <option value="{{ i }}"
+            {% if pregunta.respuesta_correcta == i %}selected{% endif %}>
+            {{ letras[i] }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="flex justify-end gap-3 pt-4 border-t">
+      <a href="/admin/catalogo/tests/test-diagnostico/banco"
+         class="px-4 py-2 border rounded">
+        Cancelar
+      </a>
+
+      <button type="submit"
+              class="bg-blue-600 text-white px-4 py-2 rounded">
+        Guardar cambios
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  document.querySelector("form").addEventListener("submit", () => {
+    const opciones = [];
+    document.querySelectorAll("[name^='opcion_']").forEach(i => {
+      opciones.push(i.value);
+    });
+    document.getElementById("opciones_json").value = JSON.stringify(opciones);
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+Previsualización de pregunta
+{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+
+    <!-- HEADER -->
+    <section class="bg-white rounded-xl shadow p-6">
+        <h1 class="text-2xl font-bold text-gray-800">
+            Previsualización de pregunta
+        </h1>
+        <p class="mt-1 text-sm text-gray-500">
+            Área: <strong>{{ pregunta.area.nombre }}</strong> ·
+            Tipo: <strong>{{ pregunta.tipo_pregunta.nombre }}</strong> ·
+            Dificultad: <strong>{{ pregunta.dificultad }}</strong>
+        </p>
+    </section>
+
+    <!-- ENUNCIADO -->
+    <section class="bg-white rounded-xl shadow p-6">
+        <p class="text-lg font-medium text-gray-800 mb-4">
+            {{ pregunta.enunciado }}
+        </p>
+
+        <!-- OPCIONES -->
+        <ul class="space-y-3">
+            {% set letras = ['A', 'B', 'C', 'D', 'E', 'F'] %}
+
+            {% for opcion in pregunta.opciones %}
+                {% set idx = loop.index0 %}
+                <li class="flex items-start gap-3 p-3 rounded border
+                    {% if pregunta.respuesta_correcta == idx %}
+                        border-green-500 bg-green-50
+                    {% else %}
+                        border-gray-200
+                    {% endif %}
+                ">
+                    <div class="font-bold text-gray-700">
+                        {{ letras[idx] }}.
+                    </div>
+
+                    <div class="text-gray-800">
+                        {{ opcion }}
+                    </div>
+
+                    {% if pregunta.respuesta_correcta == idx %}
+                        <span class="ml-auto text-green-600 font-semibold">
+                            ✔ Correcta
+                        </span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="flex justify-end">
+        <a href="javascript:history.back()"
+           class="px-4 py-2 border rounded hover:bg-gray-100">
+            ← Volver al banco
+        </a>
+    </div>
+
+</div>
+{% endblock %}

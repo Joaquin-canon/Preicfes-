@@ -1,7 +1,8 @@
-# app/models/pregunta_diagnostico.py
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, JSON
+from sqlalchemy.orm import relationship
+from app.database.database import Base
 
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Enum
-from sqlalchemy.types import JSON
+from sqlalchemy import Column, Integer, Text, Boolean, ForeignKey, Enum, JSON
 from sqlalchemy.orm import relationship
 from app.database.database import Base
 
@@ -11,39 +12,15 @@ class PreguntaDiagnostico(Base):
 
     id_pregunta_diagnostico = Column(Integer, primary_key=True)
 
-    # 🔥 CORRECCIÓN CLAVE AQUÍ
-    area_id = Column(
-        Integer,
-        ForeignKey("areas.id_area"),
-        nullable=False
-    )
+    area_id = Column(Integer, ForeignKey("areas.id_area"), nullable=False)
+    tipo_pregunta_id = Column(Integer, ForeignKey("tipo_pregunta.id_tipo_pregunta"), nullable=False)
 
-    tipo_pregunta_id = Column(
-        Integer,
-        ForeignKey("tipo_pregunta.id_tipo_pregunta"),
-        nullable=False
-    )
-
-    dificultad = Column(
-        Enum("Baja", "Media", "Alta"),
-        nullable=False
-    )
-
-    enunciado = Column(String(500), nullable=False)
-
-    opciones = Column(JSON, nullable=False)
-    respuesta_correcta = Column(Integer, nullable=False)
-
+    dificultad = Column(Enum("Baja", "Media", "Alta"), nullable=False)
+    contexto = Column(Text, nullable=True)
+    enunciado = Column(Text, nullable=False)
+    opciones = Column(JSON, nullable=True)
+    respuesta_correcta = Column(Integer, nullable=True)
     activa = Column(Boolean, default=True)
 
-    creado_por = Column(
-        Integer,
-        ForeignKey("usuario.id_usuario")
-    
-    )
-    imagen_url = Column(String(255), nullable=True)
-    # =========================
-    # RELACIONES
-    # =========================
-    area = relationship("Area")
-    tipo_pregunta = relationship("TipoPregunta")
+    area = relationship("Area", back_populates="preguntas")
+    tipo_pregunta = relationship("TipoPregunta", back_populates="preguntas")

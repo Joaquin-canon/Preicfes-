@@ -63,14 +63,14 @@
                 Contenido académico
             </p>
 
-            <a href="/admin/catalogo-contenidos"
-               class="block px-4 py-2 rounded-lg text-sm transition
-               {% if request.url.path == '/admin/catalogo-contenidos' %}
+           <a href="/admin/catalogo"
+            class="block px-4 py-2 rounded-lg text-sm transition
+            {% if request.url.path.startswith('/admin/catalogo') %}
                     bg-white/30 font-semibold
-               {% else %}
+            {% else %}
                     text-white hover:bg-white/20
-               {% endif %}">
-                Catálogo de contenidos
+            {% endif %}">
+                Catálogo
             </a>
 
             <!-- ===== SISTEMA ===== -->

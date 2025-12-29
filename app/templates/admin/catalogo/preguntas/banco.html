@@ -1,209 +1,237 @@
 {% extends "layout/layout_admin.html" %}
 
 {% block title %}
-Banco de preguntas | {{ area.nombre }}
+Banco de preguntas | {{ test.nombre }}
 {% endblock %}
 
 {% block content %}
-
-<!-- =========================
-     HEADER
-========================= -->
-<section class="bg-white rounded-xl shadow p-6 mb-8">
-    <h1 class="text-2xl font-bold text-gray-800">
-        Banco de preguntas
-    </h1>
-    <p class="mt-2 text-sm text-gray-600">
-        Gestión de preguntas del área
-        <strong>{{ area.nombre }}</strong>.
-        {{ area.descripcion }}
-    </p>
-</section>
-
-<!-- =========================
-     FILTROS
-========================= -->
-<form method="get" class="bg-white rounded-xl shadow p-4 mb-8 flex flex-wrap gap-4 items-end">
-
-    <!-- TIPO -->
-    <div>
-        <label class="block text-xs text-gray-500 mb-1">Tipo</label>
-        <select name="tipo_id" class="border rounded px-3 py-2 text-sm">
-            <option value="">Todos</option>
-            {% for t in tipos_pregunta %}
-            <option value="{{ t.id_tipo_pregunta }}"
-                {% if filters.tipo_id == t.id_tipo_pregunta %}selected{% endif %}>
-                {{ t.nombre }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <!-- DIFICULTAD -->
-    <div>
-        <label class="block text-xs text-gray-500 mb-1">Dificultad</label>
-        <select name="dificultad" class="border rounded px-3 py-2 text-sm">
-            <option value="">Todas</option>
-            {% for d in ["Baja","Media","Alta"] %}
-            <option value="{{ d }}"
-                {% if filters.dificultad == d %}selected{% endif %}>
-                {{ d }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <!-- ESTADO -->
-    <div>
-        <label class="block text-xs text-gray-500 mb-1">Estado</label>
-        <select name="estado" class="border rounded px-3 py-2 text-sm">
-            <option value="">Todos</option>
-            <option value="activa" {% if filters.estado == "activa" %}selected{% endif %}>
-                Activa
-            </option>
-            <option value="inactiva" {% if filters.estado == "inactiva" %}selected{% endif %}>
-                Inactiva
-            </option>
-        </select>
-    </div>
-
-    <!-- BUSCADOR -->
-    <div class="flex-1 min-w-[200px]">
-        <label class="block text-xs text-gray-500 mb-1">Buscar</label>
-        <input type="text"
-               name="q"
-               placeholder="Buscar enunciado"
-               value="{{ filters.q or '' }}"
-               class="border rounded px-3 py-2 text-sm w-full">
-    </div>
-
-    <!-- BOTÓN -->
-    <div>
-        <button type="submit"
-                class="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700">
-            Filtrar
-        </button>
-    </div>
-
-</form>
-
-<!-- =========================
-     LISTADO
-========================= -->
-<section class="bg-white rounded-xl shadow">
-
-    <div class="flex justify-between items-center p-4 border-b">
-        <h2 class="text-lg font-semibold text-gray-800">
-            Listado de preguntas
-        </h2>
-
-        <button type="button"
-                id="btn-nueva-pregunta"
-                class="bg-green-600 text-white text-sm px-4 py-2 rounded hover:bg-green-700">
-            + Nueva pregunta
-        </button>
-    </div>
-
-    <div class="overflow-x-auto">
-        <table class="min-w-full text-sm">
-            <thead class="bg-gray-50 text-gray-600">
-                <tr>
-                    <th class="px-4 py-2 text-left">Tipo</th>
-                    <th class="px-4 py-2 text-left">Dificultad</th>
-                    <th class="px-4 py-2 text-left">Enunciado</th>
-                    <th class="px-4 py-2 text-left">Respuesta</th>
-                    <th class="px-4 py-2 text-left">Estado</th>
-                    <th class="px-4 py-2 text-left">Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody class="divide-y">
-                {% for p in preguntas %}
-                <tr>
-
-                    <!-- TIPO -->
-                    <td class="px-4 py-2">
-                        {{ p.tipo_pregunta.nombre if p.tipo_pregunta else "—" }}
-                    </td>
-
-                    <!-- DIFICULTAD -->
-                    <td class="px-4 py-2">
-                        {{ p.dificultad }}
-                    </td>
-
-                    <!-- ENUNCIADO -->
-                    <td class="px-4 py-2 max-w-md">
-                        {{ p.enunciado }}
-                    </td>
-
-                    <!-- RESPUESTA -->
-                    <td class="px-4 py-2">
-                        {% if p.respuesta_correcta is not none %}
-                            {{ ['A','B','C','D','E','F'][p.respuesta_correcta] }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-
-                    <!-- ESTADO -->
-                    <td class="px-4 py-2">
-                        {% if p.activa %}
-                            <span class="text-green-600 font-semibold">Activa</span>
-                        {% else %}
-                            <span class="text-gray-400">Inactiva</span>
-                        {% endif %}
-                    </td>
-
-                    <!-- ACCIONES -->
-                    <td class="px-4 py-2 space-x-2">
-                        <a href="#"
-                           class="text-blue-600 hover:underline">
-                            Editar
-                        </a>
-                        <a href="#"
-                           class="text-red-600 hover:underline">
-                            {% if p.activa %}Desactivar{% else %}Activar{% endif %}
-                        </a>
-                    </td>
-
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="space-y-8">
 
     <!-- =========================
-         PAGINACIÓN
+         HEADER
     ========================== -->
-    <div class="p-4 flex justify-between items-center text-sm">
+    <section class="bg-white rounded-xl shadow p-6">
+        <h1 class="text-2xl font-bold text-gray-800">
+            Banco de preguntas
+        </h1>
+        <p class="mt-2 text-sm text-gray-600">
+            Gestión de preguntas del <strong>{{ test.nombre }}</strong>
+        </p>
+    </section>
+
+    <!-- =========================
+         FILTROS
+    ========================== -->
+    <form method="get"
+          class="bg-white rounded-xl shadow p-4 flex flex-wrap gap-4 items-end">
+
+        <!-- Área -->
         <div>
-            Página {{ page }} de {{ total_pages }}
+            <label class="block text-xs text-gray-500 mb-1">Área</label>
+            <select name="area_id" class="border rounded px-3 py-2 text-sm">
+                <option value="">Todas</option>
+                {% for a in areas %}
+                <option value="{{ a.id_area }}"
+                        {% if filters.area_id == a.id_area %}selected{% endif %}>
+                    {{ a.nombre }}
+                </option>
+                {% endfor %}
+            </select>
         </div>
 
-        <div class="space-x-4">
-            {% if page > 1 %}
+        <!-- Tipo -->
+        <div>
+            <label class="block text-xs text-gray-500 mb-1">Tipo</label>
+            <select name="tipo_id" class="border rounded px-3 py-2 text-sm">
+                <option value="">Todos</option>
+                {% for t in tipos_pregunta %}
+                <option value="{{ t.id_tipo_pregunta }}"
+                        {% if filters.tipo_id == t.id_tipo_pregunta %}selected{% endif %}>
+                    {{ t.nombre }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Dificultad -->
+        <div>
+            <label class="block text-xs text-gray-500 mb-1">Dificultad</label>
+            <select name="dificultad" class="border rounded px-3 py-2 text-sm">
+                <option value="">Todas</option>
+                {% for d in ["Baja","Media","Alta"] %}
+                <option value="{{ d }}"
+                        {% if filters.dificultad == d %}selected{% endif %}>
+                    {{ d }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Estado -->
+        <div>
+            <label class="block text-xs text-gray-500 mb-1">Estado</label>
+            <select name="estado" class="border rounded px-3 py-2 text-sm">
+                <option value="">Todos</option>
+                <option value="activa" {% if filters.estado == "activa" %}selected{% endif %}>Activa</option>
+                <option value="inactiva" {% if filters.estado == "inactiva" %}selected{% endif %}>Inactiva</option>
+            </select>
+        </div>
+
+        <!-- Buscar -->
+        <div class="flex-1 min-w-[220px]">
+            <label class="block text-xs text-gray-500 mb-1">Buscar</label>
+            <input type="text"
+                   name="q"
+                   value="{{ filters.q or '' }}"
+                   placeholder="Buscar enunciado"
+                   class="border rounded px-3 py-2 text-sm w-full">
+        </div>
+
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+            🔍 Filtrar
+        </button>
+    </form>
+
+    <!-- =========================
+         LISTADO
+    ========================== -->
+    <section class="bg-white rounded-xl shadow">
+
+        <!-- HEADER LISTADO -->
+        <div class="flex justify-between items-center p-4 border-b">
+            <h2 class="font-semibold text-gray-800">
+                Listado de preguntas
+            </h2>
+
+            <!-- 🔥 BOTÓN ORIGINAL QUE ABRE MODAL -->
+            <button id="btn-nueva-pregunta"
+                    type="button"
+                    class="inline-flex items-center gap-2
+                           bg-green-600 text-white px-4 py-2 rounded-lg text-sm
+                           hover:bg-green-700 transition shadow">
+                ➕ Nueva pregunta
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-50 text-gray-600">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Área</th>
+                        <th class="px-4 py-2 text-left">Tipo</th>
+                        <th class="px-4 py-2">Dificultad</th>
+                        <th class="px-4 py-2 text-left">Enunciado</th>
+                        <th class="px-4 py-2 text-left">Respuesta</th>
+                        <th class="px-4 py-2">Estado</th>
+                        <th class="px-4 py-2 text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y">
+                    {% for p in preguntas %}
+                    <tr class="hover:bg-gray-50">
+
+                        <td class="px-4 py-2">
+                            {{ p.area.nombre if p.area else "—" }}
+                        </td>
+
+                        <td class="px-4 py-2">
+                            {{ p.tipo_pregunta.nombre if p.tipo_pregunta else "—" }}
+                        </td>
+
+                        <td class="px-4 py-2 text-center">
+                            {{ p.dificultad }}
+                        </td>
+
+                        <td class="px-4 py-2 max-w-md">
+                            {{ p.enunciado }}
+                        </td>
+
+                        <td class="px-4 py-2">
+                            <ul class="space-y-1">
+                                {% for opcion in p.opciones %}
+                                <li class="{% if loop.index0 == p.respuesta_correcta %}font-semibold text-green-700{% endif %}">
+                                    {{ ['A','B','C','D','E','F'][loop.index0] }}. {{ opcion }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+
+                        <td class="px-4 py-2 text-center">
+                            {% if p.activa %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                                    Activa
+                                </span>
+                            {% else %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-gray-200 text-gray-600">
+                                    Inactiva
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- 🔥 ACCIONES CON ESTILO -->
+                        <td class="px-4 py-2 text-center">
+                            <div class="flex justify-center gap-2">
+
+                                <a href="/admin/catalogo/preguntas/{{ p.id_pregunta_diagnostico }}/preview"
+                                   class="px-3 py-1 rounded bg-blue-100 text-blue-700 text-xs hover:bg-blue-200">
+                                    👁 Ver
+                                </a>
+
+                                <a href="/admin/catalogo/preguntas/{{ p.id_pregunta_diagnostico }}/editar"
+                                   class="px-3 py-1 rounded bg-indigo-100 text-indigo-700 text-xs hover:bg-indigo-200">
+                                    ✏️ Editar
+                                </a>
+
+                                <form method="post"
+                                      action="/admin/catalogo/preguntas/{{ p.id_pregunta_diagnostico }}/toggle">
+                                    <button type="submit"
+                                            class="px-3 py-1 rounded text-xs
+                                            {% if p.activa %}
+                                            bg-red-100 text-red-700 hover:bg-red-200
+                                            {% else %}
+                                            bg-green-100 text-green-700 hover:bg-green-200
+                                            {% endif %}">
+                                        {% if p.activa %}🚫 Desactivar{% else %}✅ Activar{% endif %}
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINACIÓN -->
+        <div class="p-4 flex justify-between items-center text-sm">
+            <span>Página {{ page }} de {{ total_pages }}</span>
+
+            <div class="flex gap-3">
+                {% if page > 1 %}
                 <a href="?page={{ page - 1 }}"
-                   class="text-blue-600 hover:underline">
+                   class="px-3 py-1 border rounded hover:bg-gray-100">
                     ← Anterior
                 </a>
-            {% endif %}
+                {% endif %}
 
-            {% if page < total_pages %}
+                {% if page < total_pages %}
                 <a href="?page={{ page + 1 }}"
-                   class="text-blue-600 hover:underline">
+                   class="px-3 py-1 border rounded hover:bg-gray-100">
                     Siguiente →
                 </a>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
 
-</section>
+    </section>
 
-<!-- =========================
-     MODAL NUEVA PREGUNTA
-========================= -->
+</div>
+
+<!-- ✅ MODAL REAL, EXISTENTE -->
 {% include "admin/catalogo/preguntas/components/modal_nueva_pregunta.html" %}
-
 {% endblock %}
 
 {% block extra_scripts %}

@@ -1,20 +1,22 @@
 {% extends "layout/layout_admin.html" %}
 
-{% block title %}Catálogo de contenidos | Admin{% endblock %}
+{% block title %}
+Catálogo de contenidos | Admin
+{% endblock %}
 
 {% block content %}
-<div class="space-y-10">
+<div class="space-y-12">
 
     <!-- =========================
-         HEADER
+         HEADER GENERAL
     ========================== -->
     <section class="bg-white rounded-xl shadow p-6">
         <h1 class="text-2xl font-bold text-gray-800">
             Catálogo de contenidos
         </h1>
         <p class="mt-2 text-sm text-gray-600 max-w-3xl">
-            Gestión académica de áreas y pruebas institucionales
-            alineadas al modelo de evaluación ICFES.
+            Punto central de gestión académica. Desde aquí se administran
+            las áreas evaluadas y los tests institucionales de la plataforma Pre-ICFES.
         </p>
     </section>
 
@@ -28,33 +30,36 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <!-- TEST DIAGNÓSTICO -->
-            <div class="bg-white rounded-xl shadow p-6 border-l-4 border-orange-400">
-                <h3 class="text-lg font-semibold text-gray-800">
-                    Test Diagnóstico
-                </h3>
-                <p class="mt-2 text-sm text-gray-600">
-                    Evalúa el nivel inicial del estudiante antes de iniciar su preparación.
-                </p>
-                <a href="/admin/catalogo/tests/diagnostico"
-                   class="inline-block mt-4 text-sm font-semibold text-orange-600 hover:text-orange-700">
-                    Gestionar test →
-                </a>
-            </div>
+            {% for test in tests_especiales %}
+            <div class="bg-white rounded-xl shadow p-6 border-l-4
+                        {% if test.tipo == 'diagnostico' %}
+                            border-orange-400
+                        {% else %}
+                            border-teal-500
+                        {% endif %}">
 
-            <!-- TEST SOCIO OCUPACIONAL -->
-            <div class="bg-white rounded-xl shadow p-6 border-l-4 border-teal-500">
-                <h3 class="text-lg font-semibold text-gray-800">
-                    Test socio-ocupacional
-                </h3>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-3xl">{{ test.icono }}</span>
+                    <h3 class="text-lg font-semibold text-gray-800">
+                        {{ test.nombre }}
+                    </h3>
+                </div>
+
                 <p class="mt-2 text-sm text-gray-600">
-                    Orientación vocacional basada en intereses y habilidades.
+                    {{ test.descripcion }}
                 </p>
-                <a href="/admin/catalogo/tests/socio-ocupacional"
-                   class="inline-block mt-4 text-sm font-semibold text-teal-600 hover:text-teal-700">
+
+                <a href="/admin/catalogo/tests/{{ test.slug }}"
+                   class="inline-block mt-4 text-sm font-semibold
+                          {% if test.tipo == 'diagnostico' %}
+                              text-orange-600 hover:text-orange-700
+                          {% else %}
+                              text-teal-600 hover:text-teal-700
+                          {% endif %}">
                     Gestionar test →
                 </a>
             </div>
+            {% endfor %}
 
         </div>
     </section>
@@ -73,13 +78,12 @@
             <div class="bg-white rounded-xl shadow p-6 flex flex-col justify-between
                         border border-gray-200 hover:shadow-lg transition">
 
+                <!-- TOP -->
                 <div>
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="text-3xl">
-                            {{ area.icono }}
-                        </div>
+                        <span class="text-3xl">{{ area.icono }}</span>
                         <span class="text-xs uppercase tracking-wide text-gray-500">
-                            Área de evaluación
+                            {{ area.codigo }}
                         </span>
                     </div>
 
@@ -92,11 +96,12 @@
                     </p>
                 </div>
 
+                <!-- FOOTER -->
                 <div class="mt-6">
                     <a href="/admin/catalogo/areas/{{ area.slug }}"
                        class="inline-flex items-center gap-2 text-sm font-semibold
                               text-icfesGreen hover:text-icfesGreenDark transition">
-                        Gestionar contenidos →
+                        Gestionar formularios →
                     </a>
                 </div>
 

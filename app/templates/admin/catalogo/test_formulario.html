@@ -1,0 +1,130 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+{{ test.nombre }} | Test especial
+{% endblock %}
+
+{% block content %}
+<div class="space-y-10">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <section class="bg-white rounded-xl shadow p-8">
+        <h1 class="text-2xl font-bold text-gray-800">
+            {{ test.nombre }}
+        </h1>
+        <p class="mt-2 text-gray-600 max-w-3xl">
+            {{ test.descripcion }}
+        </p>
+    </section>
+
+    <!-- =========================
+         ESTADO GENERAL
+    ========================== -->
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+
+        <div class="bg-white rounded-xl shadow p-5">
+            <span class="text-xs text-gray-500">Estado</span>
+            <p class="mt-1 text-lg font-semibold">
+                {{ test.estado }}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+            <span class="text-xs text-gray-500">Duración</span>
+            <p class="mt-1 text-lg font-semibold">
+                {{ test.duracion }} min
+            </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+            <span class="text-xs text-gray-500">Preguntas</span>
+            <p class="mt-1 text-lg font-semibold">
+                {{ test.preguntas }}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+            <span class="text-xs text-gray-500">Intentos</span>
+            <p class="mt-1 text-lg font-semibold">
+                {{ test.intentos }}
+            </p>
+        </div>
+
+    </section>
+
+    <!-- =========================
+         ACCIONES (CARDS)
+    ========================== -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- BANCO -->
+        <a href="/admin/catalogo/tests/{{ slug }}/banco"
+   class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition border border-gray-200">
+
+
+            <span class="text-3xl">📚</span>
+            <h3 class="mt-4 font-semibold text-gray-800">
+                Banco de preguntas
+            </h3>
+            <p class="mt-2 text-sm text-gray-600">
+                Crear, editar y organizar preguntas del test
+            </p>
+        </a>
+
+        <!-- CONFIG -->
+        <a href="#"
+           class="bg-white rounded-xl shadow p-6
+                  hover:shadow-lg transition
+                  border border-gray-200">
+            <span class="text-3xl">⚙️</span>
+            <h3 class="mt-4 font-semibold text-gray-800">
+                Configuración
+            </h3>
+            <p class="mt-2 text-sm text-gray-600">
+                Editar tiempo, intentos y parámetros generales
+            </p>
+        </a>
+
+        <a href="/admin/catalogo/tests/{{ slug }}/banco">
+    <span class="text-3xl">📊</span>
+    <h3 class="mt-4 font-semibold text-gray-800">
+        Resultados
+    </h3>
+    <p class="mt-2 text-sm text-gray-600">
+        Analizar resultados y estadísticas del test
+    </p>
+</a>
+
+        <!-- ACTIVAR / DESACTIVAR -->
+        {% if test.estado == "Activo" %}
+        <div
+           class="bg-white rounded-xl shadow p-6
+                  border border-red-200">
+            <span class="text-3xl">⏸</span>
+            <h3 class="mt-4 font-semibold text-red-600">
+                Desactivar test
+            </h3>
+            <p class="mt-2 text-sm text-gray-600">
+                Pausar el acceso de los estudiantes
+            </p>
+        </div>
+        {% else %}
+        <div
+           class="bg-white rounded-xl shadow p-6
+                  border border-green-200">
+            <span class="text-3xl">▶</span>
+            <h3 class="mt-4 font-semibold text-green-600">
+                Activar test
+            </h3>
+            <p class="mt-2 text-sm text-gray-600">
+                Habilitar el test para los estudiantes
+            </p>
+        </div>
+        {% endif %}
+
+    </section>
+
+</div>
+{% endblock %}
