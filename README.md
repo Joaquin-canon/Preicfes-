@@ -41,7 +41,7 @@ preicfes/
 ### 1️⃣ Clonar el repositorio
 
 ```bash
-git clone https://github.com/Joaquin-canon/preicfes.git
+git clone https://github.com/Joaquin-canon/Preicfes.git
 cd preicfes
 ```
 
