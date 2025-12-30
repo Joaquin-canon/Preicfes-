@@ -25,7 +25,9 @@
             enctype="multipart/form-data"
             class="space-y-5">
 
-        <!-- ÁREA -->
+        <!-- =====================
+             ÁREA
+        ====================== -->
         <div>
           <label class="block text-sm mb-1">Área</label>
           <select name="area_id" required
@@ -37,7 +39,9 @@
           </select>
         </div>
 
-        <!-- TIPO -->
+        <!-- =====================
+             TIPO DE PREGUNTA
+        ====================== -->
         <div>
           <label class="block text-sm mb-1">Tipo de pregunta</label>
           <select id="tipo_pregunta"
@@ -45,18 +49,21 @@
                   required
                   class="w-full border rounded px-3 py-2">
             <option value="">Seleccione un tipo</option>
-            {% for tipo in tipos_pregunta %}
-              <option value="{{ tipo.codigo }}"
-                      data-usa-contexto="{{ tipo.usa_contexto }}"
-                      data-usa-imagen="{{ tipo.usa_imagen }}">
+              {% for tipo in tipos_pregunta %}
+              <option
+                value="{{ tipo.codigo }}"
+                data-usa-contexto="{{ 'true' if tipo.usa_contexto else 'false' }}"
+                data-usa-imagen="{{ 'true' if tipo.usa_imagen else 'false' }}">
                 {{ tipo.nombre }}
               </option>
-            {% endfor %}
+                {% endfor %}
           </select>
         </div>
 
-        <!-- BLOQUE DINÁMICO (NO SE TOCA EL ID) -->
-        <div id="bloque-detalles" class="hidden space-y-4">
+        <!-- =====================
+             BLOQUE DINÁMICO
+        ====================== -->
+        <div id="bloque-detalles" style="display:none" class="space-y-4">
 
           <!-- DIFICULTAD -->
           <div>
@@ -69,15 +76,15 @@
           </div>
 
           <!-- CONTEXTO -->
-          <div id="bloque-contexto" class="hidden">
+          <div id="bloque-contexto" style="display:none">
             <label>Contexto</label>
             <textarea name="contexto"
                       class="w-full border p-2"
                       rows="4"></textarea>
           </div>
 
-          <!-- IMAGEN -->
-          <div id="bloque-imagen" class="hidden">
+          <!-- IMAGEN (ÚNICA Y REAL) -->
+          <div id="bloque-imagen" style="display:none">
             <label>Imagen</label>
             <input type="file"
                    name="imagen"
@@ -85,19 +92,22 @@
                    class="w-full border p-2">
           </div>
 
-          <!-- ENUNCIADO -->
+          <!-- ENUNCIADO (OBLIGATORIO) -->
           <div>
             <label>Enunciado</label>
             <textarea name="enunciado"
+                      required
                       class="w-full border p-2"
-                      required></textarea>
+                      rows="3"></textarea>
           </div>
 
-          <!-- AQUÍ SIGUE TU FORMULARIO DINÁMICO -->
+          <!-- FORMULARIO DINÁMICO (OPCIONES / AFIRMACIONES) -->
           <div id="contenedor-formulario-dinamico"></div>
 
+          <!-- CAMPOS OCULTOS -->
           <input type="hidden" name="opciones_json" id="opciones_json">
           <input type="hidden" name="respuesta_correcta" id="respuesta_correcta">
+
         </div>
 
       </form>

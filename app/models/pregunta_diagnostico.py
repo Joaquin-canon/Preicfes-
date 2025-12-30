@@ -14,7 +14,7 @@ class PreguntaDiagnostico(Base):
 
     area_id = Column(Integer, ForeignKey("areas.id_area"), nullable=False)
     tipo_pregunta_id = Column(Integer, ForeignKey("tipo_pregunta.id_tipo_pregunta"), nullable=False)
-
+    imagen_url = Column(String(255), nullable=True)
     dificultad = Column(Enum("Baja", "Media", "Alta"), nullable=False)
     contexto = Column(Text, nullable=True)
     enunciado = Column(Text, nullable=False)

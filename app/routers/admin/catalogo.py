@@ -275,7 +275,7 @@ async def crear_pregunta(
         activa=True,
     )
 
-    # GUARDAR IMAGEN
+        # GUARDAR IMAGEN
     if imagen and imagen.filename:
         ext = imagen.filename.split(".")[-1]
         nombre = f"{uuid.uuid4()}.{ext}"
@@ -284,11 +284,11 @@ async def crear_pregunta(
         os.makedirs(carpeta, exist_ok=True)
 
         ruta = os.path.join(carpeta, nombre)
-        contenido = await imagen.read()
         with open(ruta, "wb") as f:
-            f.write(contenido)
+            f.write(imagen.file.read())
 
-        pregunta.imagen_url = f"/static/uploads/preguntas/{nombre}"
+        # 🔥 ESTA LÍNEA ES CLAVE
+    pregunta.imagen_url = f"/static/uploads/preguntas/{nombre}"
 
     db.add(pregunta)
     db.commit()

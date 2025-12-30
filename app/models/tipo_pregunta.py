@@ -8,6 +8,11 @@ class TipoPregunta(Base):
     id_tipo_pregunta = Column(Integer, primary_key=True)
     codigo = Column(String(50), nullable=False)
     nombre = Column(String(100), nullable=False)
+
+    # 🔥 NUEVAS COLUMNAS (YA EXISTEN EN LA BD)
+    usa_contexto = Column(Boolean, default=False, nullable=False)
+    usa_imagen = Column(Boolean, default=False, nullable=False)
+
     activa = Column(Boolean, default=True)
 
     preguntas = relationship(
