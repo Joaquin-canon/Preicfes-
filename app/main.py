@@ -7,7 +7,6 @@ from app.routers.login import router as login_router
 from app.core.auth.router import router as auth_router
 from app.routers.estudiante.router import router as estudiante_router
 from app.routers.admin.router import router as admin_router
-from app.routers.admin.catalogo import router as catalogo_router
 
 
 def create_app() -> FastAPI:
@@ -19,8 +18,7 @@ def create_app() -> FastAPI:
     app.include_router(login_router)
     app.include_router(auth_router)
     app.include_router(estudiante_router)
-    app.include_router(admin_router)
-    app.include_router(catalogo_router)
+    app.include_router(admin_router)  # ← SOLO ESTE
 
     @app.get("/", response_class=HTMLResponse)
     async def root(request: Request):

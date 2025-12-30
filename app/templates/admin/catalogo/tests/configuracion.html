@@ -1,0 +1,80 @@
+{% extends "layout/layout_admin.html" %}
+
+{% block title %}
+Configuración | {{ test.nombre }}
+{% endblock %}
+
+{% block content %}
+<div class="space-y-8 max-w-4xl">
+
+  <section class="bg-white rounded-xl shadow p-6">
+    <h1 class="text-2xl font-bold text-gray-800">
+      ⚙️ Configuración del test
+    </h1>
+    <p class="mt-2 text-sm text-gray-600">
+      {{ test.nombre }} ({{ test.slug }})
+    </p>
+  </section>
+
+  <form method="post"
+        action="/admin/catalogo/tests/{{ test.slug }}/configuracion"
+        class="bg-white rounded-xl shadow p-6 space-y-6">
+
+    <div>
+      <label class="block text-sm font-medium">Nombre</label>
+      <input type="text" name="nombre"
+             value="{{ test.nombre }}"
+             class="w-full border rounded px-3 py-2" required>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium">Descripción</label>
+      <textarea name="descripcion"
+                class="w-full border rounded px-3 py-2"
+                rows="3">{{ test.descripcion }}</textarea>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="text-sm">Duración (min)</label>
+        <input type="number" name="duracion_minutos"
+               value="{{ test.duracion_minutos }}"
+               class="w-full border rounded px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm">Número de preguntas</label>
+        <input type="number" name="numero_preguntas"
+               value="{{ test.numero_preguntas }}"
+               class="w-full border rounded px-3 py-2">
+      </div>
+
+      <div>
+        <label class="text-sm">Intentos</label>
+        <input type="number" name="numero_intentos"
+               value="{{ test.numero_intentos }}"
+               min="1"
+               class="w-full border rounded px-3 py-2">
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <input type="checkbox" name="activo" value="true"
+             {% if test.activo %}checked{% endif %}>
+      <span class="text-sm">Test activo</span>
+    </div>
+
+    <div class="flex justify-end gap-3">
+      <a href="/admin/catalogo/tests/{{ test.slug }}"
+         class="px-4 py-2 border rounded">
+        Volver
+      </a>
+      <button class="px-4 py-2 bg-blue-600 text-white rounded">
+        Guardar cambios
+      </button>
+    </div>
+
+  </form>
+
+</div>
+{% endblock %}

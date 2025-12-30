@@ -23,7 +23,7 @@ from app.models.tipo_pregunta import TipoPregunta
 
 from app.models.pregunta_diagnostico import PreguntaDiagnostico
 from fastapi import UploadFile, File, Form
-
+from app.models.test import Test
 # =========================================================
 # ROUTER
 # =========================================================
@@ -395,3 +395,64 @@ def preview_pregunta(
             "pregunta": pregunta
         }
     )
+    
+
+# =========================================================
+# VISTA: CONFIGURACIÓN / DETALLE DEL TEST
+# URL FINAL:
+# /admin/catalogo/tests/{slug}/configuracion
+# =========================================================
+@router.get("/tests/{slug}/configuracion", response_class=HTMLResponse)
+def configuracion_test(
+    request: Request,
+    slug: str,
+    db: Session = Depends(get_db)
+):
+    # Buscar el test por slug
+    test = db.query(Test).filter(Test.slug == slug).first()
+
+    if not test:
+        raise HTTPException(status_code=404, detail="Test no encontrado")
+
+    # Renderizar vista (NO guarda nada)
+    return templates.TemplateResponse(
+        "admin/catalogo/test_formulario.html",
+        {
+            "request": request,
+            "test": test
+        }
+    )
+
+# =========================================================
+# GUARDAR CONFIGURACIÓN DEL TEST
+# =========================================================
+@router.post("/tests/{slug}/configuracion")
+def guardar_configuracion_test(
+    slug: str,
+    nombre: str = Form(...),
+    descripcion: str = Form(None),
+    duracion_minutos: int = Form(None),
+    numero_preguntas: int = Form(None),
+    numero_intentos: int = Form(1),
+    activo: bool = Form(False),
+    db: Session = Depends(get_db)
+):
+    test = db.query(Test).filter(Test.slug == slug).first()
+
+    if not test:
+        raise HTTPException(status_code=404, detail="Test no encontrado")
+
+    test.nombre = nombre
+    test.descripcion = descripcion
+    test.duracion_minutos = duracion_minutos
+    test.numero_preguntas = numero_preguntas
+    test.numero_intentos = numero_intentos
+    test.activo = activo
+
+    db.commit()
+
+    return RedirectResponse(
+        url=f"/admin/catalogo/tests/{slug}/configuracion",
+        status_code=303
+    )
+
